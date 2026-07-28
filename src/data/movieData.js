@@ -7,8 +7,8 @@ export const heroArticles = [
     title: 'Kalki 2898 AD Becomes Fastest Indian Film to Cross ₹1100 Crore Worldwide',
     date: 'May 16, 2025',
     views: '12.5K Views',
-    image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1400&q=80',
-    poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80',
+    image: '/kalki.png',
+    poster: '/kalki.png',
     summary: 'Nag Ashwin’s epic sci-fi spectacle Kalki 2898 AD starring Rebel Star Prabhas, Amitabh Bachchan, and Kamal Haasan shatters global box office records in just 10 days.',
     content: `Nag Ashwin's visionary sci-fi epic 'Kalki 2898 AD' has made cinematic history by becoming the fastest Indian film in 2024-2025 to smash past the monumental ₹1100 Crore milestone at the global box office. 
 
@@ -30,8 +30,8 @@ Trade analysts predict the film will comfortably cross ₹1200 Crore before the 
     title: 'Pushpa 2: The Rule Crosses ₹1500 Cr Worldwide, Allu Arjun Creates History',
     date: 'May 18, 2025',
     views: '18.9K Views',
-    image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1400&q=80',
-    poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80',
+    image: '/pushpa2.png',
+    poster: '/pushpa2.png',
     summary: 'Icon Star Allu Arjun and director Sukumar shatter all existing box office benchmarks with Pushpa 2: The Rule, dominating mass centers across the globe.',
     content: `Pushpa 2: The Rule has surpassed all expectations, collecting over ₹1500 Crore worldwide. The film has dominated both single screens and multiplexes in the Hindi belt, South India, and international markets.
 
@@ -45,8 +45,8 @@ Sukumar's electrifying direction, Devi Sri Prasad's background score, and Rashmi
     title: 'SSMB29: Mahesh Babu & SS Rajamouli Jungle Adventure Shooting Commences in Kenya',
     date: 'May 20, 2025',
     views: '24.1K Views',
-    image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1400&q=80',
-    poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=600&q=80',
+    image: '/ssmb29.png',
+    poster: '/ssmb29.png',
     summary: 'India’s most anticipated globe-trotting action adventure directed by SS Rajamouli officially kicks off principal photography in African wilderness.',
     content: `Superstar Mahesh Babu has landed in Nairobi for the first major schedule of SSMB29. Written by Vijayendra Prasad, the film is backed by a global Hollywood studio partner and features cutting-edge animatronics, live-action stunts, and never-before-seen jungle adventure sequences.`
   }
@@ -57,31 +57,31 @@ export const trendingNow = [
     id: 1,
     title: 'Sitaare Zameen Par Trailer Out Now, Fans Love It',
     time: '2 hours ago',
-    image: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=150&q=80'
+    image: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=300&q=80'
   },
   {
     id: 2,
     title: "Tom Cruise's Mission: Impossible 8 Gets a New Release Date",
     time: '3 hours ago',
-    image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=150&q=80'
+    image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=300&q=80'
   },
   {
     id: 3,
     title: "Ram Charan's Game Changer Worldwide Pre-Sales Report",
     time: '5 hours ago',
-    image: 'https://images.unsplash.com/photo-1518676599625-584742466099?auto=format&fit=crop&w=150&q=80'
+    image: 'https://images.unsplash.com/photo-1518676599625-584742466099?auto=format&fit=crop&w=300&q=80'
   },
   {
     id: 4,
     title: 'Housefull 5 Official Announcement Video Is Out',
     time: '6 hours ago',
-    image: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=150&q=80'
+    image: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=300&q=80'
   },
   {
     id: 5,
     title: 'Netflix Confirms Extraction 3 Starring Chris Hemsworth',
     time: '8 hours ago',
-    image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=150&q=80'
+    image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=300&q=80'
   }
 ];
 
@@ -104,7 +104,7 @@ export const ottUpdates = [
     title: 'Kalki 2898 AD (Hindi)',
     status: 'Streaming Now',
     releaseDate: 'May 10, 2025',
-    poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80',
+    poster: '/kalki.png',
     quality: '4K Ultra HD • Dolby Atmos',
     language: 'Hindi, English Subtitles',
     description: 'The futuristic mythological magnum opus featuring Prabhas and Amitabh Bachchan is now streaming in 4K HDR.'
@@ -116,7 +116,7 @@ export const ottUpdates = [
     title: 'Pushpa 2: The Rule',
     status: 'Releasing May 30',
     releaseDate: 'May 30, 2025',
-    poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80',
+    poster: '/pushpa2.png',
     quality: '4K UHD • HDR10+',
     language: 'Telugu, Tamil, Malayalam, Kannada',
     description: 'Icon Star Allu Arjun’s record breaking mass action saga hits digital screens worldwide with bonus extended cuts.'
@@ -178,26 +178,26 @@ export const movieNews = {
     title: "Allu Arjun's Pushpa 3 Officially Announced",
     time: '2 hours ago',
     views: '8.2K views',
-    image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1000&q=80',
+    image: '/pushpa2.png',
     summary: 'Producers Mythri Movie Makers officially confirm Pushpa 3: The Rampage. Sukumar and Allu Arjun to re-team for final trilogy installment.',
     content: `Following the unparalleled global success of Pushpa 2: The Rule, producers Mythri Movie Makers have officially greenlit 'Pushpa 3: The Rampage'. Director Sukumar has completed the story board for the grand finale. Shooting is scheduled to begin in early 2026.`
   },
   list: [
     {
       id: 'news-2',
-      title: 'Salman Khan to Team Up with Atlee for Next Big Project?',
+      title: 'SSMB29: Mahesh Babu Starts Special Jungle Training in Nairobi',
       time: '3 hours ago',
-      views: '5.6K views',
-      image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=400&q=80',
-      summary: 'Jawan director Atlee is reportedly in final narration talks with Bollywood Superstar Salman Khan for a massive two-hero action spectacle.'
+      views: '15.6K views',
+      image: '/ssmb29.png',
+      summary: 'Director SS Rajamouli subjects Mahesh Babu to rigorous survival martial arts training for the high-budget African adventure film.'
     },
     {
       id: 'news-3',
-      title: 'Jurassic World Rebirth Trailer Breaks YouTube Records',
+      title: 'Kalki 2898 AD Sequel Pre-Production Reaches Final Stages',
       time: '4 hours ago',
-      views: '7.1K views',
-      image: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=400&q=80',
-      summary: 'Universal Pictures’ new installment starring Scarlett Johansson logs 120 million views across digital platforms in 24 hours.'
+      views: '12.1K views',
+      image: '/kalki.png',
+      summary: 'Producer Ashwini Dutt reveals that Prabhas and Kamal Haasan face-off scenes in Kalki Part 2 will be shot in special IMAX 3D cameras.'
     },
     {
       id: 'news-4',
@@ -211,11 +211,11 @@ export const movieNews = {
 };
 
 export const boxOfficeSummary = [
-  { rank: 1, movie: 'Kalki 2898 AD', indiaNet: 645, worldwide: 1100, poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=200&q=80' },
-  { rank: 2, movie: 'Raid 2', indiaNet: 121, worldwide: 195, poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=200&q=80' },
-  { rank: 3, movie: 'The Accountant 2', indiaNet: 52, worldwide: 145, poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=200&q=80' },
-  { rank: 4, movie: 'Jaat', indiaNet: 45, worldwide: 85, poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=200&q=80' },
-  { rank: 5, movie: 'Ground Zero', indiaNet: 32, worldwide: 60, poster: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=200&q=80' }
+  { rank: 1, movie: 'Kalki 2898 AD', indiaNet: 645, worldwide: 1100, poster: '/kalki.png' },
+  { rank: 2, movie: 'Pushpa 2: The Rule', indiaNet: 820, worldwide: 1500, poster: '/pushpa2.png' },
+  { rank: 3, movie: 'Raid 2', indiaNet: 121, worldwide: 195, poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=200&q=80' },
+  { rank: 4, movie: 'The Accountant 2', indiaNet: 52, worldwide: 145, poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=200&q=80' },
+  { rank: 5, movie: 'Jaat', indiaNet: 45, worldwide: 85, poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=200&q=80' }
 ];
 
 export const tollywoodSecondWeekRecords = [
@@ -338,13 +338,35 @@ export const latestReviews = [
     rating: '4.0',
     director: 'Nag Ashwin',
     cast: 'Prabhas, Amitabh Bachchan, Kamal Haasan, Deepika Padukone',
-    poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80',
+    poster: '/kalki.png',
     summary: 'A visual spectacle of international standards combined with Indian mythology.',
     verdict: 'MUST WATCH CINEMATIC MASTERPIECE',
     content: `Nag Ashwin delivers an extraordinary cinematic experience that seamlessly weaves Indian mythology with futuristic world-building. Prabhas shines in a character filled with charisma and heroism, while Amitabh Bachchan steals the show as Ashwatthama.`
   },
   {
     id: 'rev-2',
+    title: 'Pushpa 2: The Rule',
+    rating: '4.5',
+    director: 'Sukumar',
+    cast: 'Allu Arjun, Rashmika Mandanna, Fahadh Faasil',
+    poster: '/pushpa2.png',
+    summary: 'Icon Star Allu Arjun delivers a career-best performance in Sukumar’s explosive mass saga.',
+    verdict: 'ALL-TIME MASS BLOCKBUSTER',
+    content: `Pushpa 2: The Rule is a masterclass in commercial Indian cinema. Allu Arjun's screen presence, particularly during the Jaathara sequence and high-octane action set pieces, elevates the film into an unmissable spectacle.`
+  },
+  {
+    id: 'rev-3',
+    title: 'SSMB29 (First Glimpse Preview)',
+    rating: '4.5',
+    director: 'SS Rajamouli',
+    cast: 'Mahesh Babu',
+    poster: '/ssmb29.png',
+    summary: 'SS Rajamouli and Mahesh Babu set to redefine globe-trotting jungle action adventure cinema.',
+    verdict: 'MOST ANTICIPATED GLOBAL SPECTACLE',
+    content: `Superstar Mahesh Babu pairs up with SS Rajamouli for an unprecedented globe-trotting action adventure. Early glimpses and trade buzz indicate state-of-the-art Hollywood standard visuals and massive scale.`
+  },
+  {
+    id: 'rev-4',
     title: 'Raid 2',
     rating: '3.5',
     director: 'Raj Kumar Gupta',
@@ -353,34 +375,30 @@ export const latestReviews = [
     summary: 'Tense, fast-paced crime thriller driven by solid performances.',
     verdict: 'HIGHLY ENGAGING CRIME DRAMA',
     content: `Ajay Devgn returns as the unyielding IRS officer Amay Patnaik in Raid 2. The film keeps you on the edge of your seat with sharp dialogues and intense cat-and-mouse games.`
-  },
-  {
-    id: 'rev-3',
-    title: 'The Accountant 2',
-    rating: '3.0',
-    director: 'Gavin O’Connor',
-    cast: 'Ben Affleck, Jon Bernthal, J.K. Simmons',
-    poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=400&q=80',
-    summary: 'Ben Affleck returns with high stakes action and financial puzzle solving.',
-    verdict: 'DECENT ACTION THRILLER FOR FANS',
-    content: `Christian Wolff (Ben Affleck) pairs up with his brother Brax (Jon Bernthal) to solve a deadly mystery. Good action sequences, though the narrative pacing slows down mid-way.`
-  },
-  {
-    id: 'rev-4',
-    title: 'Jaat',
-    rating: '3.5',
-    director: 'Gopichand Malineni',
-    cast: 'Sunny Deol, Randeep Hooda, Vineet Kumar Singh',
-    poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=400&q=80',
-    summary: 'High-octane mass action entertainer packed with powerful dialogues.',
-    verdict: 'MASS FEAST FOR ACTION LOVERS',
-    content: `Sunny Deol brings his trademark intensity to the screen under Gopichand Malineni's commercial direction. Randeep Hooda makes a formidable villain.`
   }
 ];
 
 export const upcomingReleases = [
   {
     id: 'up-1',
+    title: 'SSMB29 (Mahesh Babu - SS Rajamouli)',
+    releaseDate: 'August 15, 2025',
+    days: 45,
+    hrs: 10,
+    mins: 30,
+    poster: '/ssmb29.png'
+  },
+  {
+    id: 'up-2',
+    title: 'Pushpa 3: The Rampage',
+    releaseDate: 'Diwali 2026',
+    days: 120,
+    hrs: 06,
+    mins: 20,
+    poster: '/pushpa2.png'
+  },
+  {
+    id: 'up-3',
     title: 'Mission: Impossible 8',
     releaseDate: 'May 23, 2025',
     days: 7,
@@ -389,78 +407,60 @@ export const upcomingReleases = [
     poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80'
   },
   {
-    id: 'up-2',
+    id: 'up-4',
     title: 'Lilo & Stitch (Live Action)',
     releaseDate: 'May 23, 2025',
     days: 7,
     hrs: 12,
     mins: 45,
     poster: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'up-3',
-    title: 'Housefull 5',
-    releaseDate: 'June 06, 2025',
-    days: 21,
-    hrs: 08,
-    mins: 15,
-    poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'up-4',
-    title: 'How to Train Your Dragon (Live Action)',
-    releaseDate: 'June 13, 2025',
-    days: 28,
-    hrs: 14,
-    mins: 30,
-    poster: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=400&q=80'
   }
 ];
 
 export const latestTrailers = [
   {
     id: 'tr-1',
+    title: 'Kalki 2898 AD Official Trailer (Prabhas, Amitabh Bachchan)',
+    duration: '3:12',
+    time: '2 hours ago',
+    views: '15.4M views',
+    youtubeId: 'dQw4w9WgXcQ',
+    thumbnail: '/kalki.png'
+  },
+  {
+    id: 'tr-2',
+    title: 'Pushpa 2: The Rule Official Teaser (Allu Arjun)',
+    duration: '2:48',
+    time: '4 hours ago',
+    views: '22.8M views',
+    youtubeId: 'dQw4w9WgXcQ',
+    thumbnail: '/pushpa2.png'
+  },
+  {
+    id: 'tr-3',
+    title: 'SSMB29 Globe-Trotting Concept Video (Mahesh Babu, SS Rajamouli)',
+    duration: '2:15',
+    time: '6 hours ago',
+    views: '18.9M views',
+    youtubeId: 'dQw4w9WgXcQ',
+    thumbnail: '/ssmb29.png'
+  },
+  {
+    id: 'tr-4',
     title: 'Sitaare Zameen Par Official Trailer',
     duration: '2:45',
-    time: '6 hours ago',
+    time: '12 hours ago',
     views: '1.2M views',
     youtubeId: 'dQw4w9WgXcQ',
     thumbnail: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=600&q=80'
   },
   {
-    id: 'tr-2',
+    id: 'tr-5',
     title: 'F1 The Movie Official Trailer',
     duration: '2:31',
-    time: '12 hours ago',
+    time: '1 day ago',
     views: '1.5M views',
     youtubeId: 'dQw4w9WgXcQ',
     thumbnail: 'https://images.unsplash.com/photo-1518676599625-584742466099?auto=format&fit=crop&w=600&q=80'
-  },
-  {
-    id: 'tr-3',
-    title: 'Jurassic World Rebirth Official Trailer',
-    duration: '2:50',
-    time: '1 day ago',
-    views: '2.8M views',
-    youtubeId: 'dQw4w9WgXcQ',
-    thumbnail: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80'
-  },
-  {
-    id: 'tr-4',
-    title: 'How to Train Your Dragon Official Trailer',
-    duration: '2:19',
-    time: '1 day ago',
-    views: '1.1M views',
-    youtubeId: 'dQw4w9WgXcQ',
-    thumbnail: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80'
-  },
-  {
-    id: 'tr-5',
-    title: 'Housefull 5 Official Trailer',
-    duration: '2:40',
-    time: '2 days ago',
-    views: '1.3M views',
-    youtubeId: 'dQw4w9WgXcQ',
-    thumbnail: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=600&q=80'
   }
 ];
