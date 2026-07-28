@@ -57,31 +57,31 @@ export const trendingNow = [
     id: 1,
     title: 'Sitaare Zameen Par Trailer Out Now, Fans Love It',
     time: '2 hours ago',
-    image: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=300&q=80'
+    image: '/sitaare.png'
   },
   {
     id: 2,
     title: "Tom Cruise's Mission: Impossible 8 Gets a New Release Date",
     time: '3 hours ago',
-    image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=300&q=80'
+    image: '/mi8.png'
   },
   {
     id: 3,
-    title: "Ram Charan's Game Changer Worldwide Pre-Sales Report",
+    title: "Pawan Kalyan's They Call Him OG Massive Action Teaser",
     time: '5 hours ago',
-    image: 'https://images.unsplash.com/photo-1518676599625-584742466099?auto=format&fit=crop&w=300&q=80'
+    image: '/og.png'
   },
   {
     id: 4,
-    title: 'Housefull 5 Official Announcement Video Is Out',
+    title: 'Brad Pitt’s F1 The Movie Official Announcement',
     time: '6 hours ago',
-    image: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=300&q=80'
+    image: '/f1.png'
   },
   {
     id: 5,
-    title: 'Netflix Confirms Extraction 3 Starring Chris Hemsworth',
+    title: 'Devara Part 1 Digital Release Breaks Streaming Records',
     time: '8 hours ago',
-    image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=300&q=80'
+    image: '/devara.png'
   }
 ];
 
@@ -125,13 +125,13 @@ export const ottUpdates = [
     id: 'ott-3',
     platform: 'jiohotstar',
     platformName: 'JioHotstar',
-    title: 'Game Changer',
+    title: 'They Call Him OG',
     status: 'Coming Soon',
     releaseDate: 'June 05, 2025',
-    poster: 'https://images.unsplash.com/photo-1518676599625-584742466099?auto=format&fit=crop&w=600&q=80',
+    poster: '/og.png',
     quality: '4K Dolby Vision',
     language: 'Telugu, Hindi, Tamil',
-    description: 'Shankar’s political action thriller starring Global Star Ram Charan and Kiara Advani arrives on JioHotstar.'
+    description: 'Sujeeth’s high-voltage gangster action thriller starring Powerstar Pawan Kalyan arrives on JioHotstar.'
   },
   {
     id: 'ott-4',
@@ -140,7 +140,7 @@ export const ottUpdates = [
     title: 'Devara: Part 1',
     status: 'Streaming Now',
     releaseDate: 'May 02, 2025',
-    poster: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80',
+    poster: '/devara.png',
     quality: 'HD 1080p',
     language: 'Telugu, Hindi, Tamil, Kannada',
     description: 'Man of Masses NTR Jr commands the high seas in Koratala Siva’s rustic action drama with Saif Ali Khan.'
@@ -152,7 +152,7 @@ export const ottUpdates = [
     title: 'Thandel',
     status: 'Streaming Now',
     releaseDate: 'May 12, 2025',
-    poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=600&q=80',
+    poster: '/thandel.png',
     quality: '4K Ultra HD',
     language: 'Telugu Exclusive',
     description: 'Naga Chaitanya and Sai Pallavi star in an emotional fisherman romance survival story inspired by real events.'
@@ -164,7 +164,7 @@ export const ottUpdates = [
     title: 'HanuMan Extended Version',
     status: 'Streaming Now',
     releaseDate: 'May 15, 2025',
-    poster: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=600&q=80',
+    poster: '/hanuman.png',
     quality: '4K Ultra HD',
     language: 'Telugu, Hindi, Tamil, Kannada, Malayalam',
     description: 'Prasanth Varma’s superhero blockbuster with unseen deleted scenes and VFX enhancement.'
@@ -193,19 +193,19 @@ export const movieNews = {
     },
     {
       id: 'news-3',
-      title: 'Kalki 2898 AD Sequel Pre-Production Reaches Final Stages',
+      title: 'They Call Him OG Climax Shoot Wraps Up in Mangalore Port',
       time: '4 hours ago',
       views: '12.1K views',
-      image: '/kalki.png',
-      summary: 'Producer Ashwini Dutt reveals that Prabhas and Kamal Haasan face-off scenes in Kalki Part 2 will be shot in special IMAX 3D cameras.'
+      image: '/og.png',
+      summary: 'Powerstar Pawan Kalyan and Emraan Hashmi shoot high-octane vintage weapons sequence directed by Sujeeth.'
     },
     {
       id: 'news-4',
-      title: "Pawan Kalyan's OG Climax Shoot Wraps Up in Mangalore Port",
+      title: 'Devara Part 2 Script Finalized, Shoot Starts October',
       time: '6 hours ago',
       views: '11.4K views',
-      image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80',
-      summary: 'Sujeeth directs high voltage action sequence featuring Powerstar Pawan Kalyan and Emraan Hashmi with heavy vintage weaponry.'
+      image: '/devara.png',
+      summary: 'Koratala Siva confirms NTR Jr and Bobby Deol face-off sequence will be shot on a grand scale in Goa coast.'
     }
   ]
 };
@@ -213,9 +213,9 @@ export const movieNews = {
 export const boxOfficeSummary = [
   { rank: 1, movie: 'Kalki 2898 AD', indiaNet: 645, worldwide: 1100, poster: '/kalki.png' },
   { rank: 2, movie: 'Pushpa 2: The Rule', indiaNet: 820, worldwide: 1500, poster: '/pushpa2.png' },
-  { rank: 3, movie: 'Raid 2', indiaNet: 121, worldwide: 195, poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=200&q=80' },
-  { rank: 4, movie: 'The Accountant 2', indiaNet: 52, worldwide: 145, poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=200&q=80' },
-  { rank: 5, movie: 'Jaat', indiaNet: 45, worldwide: 85, poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=200&q=80' }
+  { rank: 3, movie: 'Devara: Part 1', indiaNet: 310, worldwide: 520, poster: '/devara.png' },
+  { rank: 4, movie: 'HanuMan', indiaNet: 215, worldwide: 350, poster: '/hanuman.png' },
+  { rank: 5, movie: 'They Call Him OG', indiaNet: 180, worldwide: 290, poster: '/og.png' }
 ];
 
 export const tollywoodSecondWeekRecords = [
@@ -356,31 +356,49 @@ export const latestReviews = [
   },
   {
     id: 'rev-3',
-    title: 'SSMB29 (First Glimpse Preview)',
-    rating: '4.5',
-    director: 'SS Rajamouli',
-    cast: 'Mahesh Babu',
-    poster: '/ssmb29.png',
-    summary: 'SS Rajamouli and Mahesh Babu set to redefine globe-trotting jungle action adventure cinema.',
-    verdict: 'MOST ANTICIPATED GLOBAL SPECTACLE',
-    content: `Superstar Mahesh Babu pairs up with SS Rajamouli for an unprecedented globe-trotting action adventure. Early glimpses and trade buzz indicate state-of-the-art Hollywood standard visuals and massive scale.`
+    title: 'Devara: Part 1',
+    rating: '4.0',
+    director: 'Koratala Siva',
+    cast: 'NTR Jr, Saif Ali Khan, Janhvi Kapoor',
+    poster: '/devara.png',
+    summary: 'Man of Masses NTR Jr commands the high seas in Koratala Siva’s visceral action drama.',
+    verdict: 'HIGH OCTANE COASTAL ACTION DRAMA',
+    content: `NTR Jr delivers an outstanding dual-shaded act in Devara. Anirudh Ravichander’s energetic background score and Koratala Siva’s intense coastal action set pieces create a memorable experience.`
   },
   {
     id: 'rev-4',
-    title: 'Raid 2',
-    rating: '3.5',
-    director: 'Raj Kumar Gupta',
-    cast: 'Ajay Devgn, Riteish Deshmukh, Vaani Kapoor',
-    poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=400&q=80',
-    summary: 'Tense, fast-paced crime thriller driven by solid performances.',
-    verdict: 'HIGHLY ENGAGING CRIME DRAMA',
-    content: `Ajay Devgn returns as the unyielding IRS officer Amay Patnaik in Raid 2. The film keeps you on the edge of your seat with sharp dialogues and intense cat-and-mouse games.`
+    title: 'Thandel',
+    rating: '4.0',
+    director: 'Chandoo Mondeti',
+    cast: 'Naga Chaitanya, Sai Pallavi',
+    poster: '/thandel.png',
+    summary: 'Heart-wrenching romantic survival drama with soulful music and realistic sea action.',
+    verdict: 'EMOTIONAL & INSPIRING ROMANTIC DRAMA',
+    content: `Naga Chaitanya and Sai Pallavi deliver deeply moving performances in Thandel. The coastal visuals, authentic dialect, and gripping survival sequences make this a winner.`
   }
 ];
 
 export const upcomingReleases = [
   {
     id: 'up-1',
+    title: 'Mission: Impossible - The Final Reckoning',
+    releaseDate: 'May 23, 2025',
+    days: 7,
+    hrs: 12,
+    mins: 45,
+    poster: '/mi8.png'
+  },
+  {
+    id: 'up-2',
+    title: 'Lilo & Stitch (Live Action)',
+    releaseDate: 'May 23, 2025',
+    days: 7,
+    hrs: 12,
+    mins: 45,
+    poster: '/lilo.png'
+  },
+  {
+    id: 'up-3',
     title: 'SSMB29 (Mahesh Babu - SS Rajamouli)',
     releaseDate: 'August 15, 2025',
     days: 45,
@@ -389,78 +407,60 @@ export const upcomingReleases = [
     poster: '/ssmb29.png'
   },
   {
-    id: 'up-2',
-    title: 'Pushpa 3: The Rampage',
-    releaseDate: 'Diwali 2026',
-    days: 120,
-    hrs: 06,
-    mins: 20,
-    poster: '/pushpa2.png'
-  },
-  {
-    id: 'up-3',
-    title: 'Mission: Impossible 8',
-    releaseDate: 'May 23, 2025',
-    days: 7,
-    hrs: 12,
-    mins: 45,
-    poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80'
-  },
-  {
     id: 'up-4',
-    title: 'Lilo & Stitch (Live Action)',
-    releaseDate: 'May 23, 2025',
-    days: 7,
-    hrs: 12,
-    mins: 45,
-    poster: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=400&q=80'
+    title: 'They Call Him OG (Pawan Kalyan)',
+    releaseDate: 'September 27, 2025',
+    days: 60,
+    hrs: 08,
+    mins: 15,
+    poster: '/og.png'
   }
 ];
 
 export const latestTrailers = [
   {
     id: 'tr-1',
-    title: 'Kalki 2898 AD Official Trailer (Prabhas, Amitabh Bachchan)',
-    duration: '3:12',
+    title: 'Sitaare Zameen Par Official Trailer (Aamir Khan)',
+    duration: '2:45',
     time: '2 hours ago',
-    views: '15.4M views',
+    views: '12.4M views',
     youtubeId: 'dQw4w9WgXcQ',
-    thumbnail: '/kalki.png'
+    thumbnail: '/sitaare.png'
   },
   {
     id: 'tr-2',
-    title: 'Pushpa 2: The Rule Official Teaser (Allu Arjun)',
-    duration: '2:48',
+    title: 'F1 The Movie Official Trailer (Brad Pitt)',
+    duration: '2:31',
     time: '4 hours ago',
-    views: '22.8M views',
+    views: '18.5M views',
     youtubeId: 'dQw4w9WgXcQ',
-    thumbnail: '/pushpa2.png'
+    thumbnail: '/f1.png'
   },
   {
     id: 'tr-3',
-    title: 'SSMB29 Globe-Trotting Concept Video (Mahesh Babu, SS Rajamouli)',
-    duration: '2:15',
+    title: 'Devara Part 1 Official Trailer (NTR Jr, Saif Ali Khan)',
+    duration: '3:05',
     time: '6 hours ago',
-    views: '18.9M views',
+    views: '25.8M views',
     youtubeId: 'dQw4w9WgXcQ',
-    thumbnail: '/ssmb29.png'
+    thumbnail: '/devara.png'
   },
   {
     id: 'tr-4',
-    title: 'Sitaare Zameen Par Official Trailer',
-    duration: '2:45',
+    title: 'Thandel Official Glimpse (Naga Chaitanya, Sai Pallavi)',
+    duration: '2:19',
     time: '12 hours ago',
-    views: '1.2M views',
+    views: '9.1M views',
     youtubeId: 'dQw4w9WgXcQ',
-    thumbnail: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=600&q=80'
+    thumbnail: '/thandel.png'
   },
   {
     id: 'tr-5',
-    title: 'F1 The Movie Official Trailer',
-    duration: '2:31',
+    title: 'HanuMan Official Extended Trailer (Teja Sajja)',
+    duration: '2:40',
     time: '1 day ago',
-    views: '1.5M views',
+    views: '14.3M views',
     youtubeId: 'dQw4w9WgXcQ',
-    thumbnail: 'https://images.unsplash.com/photo-1518676599625-584742466099?auto=format&fit=crop&w=600&q=80'
+    thumbnail: '/hanuman.png'
   }
 ];
