@@ -48,17 +48,17 @@ export function UpcomingReleases({ onSelectMovie }) {
         </div>
 
         {/* Carousel / Cards Grid matching screenshots */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {timers.map((item) => (
             <div
               key={item.id}
               onClick={() => onSelectMovie && onSelectMovie(item)}
-              className="bg-slate-50 hover:bg-white rounded-xl border border-slate-200 hover:border-red-500/50 p-3 flex gap-3 group cursor-pointer transition-all hover:shadow-md"
+              className="bg-slate-50 hover:bg-white rounded-xl border border-slate-200 hover:border-red-500/50 p-2.5 sm:p-3 flex gap-3 group cursor-pointer transition-all hover:shadow-md active:scale-[0.99]"
             >
               <img
                 src={item.poster}
                 alt={item.title}
-                className="w-20 h-28 object-cover rounded-lg shrink-0 border border-slate-200 group-hover:scale-105 transition-transform shadow-xs"
+                className="w-18 h-26 sm:w-20 sm:h-28 object-cover rounded-lg shrink-0 border border-slate-200 group-hover:scale-105 transition-transform shadow-xs"
               />
 
               <div className="flex-1 min-w-0 flex flex-col justify-between">
@@ -66,32 +66,32 @@ export function UpcomingReleases({ onSelectMovie }) {
                   <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 group-hover:text-red-600 transition-colors line-clamp-2 leading-snug">
                     {item.title}
                   </h3>
-                  <span className="text-[11px] font-semibold text-slate-500 mt-1 flex items-center gap-1">
-                    <Calendar className="w-3 h-3 text-red-500" />
+                  <span className="text-[10px] sm:text-[11px] font-semibold text-slate-500 mt-1 flex items-center gap-1">
+                    <Calendar className="w-3 h-3 text-red-500 shrink-0" />
                     {item.releaseDate}
                   </span>
                 </div>
 
                 {/* Countdown Timer Badge */}
-                <div className="bg-slate-100 group-hover:bg-red-50 p-1.5 rounded-lg border border-slate-200 group-hover:border-red-200 transition-colors">
-                  <div className="grid grid-cols-3 gap-1 text-center">
+                <div className="bg-slate-100 group-hover:bg-red-50 p-1 sm:p-1.5 rounded-lg border border-slate-200 group-hover:border-red-200 transition-colors mt-1">
+                  <div className="grid grid-cols-3 gap-0.5 sm:gap-1 text-center">
                     <div>
-                      <span className="text-xs font-black text-slate-900 group-hover:text-red-700 font-mono">
+                      <span className="text-[11px] sm:text-xs font-black text-slate-900 group-hover:text-red-700 font-mono">
                         {String(item.days).padStart(2, '0')}
                       </span>
-                      <span className="text-[9px] font-bold text-slate-400 block uppercase">DAYS</span>
+                      <span className="text-[8px] sm:text-[9px] font-bold text-slate-400 block uppercase">DAYS</span>
                     </div>
                     <div>
-                      <span className="text-xs font-black text-slate-900 group-hover:text-red-700 font-mono">
+                      <span className="text-[11px] sm:text-xs font-black text-slate-900 group-hover:text-red-700 font-mono">
                         {String(item.hrs).padStart(2, '0')}
                       </span>
-                      <span className="text-[9px] font-bold text-slate-400 block uppercase">HRS</span>
+                      <span className="text-[8px] sm:text-[9px] font-bold text-slate-400 block uppercase">HRS</span>
                     </div>
                     <div>
-                      <span className="text-xs font-black text-slate-900 group-hover:text-red-700 font-mono">
+                      <span className="text-[11px] sm:text-xs font-black text-slate-900 group-hover:text-red-700 font-mono">
                         {String(item.mins).padStart(2, '0')}
                       </span>
-                      <span className="text-[9px] font-bold text-slate-400 block uppercase">MINS</span>
+                      <span className="text-[8px] sm:text-[9px] font-bold text-slate-400 block uppercase">MINS</span>
                     </div>
                   </div>
                 </div>

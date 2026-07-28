@@ -76,7 +76,7 @@ export default function App() {
       <BreakingTicker />
 
       {/* Main Page Rendering */}
-      <main className="flex-1">
+      <main className="flex-1 pb-20 md:pb-0">
         {activeTab === 'home' && (
           <div className="space-y-6">
             {/* Top Story Hero Carousel & Desktop Trending Widget */}

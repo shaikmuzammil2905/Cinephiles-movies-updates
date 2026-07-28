@@ -13,19 +13,19 @@ export function BoxOfficePage({ onOpenTollywoodRecords }) {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-8 space-y-6 animate-in fade-in">
+    <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-8 space-y-4 sm:space-y-6 animate-in fade-in">
       
       {/* Page Header */}
-      <div className="bg-[#031738] text-white rounded-2xl p-6 sm:p-8 shadow-xl border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-[#031738] text-white rounded-2xl p-4 sm:p-8 shadow-xl border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 bg-red-600 text-white text-xs font-black px-3 py-1 rounded uppercase tracking-wider mb-2">
-            <BarChart3 className="w-4 h-4" />
+          <div className="inline-flex items-center gap-2 bg-red-600 text-white text-[10px] sm:text-xs font-black px-2.5 py-1 rounded uppercase tracking-wider mb-2">
+            <BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             TRADE ANALYTICS & COLLECTION TRACKER
           </div>
-          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
+          <h1 className="text-xl sm:text-4xl font-extrabold tracking-tight leading-tight">
             Telangana & Worldwide Box Office Center
           </h1>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl leading-relaxed">
             Verified box office figures, India Net collections, gross earnings, and all-time Tollywood 2nd week collection benchmarks.
           </p>
         </div>
@@ -37,36 +37,36 @@ export function BoxOfficePage({ onOpenTollywoodRecords }) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search movie collections..."
-            className="w-full pl-9 pr-4 py-2.5 bg-slate-900 text-white placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-700 focus:border-red-500 focus:outline-none"
+            className="w-full pl-9 pr-4 py-2 sm:py-2.5 bg-slate-900 text-white placeholder:text-slate-400 text-xs sm:text-sm rounded-xl border border-slate-700 focus:border-red-500 focus:outline-none"
           />
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex items-center gap-3 border-b border-slate-200 pb-2">
+      <div className="flex items-center gap-2 sm:gap-3 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         <button
           onClick={() => setActiveTab('summary')}
-          className={`px-5 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-2 ${
+          className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-1.5 sm:gap-2 shrink-0 ${
             activeTab === 'summary'
               ? 'bg-[#031738] text-white shadow-md'
               : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
           }`}
         >
-          <TrendingUp className="w-4 h-4 text-red-500" />
+          <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500" />
           <span>Latest Box Office Report</span>
         </button>
 
         <button
           onClick={() => setActiveTab('tollywood2ndWeek')}
-          className={`px-5 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-2 ${
+          className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-1.5 sm:gap-2 shrink-0 ${
             activeTab === 'tollywood2ndWeek'
               ? 'bg-red-600 text-white shadow-md'
               : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
           }`}
         >
-          <Trophy className="w-4 h-4 text-amber-300" />
-          <span>Highest 2nd Week Collections in Tollywood (Full List)</span>
+          <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300" />
+          <span>Highest 2nd Week Collections (Tollywood)</span>
         </button>
       </div>
 

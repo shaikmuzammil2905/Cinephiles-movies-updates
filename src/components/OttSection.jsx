@@ -28,14 +28,14 @@ export function OttSection({ onSelectMedia }) {
         </div>
 
         {/* OTT Platform Apps Bar matching image.png & image copy.png */}
-        <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-3 mb-5">
+        <div className="flex items-center gap-2.5 sm:gap-3 overflow-x-auto no-scrollbar pb-2 mb-4">
           {ottPlatforms.map((platform) => {
             const isSelected = selectedPlatform === platform.id;
             return (
               <button
                 key={platform.id}
                 onClick={() => setSelectedPlatform(platform.id)}
-                className={`flex flex-col items-center justify-center p-3 min-w-[90px] sm:min-w-[110px] rounded-xl border transition-all duration-200 shadow-sm shrink-0 ${
+                className={`flex flex-col items-center justify-center p-2.5 sm:p-3 min-w-[80px] sm:min-w-[110px] rounded-xl border transition-all duration-200 shadow-sm shrink-0 active:scale-95 ${
                   isSelected
                     ? 'border-red-600 bg-red-50/80 ring-2 ring-red-600/30 scale-105'
                     : 'border-slate-200 bg-slate-50 hover:bg-white hover:border-slate-300'
@@ -43,18 +43,18 @@ export function OttSection({ onSelectMedia }) {
               >
                 {/* Custom Stylized Logo / Badge */}
                 <div 
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center text-white font-extrabold text-sm shadow-md mb-1.5 ${
+                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-white font-extrabold text-xs sm:text-sm shadow-md mb-1 sm:mb-1.5 ${
                     platform.badgeBg || 'bg-slate-800'
                   }`}
                   style={{ backgroundColor: platform.color }}
                 >
                   {platform.id === 'all' ? (
-                    <Sparkles className="w-5 h-5" />
+                    <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
                   ) : (
                     <span>{platform.logo}</span>
                   )}
                 </div>
-                <span className={`text-xs font-bold ${isSelected ? 'text-red-700' : 'text-slate-700'}`}>
+                <span className={`text-[11px] sm:text-xs font-bold whitespace-nowrap ${isSelected ? 'text-red-700' : 'text-slate-700'}`}>
                   {platform.name}
                 </span>
               </button>
@@ -63,14 +63,14 @@ export function OttSection({ onSelectMedia }) {
         </div>
 
         {/* Filtered OTT Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {filteredUpdates.map((item) => (
             <div
               key={item.id}
               onClick={() => onSelectMedia(item)}
-              className="bg-slate-50 hover:bg-white rounded-xl border border-slate-200 hover:border-red-500/50 p-3 flex gap-3 group cursor-pointer transition-all hover:shadow-lg"
+              className="bg-slate-50 hover:bg-white rounded-xl border border-slate-200 hover:border-red-500/50 p-2.5 sm:p-3 flex gap-3 group cursor-pointer transition-all hover:shadow-lg active:scale-[0.99]"
             >
-              <div className="relative w-24 h-32 rounded-lg overflow-hidden shrink-0 bg-slate-900 shadow">
+              <div className="relative w-20 h-28 sm:w-24 sm:h-32 rounded-lg overflow-hidden shrink-0 bg-slate-900 shadow">
                 <img
                   src={item.poster}
                   alt={item.title}
@@ -85,25 +85,25 @@ export function OttSection({ onSelectMedia }) {
 
               <div className="flex-1 min-w-0 flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <span className="bg-slate-900 text-white text-[10px] font-bold px-2 py-0.5 rounded">
+                  <div className="flex items-center gap-1.5 mb-1 flex-wrap">
+                    <span className="bg-slate-900 text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded">
                       {item.platformName}
                     </span>
-                    <span className="text-[10px] font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded">
+                    <span className="text-[9px] sm:text-[10px] font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded">
                       {item.status}
                     </span>
                   </div>
 
-                  <h3 className="text-sm font-extrabold text-slate-900 group-hover:text-red-600 transition-colors line-clamp-1">
+                  <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 group-hover:text-red-600 transition-colors line-clamp-1">
                     {item.title}
                   </h3>
 
-                  <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
+                  <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 line-clamp-2 leading-relaxed">
                     {item.description}
                   </p>
                 </div>
 
-                <div className="pt-2 border-t border-slate-200/60 flex items-center justify-between text-[11px] text-slate-500">
+                <div className="pt-1.5 border-t border-slate-200/60 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500">
                   <span>{item.quality}</span>
                   <span className="font-semibold text-slate-700">{item.releaseDate}</span>
                 </div>

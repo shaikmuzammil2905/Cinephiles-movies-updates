@@ -13,16 +13,16 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onLog
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-md transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 h-20 flex items-center justify-between gap-3">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-3">
         
         {/* Left Side: Hamburger & Prominent Logo (tbo copy.png) */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           <button 
             onClick={onOpenMenu}
-            className="p-2 text-slate-700 hover:text-red-600 hover:bg-slate-100 rounded-lg transition-colors"
+            className="p-1.5 sm:p-2 text-slate-700 hover:text-red-600 hover:bg-slate-100 rounded-lg transition-colors"
             title="Open navigation menu"
           >
-            <Menu className="w-7 h-7" />
+            <Menu className="w-6 h-6 sm:w-7 sm:h-7" />
           </button>
 
           {/* Prominent High Resolution Logo matching tbo copy.png */}
@@ -30,7 +30,7 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onLog
             <img 
               src="/tbo copy.png" 
               alt="TELANGANA BOX OFFICE Logo" 
-              className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-105 filter drop-shadow-sm"
+              className="h-9 sm:h-13 md:h-16 w-auto max-w-[150px] sm:max-w-none object-contain transition-transform group-hover:scale-105 filter drop-shadow-sm"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = '/tbo.png';
@@ -54,7 +54,7 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onLog
         </div>
 
         {/* Right Side: Theme, Notifications, Login */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           {/* Theme Toggle */}
           <button 
             onClick={() => setIsDarkMode(!isDarkMode)}
@@ -68,7 +68,7 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onLog
           <div className="relative">
             <button 
               onClick={() => setShowNotifications(!showNotifications)}
-              className="p-2 text-slate-700 hover:text-red-600 hover:bg-slate-100 rounded-full transition-colors relative"
+              className="p-1.5 sm:p-2 text-slate-700 hover:text-red-600 hover:bg-slate-100 rounded-full transition-colors relative"
               title="Notifications"
             >
               <Bell className="w-5 h-5" />
@@ -79,7 +79,7 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onLog
 
             {/* Notifications Dropdown */}
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-slate-200 p-3 z-50 animate-in fade-in slide-in-from-top-2">
+              <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-white rounded-xl shadow-2xl border border-slate-200 p-3 z-50 animate-in fade-in slide-in-from-top-2">
                 <div className="flex justify-between items-center pb-2 border-b border-slate-100">
                   <h4 className="font-bold text-xs text-slate-900 uppercase tracking-wider">Latest Alerts</h4>
                   <button onClick={() => setShowNotifications(false)} className="text-slate-400 hover:text-slate-600">
@@ -101,10 +101,11 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onLog
           {/* Login / Register Button */}
           <button 
             onClick={onLoginClick}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-extrabold shadow-sm active:scale-95"
+            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-extrabold shadow-sm active:scale-95 whitespace-nowrap"
           >
-            <User className="w-4 h-4" />
-            <span>Login / Register</span>
+            <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span className="hidden sm:inline">Login / Register</span>
+            <span className="inline sm:hidden">Login</span>
           </button>
         </div>
       </div>

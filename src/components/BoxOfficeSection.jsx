@@ -55,30 +55,30 @@ export function BoxOfficeSection({ onOpenTollywoodRecords }) {
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-xs sm:text-sm text-left">
-            <thead className="bg-[#031738] text-white font-bold uppercase tracking-wider text-[11px]">
+            <thead className="bg-[#031738] text-white font-bold uppercase tracking-wider text-[10px] sm:text-[11px]">
               <tr>
-                <th scope="col" className="px-3 py-2.5 text-center">#</th>
-                <th scope="col" className="px-3 py-2.5">Movie</th>
-                <th scope="col" className="px-3 py-2.5 text-right">India Net</th>
-                <th scope="col" className="px-3 py-2.5 text-right">Worldwide</th>
+                <th scope="col" className="px-2 py-2.5 sm:px-3 sm:py-2.5 text-center">#</th>
+                <th scope="col" className="px-2 py-2.5 sm:px-3 sm:py-2.5">Movie</th>
+                <th scope="col" className="px-2 py-2.5 sm:px-3 sm:py-2.5 text-right">India Net</th>
+                <th scope="col" className="px-2 py-2.5 sm:px-3 sm:py-2.5 text-right">Worldwide</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-medium">
+            <tbody className="divide-y divide-slate-100 font-medium text-xs sm:text-sm">
               {boxOfficeSummary.map((item) => (
                 <tr key={item.rank} className="hover:bg-slate-50 transition-colors">
-                  <td className="px-3 py-2.5 font-bold text-slate-700 text-center">{item.rank}</td>
-                  <td className="px-3 py-2.5 font-bold text-slate-900 flex items-center gap-2">
+                  <td className="px-2 py-2 sm:px-3 sm:py-2.5 font-bold text-slate-700 text-center">{item.rank}</td>
+                  <td className="px-2 py-2 sm:px-3 sm:py-2.5 font-bold text-slate-900 flex items-center gap-2">
                     <img 
                       src={item.poster} 
                       alt={item.movie} 
                       className="w-6 h-8 object-cover rounded shadow-xs hidden sm:block" 
                     />
-                    <span className="line-clamp-1">{item.movie}</span>
+                    <span className="truncate max-w-[120px] sm:max-w-none">{item.movie}</span>
                   </td>
-                  <td className="px-3 py-2.5 text-right text-slate-700 font-semibold whitespace-nowrap">
+                  <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-right text-slate-700 font-semibold whitespace-nowrap text-[11px] sm:text-xs md:text-sm">
                     <AnimatedNumber value={item.indiaNet} />
                   </td>
-                  <td className="px-3 py-2.5 text-right text-red-600 font-bold whitespace-nowrap">
+                  <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-right text-red-600 font-bold whitespace-nowrap text-[11px] sm:text-xs md:text-sm">
                     <AnimatedNumber value={item.worldwide} />
                   </td>
                 </tr>
