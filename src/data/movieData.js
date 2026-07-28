@@ -2,47 +2,53 @@ export const heroArticles = [
   {
     id: 'hero-1',
     badge: 'TOP STORY',
+    movieTag: 'Kalki 2898 AD',
+    actor: 'Prabhas',
     title: 'Kalki 2898 AD Becomes Fastest Indian Film to Cross ₹1100 Crore Worldwide',
     date: 'May 16, 2025',
     views: '12.5K Views',
-    image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1200&q=80',
-    poster: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80',
-    summary: 'Nag Ashwin’s epic sci-fi spectacle Kalki 2898 AD starring Prabhas, Amitabh Bachchan, and Kamal Haasan shatters global box office records in just 10 days.',
+    image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1400&q=80',
+    poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80',
+    summary: 'Nag Ashwin’s epic sci-fi spectacle Kalki 2898 AD starring Rebel Star Prabhas, Amitabh Bachchan, and Kamal Haasan shatters global box office records in just 10 days.',
     content: `Nag Ashwin's visionary sci-fi epic 'Kalki 2898 AD' has made cinematic history by becoming the fastest Indian film in 2024-2025 to smash past the monumental ₹1100 Crore milestone at the global box office. 
 
-Starring Rebel Star Prabhas alongside legends Amitabh Bachchan and Kamal Haasan, the mythological futuristic hybrid film has captivated audiences worldwide with unprecedented VFX quality, gripping world-building, and high-octane climax sequence.
+Starring Rebel Star Prabhas as Bhairava alongside Indian screen legends Amitabh Bachchan as Ashwatthama and Kamal Haasan as Supreme Yaskin, the futuristic mythological saga has captivated audiences worldwide with unprecedented VFX quality, riveting climax fight sequences, and world-class cinematic scale.
 
 Key Box Office Highlights:
 • India Net Collection: ₹645 Crore across all languages (Telugu, Hindi, Tamil, Malayalam, Kannada).
-• Overseas Gross: $32.5 Million (~₹270 Crore).
-• North America Gross: $18.5 Million, making it the 2nd highest grossing Indian film in USA history.
 • Telangana & Andhra Pradesh Gross: ₹285 Crore share.
+• North America Gross: $18.5 Million (~₹154 Crore), making it the 2nd highest grossing Indian film in USA history.
+• Worldwide Gross: ₹1100+ Crore in just 10 days of release.
 
 Trade analysts predict the film will comfortably cross ₹1200 Crore before the end of its third weekend run.`
   },
   {
     id: 'hero-2',
-    badge: 'EXCLUSIVE',
+    badge: 'BOX OFFICE RECORD',
+    movieTag: 'Pushpa 2: The Rule',
+    actor: 'Allu Arjun',
     title: 'Pushpa 2: The Rule Crosses ₹1500 Cr Worldwide, Allu Arjun Creates History',
     date: 'May 18, 2025',
     views: '18.9K Views',
-    image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1400&q=80',
     poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80',
     summary: 'Icon Star Allu Arjun and director Sukumar shatter all existing box office benchmarks with Pushpa 2: The Rule, dominating mass centers across the globe.',
-    content: `Pushpa 2: The Rule has surpassed all expectations, collecting over ₹1500 Crore worldwide. The film has dominated both single screens and multiplexes in Hindi belt and South India alike.
+    content: `Pushpa 2: The Rule has surpassed all expectations, collecting over ₹1500 Crore worldwide. The film has dominated both single screens and multiplexes in the Hindi belt, South India, and international markets.
 
- Sukumar's direction, DSP's energetic background score, and Rashmika Mandanna's performance alongside Allu Arjun have turned this into a cultural phenomenon.`
+Sukumar's electrifying direction, Devi Sri Prasad's background score, and Rashmika Mandanna's performance alongside Allu Arjun's iconic act as Pushpa Raj have turned this into a monumental pop culture phenomenon.`
   },
   {
     id: 'hero-3',
-    badge: 'BIG UPDATE',
+    badge: 'EXCLUSIVE UPDATE',
+    movieTag: 'SSMB29',
+    actor: 'Mahesh Babu',
     title: 'SSMB29: Mahesh Babu & SS Rajamouli Jungle Adventure Shooting Commences in Kenya',
     date: 'May 20, 2025',
     views: '24.1K Views',
-    image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1400&q=80',
     poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=600&q=80',
     summary: 'India’s most anticipated globe-trotting action adventure directed by SS Rajamouli officially kicks off principal photography in African wilderness.',
-    content: `Superstar Mahesh Babu has landed in Nairobi for the first major schedule of SSMB29. Written by Vijayendra Prasad, the film is backed by a global Hollywood studio partner and features cutting-edge animatronics and live-action stunts.`
+    content: `Superstar Mahesh Babu has landed in Nairobi for the first major schedule of SSMB29. Written by Vijayendra Prasad, the film is backed by a global Hollywood studio partner and features cutting-edge animatronics, live-action stunts, and never-before-seen jungle adventure sequences.`
   }
 ];
 
@@ -98,7 +104,7 @@ export const ottUpdates = [
     title: 'Kalki 2898 AD (Hindi)',
     status: 'Streaming Now',
     releaseDate: 'May 10, 2025',
-    poster: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=400&q=80',
+    poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80',
     quality: '4K Ultra HD • Dolby Atmos',
     language: 'Hindi, English Subtitles',
     description: 'The futuristic mythological magnum opus featuring Prabhas and Amitabh Bachchan is now streaming in 4K HDR.'
@@ -110,7 +116,7 @@ export const ottUpdates = [
     title: 'Pushpa 2: The Rule',
     status: 'Releasing May 30',
     releaseDate: 'May 30, 2025',
-    poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=400&q=80',
+    poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=80',
     quality: '4K UHD • HDR10+',
     language: 'Telugu, Tamil, Malayalam, Kannada',
     description: 'Icon Star Allu Arjun’s record breaking mass action saga hits digital screens worldwide with bonus extended cuts.'
@@ -122,7 +128,7 @@ export const ottUpdates = [
     title: 'Game Changer',
     status: 'Coming Soon',
     releaseDate: 'June 05, 2025',
-    poster: 'https://images.unsplash.com/photo-1518676599625-584742466099?auto=format&fit=crop&w=400&q=80',
+    poster: 'https://images.unsplash.com/photo-1518676599625-584742466099?auto=format&fit=crop&w=600&q=80',
     quality: '4K Dolby Vision',
     language: 'Telugu, Hindi, Tamil',
     description: 'Shankar’s political action thriller starring Global Star Ram Charan and Kiara Advani arrives on JioHotstar.'
@@ -134,7 +140,7 @@ export const ottUpdates = [
     title: 'Devara: Part 1',
     status: 'Streaming Now',
     releaseDate: 'May 02, 2025',
-    poster: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=400&q=80',
+    poster: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80',
     quality: 'HD 1080p',
     language: 'Telugu, Hindi, Tamil, Kannada',
     description: 'Man of Masses NTR Jr commands the high seas in Koratala Siva’s rustic action drama with Saif Ali Khan.'
@@ -146,7 +152,7 @@ export const ottUpdates = [
     title: 'Thandel',
     status: 'Streaming Now',
     releaseDate: 'May 12, 2025',
-    poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=400&q=80',
+    poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=600&q=80',
     quality: '4K Ultra HD',
     language: 'Telugu Exclusive',
     description: 'Naga Chaitanya and Sai Pallavi star in an emotional fisherman romance survival story inspired by real events.'
@@ -158,7 +164,7 @@ export const ottUpdates = [
     title: 'HanuMan Extended Version',
     status: 'Streaming Now',
     releaseDate: 'May 15, 2025',
-    poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80',
+    poster: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=600&q=80',
     quality: '4K Ultra HD',
     language: 'Telugu, Hindi, Tamil, Kannada, Malayalam',
     description: 'Prasanth Varma’s superhero blockbuster with unseen deleted scenes and VFX enhancement.'
@@ -168,11 +174,11 @@ export const ottUpdates = [
 export const movieNews = {
   featured: {
     id: 'news-feat-1',
-    category: 'NEWS',
+    category: 'EXCLUSIVE NEWS',
     title: "Allu Arjun's Pushpa 3 Officially Announced",
     time: '2 hours ago',
     views: '8.2K views',
-    image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1000&q=80',
     summary: 'Producers Mythri Movie Makers officially confirm Pushpa 3: The Rampage. Sukumar and Allu Arjun to re-team for final trilogy installment.',
     content: `Following the unparalleled global success of Pushpa 2: The Rule, producers Mythri Movie Makers have officially greenlit 'Pushpa 3: The Rampage'. Director Sukumar has completed the story board for the grand finale. Shooting is scheduled to begin in early 2026.`
   },
@@ -182,15 +188,15 @@ export const movieNews = {
       title: 'Salman Khan to Team Up with Atlee for Next Big Project?',
       time: '3 hours ago',
       views: '5.6K views',
-      image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=200&q=80',
-      summary: 'Jawan director Atlee is reportedly in final narration talks with Bollywood Superstar Salman Khan for a massive two-hero action spectacle featuring Suniel Shetty.'
+      image: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=400&q=80',
+      summary: 'Jawan director Atlee is reportedly in final narration talks with Bollywood Superstar Salman Khan for a massive two-hero action spectacle.'
     },
     {
       id: 'news-3',
       title: 'Jurassic World Rebirth Trailer Breaks YouTube Records',
       time: '4 hours ago',
       views: '7.1K views',
-      image: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=200&q=80',
+      image: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=400&q=80',
       summary: 'Universal Pictures’ new installment starring Scarlett Johansson logs 120 million views across digital platforms in 24 hours.'
     },
     {
@@ -198,21 +204,20 @@ export const movieNews = {
       title: "Pawan Kalyan's OG Climax Shoot Wraps Up in Mangalore Port",
       time: '6 hours ago',
       views: '11.4K views',
-      image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=200&q=80',
+      image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80',
       summary: 'Sujeeth directs high voltage action sequence featuring Powerstar Pawan Kalyan and Emraan Hashmi with heavy vintage weaponry.'
     }
   ]
 };
 
 export const boxOfficeSummary = [
-  { rank: 1, movie: 'Kalki 2898 AD', indiaNet: 645, worldwide: 1100, poster: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=100&q=80' },
-  { rank: 2, movie: 'Raid 2', indiaNet: 121, worldwide: 195, poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=100&q=80' },
-  { rank: 3, movie: 'The Accountant 2', indiaNet: 52, worldwide: 145, poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=100&q=80' },
-  { rank: 4, movie: 'Jaat', indiaNet: 45, worldwide: 85, poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=100&q=80' },
-  { rank: 5, movie: 'Ground Zero', indiaNet: 32, worldwide: 60, poster: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=100&q=80' }
+  { rank: 1, movie: 'Kalki 2898 AD', indiaNet: 645, worldwide: 1100, poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=200&q=80' },
+  { rank: 2, movie: 'Raid 2', indiaNet: 121, worldwide: 195, poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=200&q=80' },
+  { rank: 3, movie: 'The Accountant 2', indiaNet: 52, worldwide: 145, poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=200&q=80' },
+  { rank: 4, movie: 'Jaat', indiaNet: 45, worldwide: 85, poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=200&q=80' },
+  { rank: 5, movie: 'Ground Zero', indiaNet: 32, worldwide: 60, poster: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=200&q=80' }
 ];
 
-// Reference match for chitrambhalare.in / highest 2nd week collections in tollywood
 export const tollywoodSecondWeekRecords = [
   {
     rank: 1,
@@ -333,7 +338,7 @@ export const latestReviews = [
     rating: '4.0',
     director: 'Nag Ashwin',
     cast: 'Prabhas, Amitabh Bachchan, Kamal Haasan, Deepika Padukone',
-    poster: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=300&q=80',
+    poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80',
     summary: 'A visual spectacle of international standards combined with Indian mythology.',
     verdict: 'MUST WATCH CINEMATIC MASTERPIECE',
     content: `Nag Ashwin delivers an extraordinary cinematic experience that seamlessly weaves Indian mythology with futuristic world-building. Prabhas shines in a character filled with charisma and heroism, while Amitabh Bachchan steals the show as Ashwatthama.`
@@ -344,7 +349,7 @@ export const latestReviews = [
     rating: '3.5',
     director: 'Raj Kumar Gupta',
     cast: 'Ajay Devgn, Riteish Deshmukh, Vaani Kapoor',
-    poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=300&q=80',
+    poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=400&q=80',
     summary: 'Tense, fast-paced crime thriller driven by solid performances.',
     verdict: 'HIGHLY ENGAGING CRIME DRAMA',
     content: `Ajay Devgn returns as the unyielding IRS officer Amay Patnaik in Raid 2. The film keeps you on the edge of your seat with sharp dialogues and intense cat-and-mouse games.`
@@ -355,7 +360,7 @@ export const latestReviews = [
     rating: '3.0',
     director: 'Gavin O’Connor',
     cast: 'Ben Affleck, Jon Bernthal, J.K. Simmons',
-    poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=300&q=80',
+    poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=400&q=80',
     summary: 'Ben Affleck returns with high stakes action and financial puzzle solving.',
     verdict: 'DECENT ACTION THRILLER FOR FANS',
     content: `Christian Wolff (Ben Affleck) pairs up with his brother Brax (Jon Bernthal) to solve a deadly mystery. Good action sequences, though the narrative pacing slows down mid-way.`
@@ -366,7 +371,7 @@ export const latestReviews = [
     rating: '3.5',
     director: 'Gopichand Malineni',
     cast: 'Sunny Deol, Randeep Hooda, Vineet Kumar Singh',
-    poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=300&q=80',
+    poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=400&q=80',
     summary: 'High-octane mass action entertainer packed with powerful dialogues.',
     verdict: 'MASS FEAST FOR ACTION LOVERS',
     content: `Sunny Deol brings his trademark intensity to the screen under Gopichand Malineni's commercial direction. Randeep Hooda makes a formidable villain.`
@@ -381,7 +386,7 @@ export const upcomingReleases = [
     days: 7,
     hrs: 12,
     mins: 45,
-    poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=300&q=80'
+    poster: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'up-2',
@@ -390,7 +395,7 @@ export const upcomingReleases = [
     days: 7,
     hrs: 12,
     mins: 45,
-    poster: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=300&q=80'
+    poster: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'up-3',
@@ -399,7 +404,7 @@ export const upcomingReleases = [
     days: 21,
     hrs: 08,
     mins: 15,
-    poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=300&q=80'
+    poster: 'https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'up-4',
@@ -408,7 +413,7 @@ export const upcomingReleases = [
     days: 28,
     hrs: 14,
     mins: 30,
-    poster: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=300&q=80'
+    poster: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=400&q=80'
   }
 ];
 
@@ -447,7 +452,7 @@ export const latestTrailers = [
     time: '1 day ago',
     views: '1.1M views',
     youtubeId: 'dQw4w9WgXcQ',
-    thumbnail: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80'
+    thumbnail: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80'
   },
   {
     id: 'tr-5',

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Menu, Search, Bell, User, Sun, Moon, X, CheckCircle } from 'lucide-react';
+import { Menu, Search, Bell, User, Sun, Moon, X } from 'lucide-react';
 
-export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick }) {
+export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onLogoClick }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
 
@@ -12,42 +12,34 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick }) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 h-16 flex items-center justify-between gap-3">
+    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-md transition-colors duration-200">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 h-20 flex items-center justify-between gap-3">
         
-        {/* Left Side: Hamburger & Logo */}
+        {/* Left Side: Hamburger & Prominent Logo (tbo copy.png) */}
         <div className="flex items-center gap-3">
           <button 
             onClick={onOpenMenu}
             className="p-2 text-slate-700 hover:text-red-600 hover:bg-slate-100 rounded-lg transition-colors"
             title="Open navigation menu"
           >
-            <Menu className="w-6 h-6" />
+            <Menu className="w-7 h-7" />
           </button>
 
-          {/* Logo matching tbo.png */}
-          <a href="#" className="flex items-center gap-2 group">
-            <div className="relative">
-              <img 
-                src="/tbo.png" 
-                alt="TELANGANA BOX OFFICE Logo" 
-                className="h-10 sm:h-11 w-auto object-contain transition-transform group-hover:scale-105"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'flex';
-                }}
-              />
-              {/* Fallback stylized badge if logo image loading */}
-              <div className="hidden flex-col items-start leading-none font-bold">
-                <span className="text-navy-900 tracking-tighter text-xl font-display text-[#031738]">TELANGANA</span>
-                <span className="text-red-600 tracking-tighter text-lg font-display italic">BOX OFFICE ★★★</span>
-              </div>
-            </div>
-          </a>
+          {/* Prominent High Resolution Logo matching tbo copy.png */}
+          <button onClick={onLogoClick} className="flex items-center gap-2 group text-left">
+            <img 
+              src="/tbo copy.png" 
+              alt="TELANGANA BOX OFFICE Logo" 
+              className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform group-hover:scale-105 filter drop-shadow-sm"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/tbo.png';
+              }}
+            />
+          </button>
         </div>
 
-        {/* Center: Search Bar (Desktop View) */}
+        {/* Center: Search Bar */}
         <div className="hidden md:flex flex-1 max-w-md mx-4 relative">
           <div className="relative w-full">
             <input
@@ -55,9 +47,9 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick }) {
               value={activeSearch}
               onChange={(e) => onSearch(e.target.value)}
               placeholder="Search for movies, news, actors..."
-              className="w-full pl-4 pr-10 py-2 bg-slate-100 hover:bg-slate-100/80 focus:bg-white text-sm text-slate-900 rounded-full border border-slate-200 focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600/20 transition-all shadow-inner"
+              className="w-full pl-4 pr-10 py-2.5 bg-slate-100 hover:bg-slate-100/80 focus:bg-white text-sm text-slate-900 rounded-full border border-slate-300 focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600/20 transition-all shadow-inner"
             />
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           </div>
         </div>
 
@@ -109,7 +101,7 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick }) {
           {/* Login / Register Button */}
           <button 
             onClick={onLoginClick}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-semibold shadow-sm"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-full border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-extrabold shadow-sm active:scale-95"
           >
             <User className="w-4 h-4" />
             <span>Login / Register</span>
