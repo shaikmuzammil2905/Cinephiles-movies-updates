@@ -27,7 +27,7 @@ export function SidebarDrawer({ isOpen, onClose, onNavigate, onOpenTollywoodReco
         {/* Top Header */}
         <div className="p-4 border-b border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src="/tbo.png" alt="TELANGANA BOX OFFICE" className="h-8 w-auto object-contain" />
+            <img src="/tbo_logo.png" alt="TELANGANA BOX OFFICE" className="h-9 sm:h-10 w-auto object-contain" />
           </div>
           <button
             onClick={onClose}

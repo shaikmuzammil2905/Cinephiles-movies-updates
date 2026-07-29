@@ -12,25 +12,25 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onLog
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-md transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-3">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-colors duration-200">
+      <div className="max-w-7xl mx-auto px-2.5 sm:px-4 lg:px-6 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-3 overflow-hidden">
         
-        {/* Left Side: Hamburger & Prominent Logo (tbo copy.png) */}
+        {/* Left Side: Hamburger & Prominent Logo */}
         <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           <button 
             onClick={onOpenMenu}
-            className="p-1.5 sm:p-2 text-slate-700 hover:text-red-600 hover:bg-slate-100 rounded-lg transition-colors"
+            className="p-1.5 sm:p-2 text-slate-700 hover:text-red-600 hover:bg-slate-100 rounded-xl transition-colors active:scale-95"
             title="Open navigation menu"
           >
             <Menu className="w-6 h-6 sm:w-7 sm:h-7" />
           </button>
 
-          {/* Prominent High Resolution Logo matching tbo copy.png */}
-          <button onClick={onLogoClick} className="flex items-center gap-2 group text-left">
+          {/* Prominent High Resolution Transparent Logo without white patch */}
+          <button onClick={onLogoClick} className="flex items-center group text-left py-0.5">
             <img 
-              src="/tbo copy.png" 
+              src="/tbo_logo.png" 
               alt="TELANGANA BOX OFFICE Logo" 
-              className="h-9 sm:h-13 md:h-16 w-auto max-w-[150px] sm:max-w-none object-contain transition-transform group-hover:scale-105 filter drop-shadow-sm"
+              className="h-10 sm:h-13 md:h-15 w-auto max-w-[170px] sm:max-w-xs object-contain transition-transform group-hover:scale-105"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = '/tbo.png';
@@ -68,7 +68,7 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onLog
           <div className="relative">
             <button 
               onClick={() => setShowNotifications(!showNotifications)}
-              className="p-1.5 sm:p-2 text-slate-700 hover:text-red-600 hover:bg-slate-100 rounded-full transition-colors relative"
+              className="p-1.5 sm:p-2 text-slate-700 hover:text-red-600 hover:bg-slate-100 rounded-full transition-colors relative active:scale-95"
               title="Notifications"
             >
               <Bell className="w-5 h-5" />
@@ -101,7 +101,7 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onLog
           {/* Login / Register Button */}
           <button 
             onClick={onLoginClick}
-            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all text-xs font-extrabold shadow-sm active:scale-95 whitespace-nowrap"
+            className="flex items-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-red-600 text-white hover:bg-red-700 transition-all text-xs font-extrabold shadow-sm active:scale-95 whitespace-nowrap border border-red-600"
           >
             <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span className="hidden sm:inline">Login / Register</span>

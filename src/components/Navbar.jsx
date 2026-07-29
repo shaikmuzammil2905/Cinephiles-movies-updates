@@ -18,9 +18,9 @@ export function Navbar({ activeTab, setActiveTab }) {
   };
 
   return (
-    <nav className="bg-[#031738] border-t border-slate-800 text-white shadow-lg sticky top-16 sm:top-20 z-40">
+    <nav className="bg-[#031738] border-t border-b border-slate-800 text-white shadow-md sticky top-16 sm:top-20 z-40 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-2 sm:px-4">
-        <div className="flex items-center overflow-x-auto no-scrollbar py-0.5 scroll-smooth">
+        <div className="flex items-center overflow-x-auto no-scrollbar py-2 px-1 scroll-smooth space-x-1.5 sm:space-x-2 touch-pan-x">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -28,10 +28,10 @@ export function Navbar({ activeTab, setActiveTab }) {
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-extrabold tracking-wide transition-all whitespace-nowrap border-b-2 shrink-0 ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-extrabold tracking-wide transition-all whitespace-nowrap shrink-0 active:scale-95 ${
                   isActive
-                    ? 'bg-[#d90429] text-white border-red-400 shadow-md scale-105'
-                    : 'text-slate-200 hover:bg-slate-800/80 hover:text-white border-transparent'
+                    ? 'bg-[#d90429] text-white shadow-lg shadow-red-900/40 ring-2 ring-red-500/50'
+                    : 'text-slate-300 hover:bg-slate-800/90 hover:text-white bg-slate-900/40 border border-slate-700/50'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />

@@ -11,18 +11,18 @@ export function BreakingTicker() {
   ];
 
   return (
-    <div className="bg-slate-100 border-b border-slate-200 py-1.5 px-3 sm:px-6">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+    <div className="bg-slate-100 border-b border-slate-200 py-1.5 px-2.5 sm:px-6 w-full max-w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-3">
         
         {/* Left: Breaking News Badge & Marquee */}
-        <div className="flex items-center gap-3 overflow-hidden flex-1">
-          <div className="bg-[#d90429] text-white text-[11px] font-extrabold uppercase px-2.5 py-1 rounded shadow flex items-center gap-1.5 shrink-0">
-            <span className="w-2 h-2 bg-white rounded-full animate-ping"></span>
+        <div className="flex items-center gap-2 sm:gap-3 overflow-hidden flex-1 min-w-0">
+          <div className="bg-[#d90429] text-white text-[10px] sm:text-[11px] font-extrabold uppercase px-2 sm:px-2.5 py-1 rounded shadow flex items-center gap-1 sm:gap-1.5 shrink-0 whitespace-nowrap">
+            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-ping"></span>
             BREAKING NEWS
           </div>
 
-          <div className="overflow-hidden relative w-full text-xs font-medium text-slate-800">
-            <div className="animate-ticker space-x-8">
+          <div className="overflow-hidden relative w-full min-w-0 text-xs font-medium text-slate-800">
+            <div className="animate-ticker space-x-6 sm:space-x-8">
               {newsTickerList.map((item, idx) => (
                 <span key={idx} className="inline-flex items-center gap-2 cursor-pointer hover:text-red-600 transition-colors">
                   <span>{item}</span>

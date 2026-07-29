@@ -10,7 +10,7 @@ export function Footer() {
         {/* Brand info */}
         <div className="space-y-4 md:col-span-1">
           <a href="#" className="flex items-center gap-2">
-            <img src="/tbo.png" alt="TELANGANA BOX OFFICE" className="h-10 w-auto object-contain" />
+            <img src="/tbo_logo.png" alt="TELANGANA BOX OFFICE" className="h-10 sm:h-12 w-auto object-contain" />
           </a>
           <p className="text-xs leading-relaxed text-slate-400">
             TELANGANA BOX OFFICE is your premier digital destination for authentic Indian cinema box office tracking, Tollywood 2nd week collections, reviews, trailer launches, and OTT platform updates.
