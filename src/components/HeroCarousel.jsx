@@ -23,12 +23,12 @@ export function HeroCarousel({ onSelectArticle }) {
   };
 
   return (
-    <section id="hero-section" className="py-4 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <section id="hero-section" className="py-2 sm:py-4 bg-slate-50">
+      <div className="max-w-7xl mx-auto px-2.5 sm:px-4 lg:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
           
           {/* Main Hero Slider (Top Story) - 8 cols on Desktop */}
-          <div className="lg:col-span-8 relative group rounded-2xl overflow-hidden shadow-xl bg-slate-900 aspect-[16/10] sm:aspect-[16/9] min-h-[300px] sm:min-h-[440px]">
+          <div className="lg:col-span-8 relative group rounded-xl sm:rounded-2xl overflow-hidden shadow-lg bg-slate-900 h-[220px] xs:h-[250px] sm:h-[360px] md:h-[400px] lg:h-auto lg:min-h-[440px]">
             {/* Background Image with Gradient Overlay */}
             <img
               src={current.image}
@@ -38,8 +38,8 @@ export function HeroCarousel({ onSelectArticle }) {
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent"></div>
 
             {/* Top Badge */}
-            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10">
-              <span className="bg-[#d90429] text-white text-[10px] sm:text-xs font-black tracking-wider uppercase px-2.5 sm:px-3 py-0.5 sm:py-1 rounded shadow-md">
+            <div className="absolute top-2.5 left-2.5 sm:top-4 sm:left-4 z-10">
+              <span className="bg-[#d90429] text-white text-[9px] sm:text-xs font-black tracking-wider uppercase px-2 sm:px-3 py-0.5 sm:py-1 rounded shadow-md">
                 {current.badge}
               </span>
             </div>
@@ -47,56 +47,56 @@ export function HeroCarousel({ onSelectArticle }) {
             {/* Navigation Arrows */}
             <button
               onClick={handlePrev}
-              className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-slate-950/60 hover:bg-[#d90429] text-white flex items-center justify-center border border-white/20 transition-all shadow-lg active:scale-90"
+              className="absolute left-1.5 sm:left-3 top-1/2 -translate-y-1/2 z-20 w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-slate-950/60 hover:bg-[#d90429] text-white flex items-center justify-center border border-white/20 transition-all shadow-lg active:scale-90"
               title="Previous slide"
             >
-              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+              <ChevronLeft className="w-4 h-4 sm:w-6 sm:h-6" />
             </button>
             <button
               onClick={handleNext}
-              className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-slate-950/60 hover:bg-[#d90429] text-white flex items-center justify-center border border-white/20 transition-all shadow-lg active:scale-90"
+              className="absolute right-1.5 sm:right-3 top-1/2 -translate-y-1/2 z-20 w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-slate-950/60 hover:bg-[#d90429] text-white flex items-center justify-center border border-white/20 transition-all shadow-lg active:scale-90"
               title="Next slide"
             >
-              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+              <ChevronRight className="w-4 h-4 sm:w-6 sm:h-6" />
             </button>
 
             {/* Slide Content */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-8 z-10 text-white space-y-2 sm:space-y-3">
-              <h2 className="text-base sm:text-2xl md:text-3xl font-extrabold leading-tight text-white drop-shadow-md line-clamp-2">
+            <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-6 md:p-8 z-10 text-white space-y-1.5 sm:space-y-3">
+              <h2 className="text-sm xs:text-base sm:text-2xl md:text-3xl font-extrabold leading-tight text-white drop-shadow-md line-clamp-2">
                 {current.title}
               </h2>
 
-              <div className="flex items-center gap-3 sm:gap-4 text-[11px] sm:text-sm text-slate-300">
-                <span className="flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500" />
+              <div className="flex items-center gap-2.5 sm:gap-4 text-[10px] sm:text-sm text-slate-300">
+                <span className="flex items-center gap-1">
+                  <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
                   {current.date}
                 </span>
-                <span className="flex items-center gap-1.5">
-                  <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500" />
+                <span className="flex items-center gap-1">
+                  <Eye className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
                   {current.views}
                 </span>
               </div>
 
-              <div className="pt-1 sm:pt-2">
+              <div className="pt-0.5 sm:pt-2 flex items-center justify-between">
                 <button
                   onClick={() => onSelectArticle(current)}
-                  className="px-4 sm:px-5 py-1.5 sm:py-2 rounded-full border-2 border-red-600 text-white font-bold text-xs sm:text-sm hover:bg-red-600 transition-all shadow-md active:scale-95"
+                  className="px-3.5 sm:px-5 py-1 sm:py-2 rounded-full bg-red-600 text-white font-bold text-[11px] sm:text-sm hover:bg-red-700 transition-all shadow-md active:scale-95 border border-red-500"
                 >
                   Read More
                 </button>
-              </div>
 
-              {/* Dots Indicator */}
-              <div className="flex items-center justify-center gap-1.5 sm:gap-2 pt-1 sm:pt-2">
-                {heroArticles.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentIndex(idx)}
-                    className={`h-1.5 sm:h-2 rounded-full transition-all ${
-                      currentIndex === idx ? 'w-6 sm:w-8 bg-red-600' : 'w-1.5 sm:w-2 bg-white/40 hover:bg-white'
-                    }`}
-                  />
-                ))}
+                {/* Dots Indicator */}
+                <div className="flex items-center gap-1 sm:gap-2">
+                  {heroArticles.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentIndex(idx)}
+                      className={`h-1.5 sm:h-2 rounded-full transition-all ${
+                        currentIndex === idx ? 'w-5 sm:w-8 bg-red-600' : 'w-1.5 sm:w-2 bg-white/50 hover:bg-white'
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
