@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
-import { Shield, Mail, Lock, Eye, EyeOff, Film, AlertCircle, ArrowRight, KeyRound } from 'lucide-react';
+import { Shield, Mail, Lock, Eye, EyeOff, Film, AlertCircle, ArrowRight, KeyRound, UserPlus, CheckCircle2 } from 'lucide-react';
 
 export function AdminLogin({ onLoginSuccess, onBackToSite }) {
+  const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [successMsg, setSuccessMsg] = useState(null);
   const [showForgotModal, setShowForgotModal] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotMsg, setForgotMsg] = useState(null);
   const [forgotLoading, setForgotLoading] = useState(false);
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       setError('Please provide both admin email and password.');
@@ -22,20 +24,41 @@ export function AdminLogin({ onLoginSuccess, onBackToSite }) {
 
     setLoading(true);
     setError(null);
+    setSuccessMsg(null);
 
     try {
-      const { data, error: authErr } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password
-      });
+      if (isSignUp) {
+        const { data, error: signUpErr } = await supabase.auth.signUp({
+          email: email.trim(),
+          password
+        });
 
-      if (authErr) {
-        setError(authErr.message || 'Invalid credentials. Please verify your admin account.');
-      } else if (data?.session) {
-        onLoginSuccess(data.session);
+        if (signUpErr) {
+          setError(signUpErr.message);
+        } else if (data?.session) {
+          onLoginSuccess(data.session);
+        } else {
+          setSuccessMsg('Admin account created! If email confirmation is disabled in Supabase, you can now Sign In. Otherwise, check your email.');
+          setIsSignUp(false);
+        }
+      } else {
+        const { data, error: authErr } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password
+        });
+
+        if (authErr) {
+          if (authErr.message.toLowerCase().includes('email not confirmed')) {
+            setError('Email not confirmed in Supabase yet. To bypass email confirmation in Supabase: go to Authentication -> Providers -> Email -> Disable "Confirm email".');
+          } else {
+            setError(authErr.message || 'Invalid credentials. Please verify your admin account.');
+          }
+        } else if (data?.session) {
+          onLoginSuccess(data.session);
+        }
       }
     } catch (err) {
-      setError(err.message || 'An unexpected error occurred while logging in.');
+      setError(err.message || 'An unexpected error occurred while authenticating.');
     } finally {
       setLoading(false);
     }
@@ -82,9 +105,26 @@ export function AdminLogin({ onLoginSuccess, onBackToSite }) {
 
       {/* Main Login Card */}
       <div className="w-full max-w-md bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl shadow-2xl p-6 sm:p-8 relative z-10">
-        <div className="flex items-center gap-2 mb-6 pb-4 border-b border-slate-800">
-          <Shield className="w-5 h-5 text-red-500" />
-          <h2 className="text-lg font-bold text-white">Administrator Access</h2>
+        <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+          <div className="flex items-center gap-2">
+            <Shield className="w-5 h-5 text-red-500" />
+            <h2 className="text-lg font-bold text-white">
+              {isSignUp ? 'Register Admin Account' : 'Administrator Sign In'}
+            </h2>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              setIsSignUp(!isSignUp);
+              setError(null);
+              setSuccessMsg(null);
+            }}
+            className="text-xs text-red-400 hover:text-red-300 font-semibold transition hover:underline flex items-center gap-1 cursor-pointer"
+          >
+            {isSignUp ? <Shield className="w-3.5 h-3.5" /> : <UserPlus className="w-3.5 h-3.5" />}
+            <span>{isSignUp ? 'Switch to Sign In' : 'Register Admin'}</span>
+          </button>
         </div>
 
         {error && (
@@ -94,7 +134,14 @@ export function AdminLogin({ onLoginSuccess, onBackToSite }) {
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-4">
+        {successMsg && (
+          <div className="mb-5 p-3.5 bg-emerald-950/80 border border-emerald-800/80 text-emerald-200 text-xs sm:text-sm rounded-xl flex items-start gap-2.5 shadow-sm">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+            <span>{successMsg}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs font-medium text-slate-300 mb-1.5 uppercase tracking-wider">
               Admin Email
@@ -104,7 +151,7 @@ export function AdminLogin({ onLoginSuccess, onBackToSite }) {
               <input
                 type="email"
                 required
-                placeholder="admin@telanganaboxoffice.com"
+                placeholder="admin.tbo@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition"
@@ -117,13 +164,15 @@ export function AdminLogin({ onLoginSuccess, onBackToSite }) {
               <label className="block text-xs font-medium text-slate-300 uppercase tracking-wider">
                 Password
               </label>
-              <button
-                type="button"
-                onClick={() => setShowForgotModal(true)}
-                className="text-xs text-red-400 hover:text-red-300 transition hover:underline"
-              >
-                Forgot password?
-              </button>
+              {!isSignUp && (
+                <button
+                  type="button"
+                  onClick={() => setShowForgotModal(true)}
+                  className="text-xs text-red-400 hover:text-red-300 transition hover:underline"
+                >
+                  Forgot password?
+                </button>
+              )}
             </div>
             <div className="relative">
               <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -153,11 +202,11 @@ export function AdminLogin({ onLoginSuccess, onBackToSite }) {
             {loading ? (
               <>
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                <span>Authenticating Admin...</span>
+                <span>Processing Admin Auth...</span>
               </>
             ) : (
               <>
-                <span>Sign In to Dashboard</span>
+                <span>{isSignUp ? 'Create Admin Account' : 'Sign In to Dashboard'}</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             )}
@@ -202,7 +251,7 @@ export function AdminLogin({ onLoginSuccess, onBackToSite }) {
               <input
                 type="email"
                 required
-                placeholder="admin@telanganaboxoffice.com"
+                placeholder="admin.tbo@gmail.com"
                 value={forgotEmail}
                 onChange={(e) => setForgotEmail(e.target.value)}
                 className="w-full px-3.5 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500"
