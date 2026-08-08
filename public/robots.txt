@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /#admin
+
+Sitemap: https://cinephiles-movies-updates-tbh9.vercel.app/sitemap.xml
