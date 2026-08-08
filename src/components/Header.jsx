@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Search, Bell, User, Sun, Moon, X } from 'lucide-react';
+import { Menu, Search, Bell, User, Sun, Moon, X, Shield } from 'lucide-react';
 
 export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onLogoClick }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -97,6 +97,16 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onLog
               </div>
             )}
           </div>
+
+          {/* Admin Panel Button */}
+          <button 
+            onClick={onAdminClick || (() => window.location.hash = '#admin')}
+            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-slate-900 text-white hover:bg-red-600 transition-all text-xs font-bold shadow-sm active:scale-95 whitespace-nowrap border border-slate-800"
+            title="Admin Portal (CMS)"
+          >
+            <Shield className="w-3.5 h-3.5 text-red-500" />
+            <span className="hidden md:inline">Admin Panel</span>
+          </button>
 
           {/* Login / Register Button */}
           <button 
