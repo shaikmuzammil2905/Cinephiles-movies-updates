@@ -11,8 +11,7 @@ export function SidebarDrawer({ isOpen, onClose, onNavigate, onOpenTollywoodReco
     { id: 'boxoffice', label: 'Box Office Reports & Trackers', icon: BarChart3, sectionId: 'boxoffice-section' },
     { id: 'records', label: 'Tollywood Highest 2nd Week Records', icon: Trophy, action: onOpenTollywoodRecords },
     { id: 'reviews', label: 'Latest Film Reviews', icon: Star, sectionId: 'reviews-section' },
-    { id: 'trailers', label: 'HD Movie Trailers', icon: Film, sectionId: 'trailers-section' },
-    { id: 'admin', label: 'Admin Portal & CMS', icon: ShieldCheck, action: () => { onNavigate('admin'); window.location.hash = '#admin'; } }
+    { id: 'trailers', label: 'HD Movie Trailers', icon: Film, sectionId: 'trailers-section' }
   ];
 
   return (

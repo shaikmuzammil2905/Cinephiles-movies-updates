@@ -53,7 +53,7 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onAdm
           </div>
         </div>
 
-        {/* Right Side: Theme, Notifications, Login */}
+        {/* Right Side: Theme Toggle */}
         <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           {/* Theme Toggle */}
           <button 
@@ -62,50 +62,6 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onAdm
             title="Toggle theme"
           >
             {isDarkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5" />}
-          </button>
-
-          {/* Notification Bell */}
-          <div className="relative">
-            <button 
-              onClick={() => setShowNotifications(!showNotifications)}
-              className="p-1.5 sm:p-2 text-slate-700 hover:text-red-600 hover:bg-slate-100 rounded-full transition-colors relative active:scale-95"
-              title="Notifications"
-            >
-              <Bell className="w-5 h-5" />
-              <span className="absolute top-1 right-1 w-4 h-4 bg-red-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white animate-pulse">
-                3
-              </span>
-            </button>
-
-            {/* Notifications Dropdown */}
-            {showNotifications && (
-              <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-white rounded-xl shadow-2xl border border-slate-200 p-3 z-50 animate-in fade-in slide-in-from-top-2">
-                <div className="flex justify-between items-center pb-2 border-b border-slate-100">
-                  <h4 className="font-bold text-xs text-slate-900 uppercase tracking-wider">Latest Alerts</h4>
-                  <button onClick={() => setShowNotifications(false)} className="text-slate-400 hover:text-slate-600">
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-                <div className="divide-y divide-slate-100 max-h-64 overflow-y-auto">
-                  {notifications.map((item) => (
-                    <div key={item.id} className="py-2 px-1 hover:bg-slate-50 rounded text-xs transition-colors">
-                      <p className="font-medium text-slate-800">{item.text}</p>
-                      <span className="text-[10px] text-slate-400 mt-0.5 block">{item.time}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Admin Panel Button */}
-          <button 
-            onClick={onAdminClick || (() => window.location.hash = '#admin')}
-            className="flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-red-600 text-white hover:bg-red-700 transition-all text-xs font-extrabold shadow-sm active:scale-95 whitespace-nowrap border border-red-600 cursor-pointer"
-            title="Admin Portal (CMS)"
-          >
-            <Shield className="w-4 h-4 text-white" />
-            <span>Admin Portal</span>
           </button>
         </div>
       </div>
