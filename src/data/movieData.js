@@ -411,7 +411,7 @@ export const upcomingReleases = [
     title: 'They Call Him OG (Pawan Kalyan)',
     releaseDate: 'September 27, 2025',
     days: 60,
-    hrs: 08,
+    hrs: 8,
     mins: 15,
     poster: '/og.png'
   }
