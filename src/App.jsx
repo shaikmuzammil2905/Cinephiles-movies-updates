@@ -544,8 +544,6 @@ export default function App() {
         onClose={() => setShowTollywoodRecords(false)}
       />
 
-      <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
-
       <SidebarDrawer
         isOpen={showSidebar}
         onClose={() => setShowSidebar(false)}

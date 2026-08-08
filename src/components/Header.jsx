@@ -101,21 +101,11 @@ export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onAdm
           {/* Admin Panel Button */}
           <button 
             onClick={onAdminClick || (() => window.location.hash = '#admin')}
-            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-slate-900 text-white hover:bg-red-600 transition-all text-xs font-bold shadow-sm active:scale-95 whitespace-nowrap border border-slate-800"
+            className="flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-red-600 text-white hover:bg-red-700 transition-all text-xs font-extrabold shadow-sm active:scale-95 whitespace-nowrap border border-red-600 cursor-pointer"
             title="Admin Portal (CMS)"
           >
-            <Shield className="w-3.5 h-3.5 text-red-500" />
-            <span className="hidden md:inline">Admin Panel</span>
-          </button>
-
-          {/* Login / Register Button */}
-          <button 
-            onClick={onLoginClick}
-            className="flex items-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-red-600 text-white hover:bg-red-700 transition-all text-xs font-extrabold shadow-sm active:scale-95 whitespace-nowrap border border-red-600"
-          >
-            <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">Login / Register</span>
-            <span className="inline sm:hidden">Login</span>
+            <Shield className="w-4 h-4 text-white" />
+            <span>Admin Portal</span>
           </button>
         </div>
       </div>
