@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, Search, Bell, User, Sun, Moon, X, Shield } from 'lucide-react';
 
-export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onLogoClick }) {
+export function Header({ onSearch, activeSearch, onOpenMenu, onLoginClick, onAdminClick, onLogoClick }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
 
