@@ -13,7 +13,7 @@ export function ArticleModal({ article, onClose }) {
     setTimeout(() => setCopied(false), 2500);
   };
 
-  const articleShareUrl = typeof window !== 'undefined' ? window.location.href : 'https://telanganaboxoffice.com';
+  const articleShareUrl = typeof window !== 'undefined' ? window.location.href : 'https://cinephiles-movies-updates-tbh9.vercel.app';
   const encodedTitle = encodeURIComponent(article.title || 'Telangana Box Office Article');
   const encodedUrl = encodeURIComponent(articleShareUrl);
 
