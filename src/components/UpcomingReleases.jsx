@@ -4,7 +4,7 @@ import { upcomingReleases } from '../data/movieData';
 
 export function UpcomingReleases({ updates = [], onSelectMovie }) {
   const adminUpcoming = (Array.isArray(updates) ? updates : [])
-    .filter((u) => u.status === 'published' && u.category === 'Upcoming Releases')
+    .filter((u) => u && typeof u === 'object' && u.status === 'published' && u.category === 'Upcoming Releases')
     .map((item) => ({
       id: item.id || item.slug,
       title: item.title,

@@ -4,7 +4,7 @@ import { movieNews } from '../data/movieData';
 
 export function NewsSection({ updates = [], onSelectArticle }) {
   const adminNewsList = (Array.isArray(updates) ? updates : [])
-    .filter((u) => u.status === 'published' && (u.category === 'Movie News' || u.category === 'Top Story'))
+    .filter((u) => u && typeof u === 'object' && u.status === 'published' && (u.category === 'Movie News' || u.category === 'Top Story'))
     .map((item) => ({
       id: item.id || item.slug,
       title: item.title,

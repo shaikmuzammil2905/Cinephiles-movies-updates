@@ -8,7 +8,7 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords }) {
   const [activeTab, setActiveTab] = useState('summary'); // 'summary' or 'tollywood2ndWeek'
 
   const adminBoxOffice = (Array.isArray(updates) ? updates : [])
-    .filter((u) => u.status === 'published' && u.category === 'Box Office')
+    .filter((u) => u && typeof u === 'object' && u.status === 'published' && u.category === 'Box Office')
     .map((item, idx) => ({
       rank: idx + 1,
       movie: item.title,

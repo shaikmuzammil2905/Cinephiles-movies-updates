@@ -45,8 +45,14 @@ import { MediaGallery } from './admin/MediaGallery';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState(() => {
-    if (window.location.pathname === '/admin' || window.location.hash === '#admin') {
+    const hash = window.location.hash;
+    if (hash === '#admin' || window.location.pathname === '/admin') {
       return 'admin';
+    }
+    const knownTabs = ['home', 'ott', 'news', 'reviews', 'boxoffice', 'trailers', 'releases', 'admin'];
+    const cleanHash = hash.replace('#', '').toLowerCase();
+    if (knownTabs.includes(cleanHash)) {
+      return cleanHash;
     }
     return 'home';
   });
@@ -63,7 +69,10 @@ export default function App() {
       const saved = localStorage.getItem('tbo_cms_updates');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const valid = parsed.filter((item) => item && typeof item === 'object' && item.title);
+          if (valid.length > 0) return valid;
+        }
       }
     } catch (e) {
       console.warn('LocalStorage parse notice:', e);
@@ -85,9 +94,10 @@ export default function App() {
 
   // Helper to persist updates locally and in state
   const updateLocalAndState = (newUpdates) => {
-    setUpdates(newUpdates);
+    const valid = Array.isArray(newUpdates) ? newUpdates.filter((u) => u && typeof u === 'object' && u.title) : [];
+    setUpdates(valid.length > 0 ? valid : getInitialSeedUpdates());
     try {
-      localStorage.setItem('tbo_cms_updates', JSON.stringify(newUpdates));
+      localStorage.setItem('tbo_cms_updates', JSON.stringify(valid.length > 0 ? valid : getInitialSeedUpdates()));
     } catch (e) {
       console.warn('LocalStorage save notice:', e);
     }

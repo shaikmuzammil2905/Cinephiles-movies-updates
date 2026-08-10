@@ -7,7 +7,7 @@ export function ReviewsPage({ updates = [], onSelectReview }) {
   const [minRating, setMinRating] = useState(0);
 
   const adminReviews = (Array.isArray(updates) ? updates : [])
-    .filter((u) => u.status === 'published' && u.category === 'Reviews')
+    .filter((u) => u && typeof u === 'object' && u.status === 'published' && u.category === 'Reviews')
     .map((item) => ({
       id: item.id || item.slug,
       title: item.title,

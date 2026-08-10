@@ -7,52 +7,60 @@ export function HeroCarousel({ updates = [], onSelectArticle }) {
 
   // Transform published admin "Top Story" updates for Hero Slider
   const adminHeroArticles = (Array.isArray(updates) ? updates : [])
-    .filter((u) => u.status === 'published' && u.category === 'Top Story')
+    .filter((u) => u && typeof u === 'object' && u.status === 'published' && u.category === 'Top Story')
     .map((item) => ({
       id: item.id || item.slug,
       badge: item.extra_data?.badge || item.tags || 'TOP STORY',
       movieTag: item.extra_data?.movieTag || item.tags?.split(',')[0] || 'Exclusive',
       actor: item.extra_data?.actor || '',
-      title: item.title,
+      title: item.title || 'Latest Update',
       date: item.published_at
         ? new Date(item.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
         : 'Latest Story',
       views: item.extra_data?.views || '10.5K Views',
       image: item.featured_image_url || '/kalki.png',
       poster: item.featured_image_url || '/kalki.png',
-      summary: item.short_description || item.title,
-      content: item.content || item.short_description
+      summary: item.short_description || item.title || '',
+      content: item.content || item.short_description || ''
     }));
 
   const activeHeroArticles = adminHeroArticles.length > 0
     ? [...adminHeroArticles, ...heroArticles]
-    : heroArticles;
+    : (heroArticles && heroArticles.length > 0 ? heroArticles : []);
 
   // Transform published admin "Movie News" for Trending Sidebar
   const adminTrending = (Array.isArray(updates) ? updates : [])
-    .filter((u) => u.status === 'published' && (u.category === 'Movie News' || u.category === 'Top Story'))
+    .filter((u) => u && typeof u === 'object' && u.status === 'published' && (u.category === 'Movie News' || u.category === 'Top Story'))
     .slice(0, 5)
     .map((item, idx) => ({
       id: idx + 1,
-      title: item.title,
+      title: item.title || 'Movie Update',
       time: item.published_at
         ? new Date(item.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
         : 'Just now',
       image: item.featured_image_url || '/kalki.png',
-      summary: item.short_description || item.title,
-      content: item.content || item.short_description
+      summary: item.short_description || item.title || '',
+      content: item.content || item.short_description || ''
     }));
 
   const activeTrending = adminTrending.length > 0 ? adminTrending : trendingNow;
 
   useEffect(() => {
+    if (!activeHeroArticles || activeHeroArticles.length === 0) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % activeHeroArticles.length);
     }, 6000);
     return () => clearInterval(timer);
   }, [activeHeroArticles.length]);
 
-  const current = activeHeroArticles[currentIndex] || activeHeroArticles[0];
+  const current = activeHeroArticles[currentIndex] || activeHeroArticles[0] || {
+    title: 'Telangana Box Office',
+    badge: 'TOP STORY',
+    date: 'Latest',
+    views: '10K Views',
+    image: '/kalki.png',
+    summary: 'Welcome to Telangana Box Office'
+  };
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + activeHeroArticles.length) % activeHeroArticles.length);

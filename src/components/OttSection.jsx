@@ -6,7 +6,7 @@ export function OttSection({ updates = [], onSelectMedia }) {
   const [selectedPlatform, setSelectedPlatform] = useState('all');
 
   const adminOtt = (Array.isArray(updates) ? updates : [])
-    .filter((u) => u.status === 'published' && u.category === 'OTT Updates')
+    .filter((u) => u && typeof u === 'object' && u.status === 'published' && u.category === 'OTT Updates')
     .map((item) => ({
       id: item.id || item.slug,
       title: item.title,

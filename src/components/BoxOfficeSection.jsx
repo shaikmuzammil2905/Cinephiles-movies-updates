@@ -35,7 +35,7 @@ export function AnimatedNumber({ value, prefix = '₹', suffix = ' Cr' }) {
 
 export function BoxOfficeSection({ updates = [], onOpenTollywoodRecords }) {
   const adminBoxOffice = (Array.isArray(updates) ? updates : [])
-    .filter((u) => u.status === 'published' && u.category === 'Box Office')
+    .filter((u) => u && typeof u === 'object' && u.status === 'published' && u.category === 'Box Office')
     .map((item, idx) => ({
       rank: idx + 1,
       movie: item.title,

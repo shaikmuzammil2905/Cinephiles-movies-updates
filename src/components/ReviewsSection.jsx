@@ -4,7 +4,7 @@ import { latestReviews } from '../data/movieData';
 
 export function ReviewsSection({ updates = [], onSelectReview }) {
   const adminReviews = (Array.isArray(updates) ? updates : [])
-    .filter((u) => u.status === 'published' && u.category === 'Reviews')
+    .filter((u) => u && typeof u === 'object' && u.status === 'published' && u.category === 'Reviews')
     .map((item) => ({
       id: item.id || item.slug,
       title: item.title,

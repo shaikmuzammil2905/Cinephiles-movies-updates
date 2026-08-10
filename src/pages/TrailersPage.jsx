@@ -6,7 +6,7 @@ export function TrailersPage({ updates = [], onPlayTrailer }) {
   const [search, setSearch] = useState('');
 
   const adminTrailers = (Array.isArray(updates) ? updates : [])
-    .filter((u) => u.status === 'published' && u.category === 'Trailers')
+    .filter((u) => u && typeof u === 'object' && u.status === 'published' && u.category === 'Trailers')
     .map((item) => ({
       id: item.id || item.slug,
       title: item.title,
