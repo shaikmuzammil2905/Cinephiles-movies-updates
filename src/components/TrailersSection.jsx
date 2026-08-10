@@ -1,17 +1,16 @@
 import React from 'react';
 import { Play, Clock, Eye } from 'lucide-react';
 import { latestTrailers } from '../data/movieData';
+import { formatDate } from '../lib/dateUtils';
 
 export function TrailersSection({ updates = [], onPlayTrailer }) {
   const adminTrailers = (Array.isArray(updates) ? updates : [])
     .filter((u) => u && typeof u === 'object' && u.status === 'published' && u.category === 'Trailers')
     .map((item) => ({
       id: item.id || item.slug,
-      title: item.title,
+      title: item.title || 'Trailer',
       duration: item.extra_data?.duration || '2:45',
-      time: item.published_at
-        ? new Date(item.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-        : 'Recently Released',
+      time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric' }, 'Recently Released'),
       views: item.extra_data?.views || '1.5M Views',
       thumbnail: item.featured_image_url || '/kalki.png',
       youtubeId: item.extra_data?.youtubeId || 'dQw4w9WgXcQ'

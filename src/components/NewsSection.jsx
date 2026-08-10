@@ -1,21 +1,20 @@
 import React from 'react';
 import { Clock, Eye, Newspaper } from 'lucide-react';
 import { movieNews } from '../data/movieData';
+import { formatDate } from '../lib/dateUtils';
 
 export function NewsSection({ updates = [], onSelectArticle }) {
   const adminNewsList = (Array.isArray(updates) ? updates : [])
     .filter((u) => u && typeof u === 'object' && u.status === 'published' && (u.category === 'Movie News' || u.category === 'Top Story'))
     .map((item) => ({
       id: item.id || item.slug,
-      title: item.title,
+      title: item.title || 'Movie News',
       category: item.category || 'Movie News',
-      time: item.published_at
-        ? new Date(item.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-        : 'Just now',
+      time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, 'Just now'),
       views: item.extra_data?.views || '12.4K Views',
       image: item.featured_image_url || '/kalki.png',
-      summary: item.short_description || item.title,
-      content: item.content || item.short_description
+      summary: item.short_description || item.title || '',
+      content: item.content || item.short_description || ''
     }));
 
   const activeFeatured = adminNewsList.length > 0 ? adminNewsList[0] : movieNews.featured;

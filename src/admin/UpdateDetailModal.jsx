@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, Calendar, Tag, User, Eye, Edit3, Trash2, Globe, FileText, CheckCircle, Clock } from 'lucide-react';
+import { formatDate } from '../lib/dateUtils';
 
 export function UpdateDetailModal({ update, isOpen, onClose, onEdit, onDelete }) {
   if (!isOpen || !update) return null;
@@ -22,29 +23,22 @@ export function UpdateDetailModal({ update, isOpen, onClose, onEdit, onDelete })
                   : 'bg-amber-950/80 text-amber-300 border-amber-800'
               }`}
             >
-              {update.status === 'published' ? (
-                <>
-                  <CheckCircle className="w-3 h-3" /> Published
-                </>
-              ) : (
-                <>
-                  <Clock className="w-3 h-3" /> Draft
-                </>
-              )}
+              {update.status === 'published' ? <CheckCircle className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
+              {update.status === 'published' ? 'Published' : 'Draft'}
             </span>
           </div>
 
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-200 p-1.5 rounded-xl hover:bg-slate-800 transition"
+            className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content Body */}
-        <div className="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1 text-slate-200">
-          {/* Featured Image */}
+        <div className="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1 text-slate-300 text-sm">
+          {/* Main Title & Image */}
           {update.featured_image_url && (
             <div className="relative rounded-2xl overflow-hidden border border-slate-800 max-h-80 bg-slate-950">
               <img
@@ -54,21 +48,19 @@ export function UpdateDetailModal({ update, isOpen, onClose, onEdit, onDelete })
               />
             </div>
           )}
-
-          {/* Title & Metadata */}
           <div className="space-y-3">
-            <h2 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-white leading-snug">
               {update.title}
             </h2>
 
-            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400 border-y border-slate-800/80 py-3">
+            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400">
               <div className="flex items-center gap-1.5">
                 <User className="w-3.5 h-3.5 text-red-400" />
                 <span>{update.author || 'Admin'}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-red-400" />
-                <span>{new Date(update.published_at || update.created_at).toLocaleDateString('en-US', { dateStyle: 'medium' })}</span>
+                <span>{formatDate(update.published_at || update.created_at, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
               </div>
               {update.slug && (
                 <div className="flex items-center gap-1.5 text-slate-500 font-mono">

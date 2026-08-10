@@ -14,6 +14,7 @@ import {
   TrendingUp,
   Activity
 } from 'lucide-react';
+import { formatDate } from '../lib/dateUtils';
 
 export function AdminDashboard({
   updates = [],
@@ -132,7 +133,7 @@ export function AdminDashboard({
           </div>
           <div className="text-[10px] text-slate-500">
             {latestUpdate
-              ? new Date(latestUpdate.created_at || Date.now()).toLocaleDateString()
+              ? formatDate(latestUpdate.created_at || latestUpdate.published_at)
               : '-'}
           </div>
         </div>
@@ -148,7 +149,7 @@ export function AdminDashboard({
           </div>
           <div className="text-[10px] text-slate-500">
             {recentlyUpdated
-              ? new Date(recentlyUpdated.updated_at || Date.now()).toLocaleDateString()
+              ? formatDate(recentlyUpdated.updated_at || recentlyUpdated.created_at)
               : '-'}
           </div>
         </div>
@@ -233,7 +234,7 @@ export function AdminDashboard({
                     </td>
 
                     <td className="py-3 px-4 whitespace-nowrap text-slate-400 text-[11px]">
-                      {new Date(item.created_at || item.published_at || Date.now()).toLocaleDateString()}
+                      {formatDate(item.created_at || item.published_at)}
                     </td>
 
                     <td className="py-3 px-4 whitespace-nowrap text-right">

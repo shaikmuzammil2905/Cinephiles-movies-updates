@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Calendar, Eye } from 'lucide-react';
 import { heroArticles, trendingNow } from '../data/movieData';
+import { formatDate } from '../lib/dateUtils';
 
 export function HeroCarousel({ updates = [], onSelectArticle }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -14,9 +15,7 @@ export function HeroCarousel({ updates = [], onSelectArticle }) {
       movieTag: item.extra_data?.movieTag || item.tags?.split(',')[0] || 'Exclusive',
       actor: item.extra_data?.actor || '',
       title: item.title || 'Latest Update',
-      date: item.published_at
-        ? new Date(item.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-        : 'Latest Story',
+      date: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, 'Latest Story'),
       views: item.extra_data?.views || '10.5K Views',
       image: item.featured_image_url || '/kalki.png',
       poster: item.featured_image_url || '/kalki.png',
@@ -35,9 +34,7 @@ export function HeroCarousel({ updates = [], onSelectArticle }) {
     .map((item, idx) => ({
       id: idx + 1,
       title: item.title || 'Movie Update',
-      time: item.published_at
-        ? new Date(item.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-        : 'Just now',
+      time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric' }, 'Just now'),
       image: item.featured_image_url || '/kalki.png',
       summary: item.short_description || item.title || '',
       content: item.content || item.short_description || ''

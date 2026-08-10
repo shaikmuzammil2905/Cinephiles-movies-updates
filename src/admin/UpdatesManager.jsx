@@ -13,6 +13,7 @@ import {
   Sparkles,
   Layers
 } from 'lucide-react';
+import { formatDate } from '../lib/dateUtils';
 
 export function UpdatesManager({
   updates = [],
@@ -273,10 +274,7 @@ export function UpdatesManager({
                     </td>
 
                     <td className="py-3.5 px-4 whitespace-nowrap text-slate-400 text-[11px]">
-                      {new Date(item.created_at || item.published_at || Date.now()).toLocaleDateString(
-                        'en-US',
-                        { month: 'short', day: 'numeric', year: 'numeric' }
-                      )}
+                      {formatDate(item.created_at || item.published_at, { month: 'short', day: 'numeric', year: 'numeric' })}
                     </td>
 
                     <td className="py-3.5 px-4 whitespace-nowrap text-right">
