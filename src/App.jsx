@@ -92,6 +92,13 @@ export default function App() {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [seedLoading, setSeedLoading] = useState(false);
 
+  // Public Modal States
+  const [activeArticle, setActiveArticle] = useState(null);
+  const [activeTrailer, setActiveTrailer] = useState(null);
+  const [showTollywoodRecords, setShowTollywoodRecords] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
+
   // Helper to persist updates locally and in state
   const updateLocalAndState = (newUpdates) => {
     const valid = Array.isArray(newUpdates) ? newUpdates.filter((u) => u && typeof u === 'object' && u.title) : [];
@@ -603,6 +610,15 @@ export default function App() {
       <TollywoodRecordsModal
         isOpen={showTollywoodRecords}
         onClose={() => setShowTollywoodRecords(false)}
+      />
+
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onAdminClick={() => {
+          setShowLoginModal(false);
+          setActiveTab('admin');
+        }}
       />
 
       <SidebarDrawer
