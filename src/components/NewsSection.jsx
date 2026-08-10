@@ -2,8 +2,26 @@ import React from 'react';
 import { Clock, Eye, Newspaper } from 'lucide-react';
 import { movieNews } from '../data/movieData';
 
-export function NewsSection({ onSelectArticle }) {
-  const { featured, list } = movieNews;
+export function NewsSection({ updates = [], onSelectArticle }) {
+  const adminNewsList = (Array.isArray(updates) ? updates : [])
+    .filter((u) => u.status === 'published' && (u.category === 'Movie News' || u.category === 'Top Story'))
+    .map((item) => ({
+      id: item.id || item.slug,
+      title: item.title,
+      category: item.category || 'Movie News',
+      time: item.published_at
+        ? new Date(item.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : 'Just now',
+      views: item.extra_data?.views || '12.4K Views',
+      image: item.featured_image_url || '/kalki.png',
+      summary: item.short_description || item.title,
+      content: item.content || item.short_description
+    }));
+
+  const activeFeatured = adminNewsList.length > 0 ? adminNewsList[0] : movieNews.featured;
+  const activeList = adminNewsList.length > 1
+    ? [...adminNewsList.slice(1), ...movieNews.list]
+    : movieNews.list;
 
   return (
     <div id="news-section" className="space-y-4">
@@ -13,7 +31,7 @@ export function NewsSection({ onSelectArticle }) {
           LATEST MOVIE NEWS
         </h2>
         <button 
-          onClick={() => onSelectArticle(featured)}
+          onClick={() => onSelectArticle(activeFeatured)}
           className="text-xs font-bold text-red-600 hover:text-red-700 transition-colors"
         >
           View All &gt;
@@ -22,54 +40,54 @@ export function NewsSection({ onSelectArticle }) {
 
       {/* Featured Big News Card */}
       <div 
-        onClick={() => onSelectArticle(featured)}
+        onClick={() => onSelectArticle(activeFeatured)}
         className="bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer"
       >
         <div className="relative aspect-[16/9] overflow-hidden bg-slate-900">
           <img
-            src={featured.image}
-            alt={featured.title}
+            src={activeFeatured.image}
+            alt={activeFeatured.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
           <div className="absolute top-3 left-3">
             <span className="bg-[#d90429] text-white text-[11px] font-black uppercase px-2.5 py-0.5 rounded shadow">
-              {featured.category}
+              {activeFeatured.category}
             </span>
           </div>
         </div>
 
         <div className="p-4 space-y-2">
           <h3 className="text-base sm:text-lg font-extrabold text-slate-900 group-hover:text-red-600 transition-colors leading-snug">
-            {featured.title}
+            {activeFeatured.title}
           </h3>
 
           <div className="flex items-center gap-3 text-xs text-slate-500">
             <span className="flex items-center gap-1">
               <Clock className="w-3.5 h-3.5 text-slate-400" />
-              {featured.time}
+              {activeFeatured.time}
             </span>
             <span>•</span>
             <span className="flex items-center gap-1">
               <Eye className="w-3.5 h-3.5 text-slate-400" />
-              {featured.views}
+              {activeFeatured.views}
             </span>
           </div>
 
           <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
-            {featured.summary}
+            {activeFeatured.summary}
           </p>
         </div>
       </div>
 
       {/* List items below featured */}
       <div className="space-y-3 pt-1">
-        {list.map((item) => (
+        {activeList.map((item) => (
           <div
             key={item.id}
             onClick={() => onSelectArticle({
               ...item,
               date: item.time,
-              content: `${item.summary}\n\nExclusive details: Production team confirms that key creative discussions have concluded with optimistic timelines. Stay tuned to Telangana Box Office for live updates.`
+              content: item.content || `${item.summary}\n\nExclusive details: Stay tuned to Telangana Box Office for live updates.`
             })}
             className="bg-white p-2.5 rounded-xl border border-slate-200 hover:border-red-500/50 flex gap-3 group cursor-pointer transition-all hover:shadow-sm"
           >

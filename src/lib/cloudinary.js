@@ -1,7 +1,10 @@
+const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'sswvfb6h';
+const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'ml_default';
+
 export const CLOUDINARY_CONFIG = {
-  cloudName: 'sswvfb6h',
-  uploadPreset: 'ml_default',
-  uploadUrl: 'https://api.cloudinary.com/v1_1/sswvfb6h/image/upload'
+  cloudName,
+  uploadPreset,
+  uploadUrl: `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`
 };
 
 /**

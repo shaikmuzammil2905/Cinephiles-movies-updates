@@ -2,7 +2,23 @@ import React from 'react';
 import { Star, ChevronRight } from 'lucide-react';
 import { latestReviews } from '../data/movieData';
 
-export function ReviewsSection({ onSelectReview }) {
+export function ReviewsSection({ updates = [], onSelectReview }) {
+  const adminReviews = (Array.isArray(updates) ? updates : [])
+    .filter((u) => u.status === 'published' && u.category === 'Reviews')
+    .map((item) => ({
+      id: item.id || item.slug,
+      title: item.title,
+      rating: item.extra_data?.rating || '4.0',
+      director: item.extra_data?.director || 'Director',
+      cast: item.extra_data?.cast || 'Star Cast',
+      verdict: item.extra_data?.verdict || 'MUST WATCH',
+      poster: item.featured_image_url || '/kalki.png',
+      summary: item.short_description || item.title,
+      content: item.content || item.short_description
+    }));
+
+  const activeReviews = adminReviews.length > 0 ? [...adminReviews, ...latestReviews] : latestReviews;
+
   return (
     <div id="reviews-section" className="space-y-4">
       {/* Section Header */}
@@ -12,7 +28,7 @@ export function ReviewsSection({ onSelectReview }) {
           LATEST REVIEWS
         </h2>
         <button 
-          onClick={() => onSelectReview(latestReviews[0])}
+          onClick={() => onSelectReview(activeReviews[0])}
           className="text-xs font-bold text-red-600 hover:text-red-700 transition-colors"
         >
           View All &gt;
@@ -21,7 +37,7 @@ export function ReviewsSection({ onSelectReview }) {
 
       {/* Review List matching mobile & desktop screenshots */}
       <div className="space-y-3">
-        {latestReviews.map((review) => (
+        {activeReviews.map((review) => (
           <div
             key={review.id}
             onClick={() => onSelectReview(review)}

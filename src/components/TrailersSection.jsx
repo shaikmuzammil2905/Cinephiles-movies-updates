@@ -2,7 +2,23 @@ import React from 'react';
 import { Play, Clock, Eye } from 'lucide-react';
 import { latestTrailers } from '../data/movieData';
 
-export function TrailersSection({ onPlayTrailer }) {
+export function TrailersSection({ updates = [], onPlayTrailer }) {
+  const adminTrailers = (Array.isArray(updates) ? updates : [])
+    .filter((u) => u.status === 'published' && u.category === 'Trailers')
+    .map((item) => ({
+      id: item.id || item.slug,
+      title: item.title,
+      duration: item.extra_data?.duration || '2:45',
+      time: item.published_at
+        ? new Date(item.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        : 'Recently Released',
+      views: item.extra_data?.views || '1.5M Views',
+      thumbnail: item.featured_image_url || '/kalki.png',
+      youtubeId: item.extra_data?.youtubeId || 'dQw4w9WgXcQ'
+    }));
+
+  const activeTrailers = adminTrailers.length > 0 ? [...adminTrailers, ...latestTrailers] : latestTrailers;
+
   return (
     <section id="trailers-section" className="py-6 bg-slate-50 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
@@ -14,7 +30,7 @@ export function TrailersSection({ onPlayTrailer }) {
             LATEST TRAILERS
           </h2>
           <button 
-            onClick={() => onPlayTrailer(latestTrailers[0])}
+            onClick={() => onPlayTrailer(activeTrailers[0])}
             className="text-xs font-bold text-red-600 hover:text-red-700 transition-colors"
           >
             View All &gt;
@@ -23,7 +39,7 @@ export function TrailersSection({ onPlayTrailer }) {
 
         {/* Trailers Grid matching image copy.png */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {latestTrailers.map((trailer) => (
+          {activeTrailers.map((trailer) => (
             <div
               key={trailer.id}
               onClick={() => onPlayTrailer(trailer)}

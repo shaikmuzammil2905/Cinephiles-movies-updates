@@ -33,7 +33,19 @@ export function AnimatedNumber({ value, prefix = '₹', suffix = ' Cr' }) {
   );
 }
 
-export function BoxOfficeSection({ onOpenTollywoodRecords }) {
+export function BoxOfficeSection({ updates = [], onOpenTollywoodRecords }) {
+  const adminBoxOffice = (Array.isArray(updates) ? updates : [])
+    .filter((u) => u.status === 'published' && u.category === 'Box Office')
+    .map((item, idx) => ({
+      rank: idx + 1,
+      movie: item.title,
+      indiaNet: parseFloat(item.extra_data?.indiaNet || item.extra_data?.gross || '500'),
+      worldwide: parseFloat(item.extra_data?.worldwide || item.extra_data?.gross || '850'),
+      poster: item.featured_image_url || '/kalki.png'
+    }));
+
+  const activeBoxOffice = adminBoxOffice.length > 0 ? [...adminBoxOffice, ...boxOfficeSummary] : boxOfficeSummary;
+
   return (
     <div id="boxoffice-section" className="space-y-4">
       
@@ -64,7 +76,7 @@ export function BoxOfficeSection({ onOpenTollywoodRecords }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 font-medium text-xs sm:text-sm">
-              {boxOfficeSummary.map((item) => (
+              {activeBoxOffice.map((item, idx) => (
                 <tr key={item.rank} className="hover:bg-slate-50 transition-colors">
                   <td className="px-2 py-2 sm:px-3 sm:py-2.5 font-bold text-slate-700 text-center">{item.rank}</td>
                   <td className="px-2 py-2 sm:px-3 sm:py-2.5 font-bold text-slate-900 flex items-center gap-2">

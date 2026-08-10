@@ -2,24 +2,64 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Calendar, Eye } from 'lucide-react';
 import { heroArticles, trendingNow } from '../data/movieData';
 
-export function HeroCarousel({ onSelectArticle }) {
+export function HeroCarousel({ updates = [], onSelectArticle }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Transform published admin "Top Story" updates for Hero Slider
+  const adminHeroArticles = (Array.isArray(updates) ? updates : [])
+    .filter((u) => u.status === 'published' && u.category === 'Top Story')
+    .map((item) => ({
+      id: item.id || item.slug,
+      badge: item.extra_data?.badge || item.tags || 'TOP STORY',
+      movieTag: item.extra_data?.movieTag || item.tags?.split(',')[0] || 'Exclusive',
+      actor: item.extra_data?.actor || '',
+      title: item.title,
+      date: item.published_at
+        ? new Date(item.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : 'Latest Story',
+      views: item.extra_data?.views || '10.5K Views',
+      image: item.featured_image_url || '/kalki.png',
+      poster: item.featured_image_url || '/kalki.png',
+      summary: item.short_description || item.title,
+      content: item.content || item.short_description
+    }));
+
+  const activeHeroArticles = adminHeroArticles.length > 0
+    ? [...adminHeroArticles, ...heroArticles]
+    : heroArticles;
+
+  // Transform published admin "Movie News" for Trending Sidebar
+  const adminTrending = (Array.isArray(updates) ? updates : [])
+    .filter((u) => u.status === 'published' && (u.category === 'Movie News' || u.category === 'Top Story'))
+    .slice(0, 5)
+    .map((item, idx) => ({
+      id: idx + 1,
+      title: item.title,
+      time: item.published_at
+        ? new Date(item.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        : 'Just now',
+      image: item.featured_image_url || '/kalki.png',
+      summary: item.short_description || item.title,
+      content: item.content || item.short_description
+    }));
+
+  const activeTrending = adminTrending.length > 0 ? adminTrending : trendingNow;
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % heroArticles.length);
+      setCurrentIndex((prev) => (prev + 1) % activeHeroArticles.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [activeHeroArticles.length]);
 
-  const current = heroArticles[currentIndex];
+  const current = activeHeroArticles[currentIndex] || activeHeroArticles[0];
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + heroArticles.length) % heroArticles.length);
+    setCurrentIndex((prev) => (prev - 1 + activeHeroArticles.length) % activeHeroArticles.length);
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % heroArticles.length);
+    setCurrentIndex((prev) => (prev + 1) % activeHeroArticles.length);
   };
 
   return (
@@ -87,7 +127,7 @@ export function HeroCarousel({ onSelectArticle }) {
 
                 {/* Dots Indicator */}
                 <div className="flex items-center gap-1 sm:gap-2">
-                  {heroArticles.map((_, idx) => (
+                  {activeHeroArticles.map((_, idx) => (
                     <button
                       key={idx}
                       onClick={() => setCurrentIndex(idx)}
@@ -114,7 +154,7 @@ export function HeroCarousel({ onSelectArticle }) {
             </div>
 
             <div className="divide-y divide-slate-100 space-y-2 pt-2">
-              {trendingNow.map((item) => (
+              {activeTrending.map((item) => (
                 <div
                   key={item.id}
                   onClick={() => onSelectArticle({
@@ -122,8 +162,8 @@ export function HeroCarousel({ onSelectArticle }) {
                     date: item.time,
                     views: '9.4K Views',
                     image: item.image,
-                    summary: item.title,
-                    content: `Full analysis and coverage for: ${item.title}. Released ${item.time}. Trade experts and fans are actively discussing this major industry news update.`
+                    summary: item.summary || item.title,
+                    content: item.content || `Full analysis and coverage for: ${item.title}. Released ${item.time}.`
                   })}
                   className="pt-2.5 flex items-center gap-3 group cursor-pointer"
                 >

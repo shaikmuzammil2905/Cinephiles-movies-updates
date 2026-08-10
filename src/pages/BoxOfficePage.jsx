@@ -3,9 +3,21 @@ import { BarChart3, Trophy, TrendingUp, Search, Award, Flame } from 'lucide-reac
 import { boxOfficeSummary, tollywoodSecondWeekRecords } from '../data/movieData';
 import { AnimatedNumber } from '../components/BoxOfficeSection';
 
-export function BoxOfficePage({ onOpenTollywoodRecords }) {
+export function BoxOfficePage({ updates = [], onOpenTollywoodRecords }) {
   const [search, setSearch] = useState('');
   const [activeTab, setActiveTab] = useState('summary'); // 'summary' or 'tollywood2ndWeek'
+
+  const adminBoxOffice = (Array.isArray(updates) ? updates : [])
+    .filter((u) => u.status === 'published' && u.category === 'Box Office')
+    .map((item, idx) => ({
+      rank: idx + 1,
+      movie: item.title,
+      indiaNet: parseFloat(item.extra_data?.indiaNet || item.extra_data?.gross || '500'),
+      worldwide: parseFloat(item.extra_data?.worldwide || item.extra_data?.gross || '850'),
+      poster: item.featured_image_url || '/kalki.png'
+    }));
+
+  const activeBoxOffice = adminBoxOffice.length > 0 ? [...adminBoxOffice, ...boxOfficeSummary] : boxOfficeSummary;
 
   const filteredRecords = tollywoodSecondWeekRecords.filter(item =>
     item.movie.toLowerCase().includes(search.toLowerCase()) ||
@@ -113,7 +125,7 @@ export function BoxOfficePage({ onOpenTollywoodRecords }) {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-medium">
-                  {boxOfficeSummary.map((item) => (
+                  {activeBoxOffice.map((item, idx) => (
                     <tr key={item.rank} className="hover:bg-slate-50 transition-colors">
                       <td className="p-3 text-center font-bold text-slate-700">{item.rank}</td>
                       <td className="p-3 font-extrabold text-slate-900 flex items-center gap-3">

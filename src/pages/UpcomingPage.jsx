@@ -2,9 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, Search, Sparkles } from 'lucide-react';
 import { upcomingReleases } from '../data/movieData';
 
-export function UpcomingPage({ onSelectMovie }) {
+export function UpcomingPage({ updates = [], onSelectMovie }) {
   const [search, setSearch] = useState('');
-  const [timers, setTimers] = useState(upcomingReleases);
+
+  const adminUpcoming = (Array.isArray(updates) ? updates : [])
+    .filter((u) => u.status === 'published' && u.category === 'Upcoming Releases')
+    .map((item) => ({
+      id: item.id || item.slug,
+      title: item.title,
+      releaseDate: item.extra_data?.releaseDate || 'Coming Soon',
+      days: parseInt(item.extra_data?.days || '14', 10),
+      hrs: parseInt(item.extra_data?.hrs || '6', 10),
+      mins: parseInt(item.extra_data?.mins || '45', 10),
+      poster: item.featured_image_url || '/kalki.png'
+    }));
+
+  const activeUpcoming = adminUpcoming.length > 0 ? [...adminUpcoming, ...upcomingReleases] : upcomingReleases;
+  const [timers, setTimers] = useState(activeUpcoming);
+
+  useEffect(() => {
+    setTimers(activeUpcoming);
+  }, [updates]);
 
   useEffect(() => {
     const interval = setInterval(() => {

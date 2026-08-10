@@ -2,12 +2,30 @@ import React, { useState } from 'react';
 import { Play, Sparkles, Tv, CheckCircle2 } from 'lucide-react';
 import { ottPlatforms, ottUpdates } from '../data/movieData';
 
-export function OttSection({ onSelectMedia }) {
+export function OttSection({ updates = [], onSelectMedia }) {
   const [selectedPlatform, setSelectedPlatform] = useState('all');
 
+  const adminOtt = (Array.isArray(updates) ? updates : [])
+    .filter((u) => u.status === 'published' && u.category === 'OTT Updates')
+    .map((item) => ({
+      id: item.id || item.slug,
+      title: item.title,
+      platform: item.extra_data?.platform || 'netflix',
+      platformName: item.extra_data?.platformName || 'Netflix',
+      status: item.extra_data?.status || 'Streaming Now',
+      quality: item.extra_data?.quality || '4K Ultra HD',
+      language: item.extra_data?.language || 'Telugu, Hindi',
+      releaseDate: item.extra_data?.releaseDate || 'Streaming Now',
+      poster: item.featured_image_url || '/kalki.png',
+      description: item.short_description || item.title,
+      content: item.content || item.short_description
+    }));
+
+  const allOttUpdates = adminOtt.length > 0 ? [...adminOtt, ...ottUpdates] : ottUpdates;
+
   const filteredUpdates = selectedPlatform === 'all'
-    ? ottUpdates
-    : ottUpdates.filter(item => item.platform === selectedPlatform);
+    ? allOttUpdates
+    : allOttUpdates.filter(item => item.platform === selectedPlatform);
 
   return (
     <section id="ott-section" className="py-6 bg-white border-y border-slate-200">

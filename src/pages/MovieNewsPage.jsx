@@ -2,13 +2,32 @@ import React, { useState } from 'react';
 import { Newspaper, Search, Eye, Clock, Calendar, ArrowRight } from 'lucide-react';
 import { movieNews, heroArticles } from '../data/movieData';
 
-export function MovieNewsPage({ onSelectArticle }) {
+export function MovieNewsPage({ updates = [], onSelectArticle }) {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('ALL');
 
   const categories = ['ALL', 'TOLLYWOOD', 'BOLLYWOOD', 'PAN-INDIA', 'EXCLUSIVE', 'BOX OFFICE'];
 
+  const adminNews = (Array.isArray(updates) ? updates : [])
+    .filter((u) => u.status === 'published' && (u.category === 'Movie News' || u.category === 'Top Story'))
+    .map((item) => ({
+      id: item.id || item.slug,
+      title: item.title,
+      badge: item.extra_data?.badge || item.category || 'NEWS',
+      date: item.published_at
+        ? new Date(item.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : 'Recently Added',
+      time: item.published_at
+        ? new Date(item.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : 'Recently Added',
+      views: item.extra_data?.views || '9.8K Views',
+      image: item.featured_image_url || '/kalki.png',
+      summary: item.short_description || item.title,
+      content: item.content || item.short_description
+    }));
+
   const allNews = [
+    ...adminNews,
     heroArticles[0],
     heroArticles[1],
     heroArticles[2],

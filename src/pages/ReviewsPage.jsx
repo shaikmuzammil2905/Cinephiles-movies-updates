@@ -2,15 +2,31 @@ import React, { useState } from 'react';
 import { Star, Search, Filter, CheckCircle } from 'lucide-react';
 import { latestReviews } from '../data/movieData';
 
-export function ReviewsPage({ onSelectReview }) {
+export function ReviewsPage({ updates = [], onSelectReview }) {
   const [search, setSearch] = useState('');
   const [minRating, setMinRating] = useState(0);
 
-  const filtered = latestReviews.filter((item) => {
+  const adminReviews = (Array.isArray(updates) ? updates : [])
+    .filter((u) => u.status === 'published' && u.category === 'Reviews')
+    .map((item) => ({
+      id: item.id || item.slug,
+      title: item.title,
+      rating: item.extra_data?.rating || '4.0',
+      director: item.extra_data?.director || 'Director',
+      cast: item.extra_data?.cast || 'Star Cast',
+      verdict: item.extra_data?.verdict || 'MUST WATCH',
+      poster: item.featured_image_url || '/kalki.png',
+      summary: item.short_description || item.title,
+      content: item.content || item.short_description
+    }));
+
+  const activeReviews = adminReviews.length > 0 ? [...adminReviews, ...latestReviews] : latestReviews;
+
+  const filtered = activeReviews.filter((item) => {
     const ratingVal = parseFloat(item.rating);
     const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) ||
-                          item.director.toLowerCase().includes(search.toLowerCase()) ||
-                          item.cast.toLowerCase().includes(search.toLowerCase());
+                          (item.director && item.director.toLowerCase().includes(search.toLowerCase())) ||
+                          (item.cast && item.cast.toLowerCase().includes(search.toLowerCase()));
     return ratingVal >= minRating && matchesSearch;
   });
 

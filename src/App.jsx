@@ -57,8 +57,19 @@ export default function App() {
   const [session, setSession] = useState(null);
   const [adminTab, setAdminTab] = useState('dashboard');
 
-  // Supabase Data State
-  const [updates, setUpdates] = useState([]);
+  // Supabase & Local Data State
+  const [updates, setUpdates] = useState(() => {
+    try {
+      const saved = localStorage.getItem('tbo_cms_updates');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      console.warn('LocalStorage parse notice:', e);
+    }
+    return getInitialSeedUpdates();
+  });
   const [categories, setCategories] = useState([]);
   const [loadingUpdates, setLoadingUpdates] = useState(true);
   const [toast, setToast] = useState(null);
@@ -72,12 +83,15 @@ export default function App() {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [seedLoading, setSeedLoading] = useState(false);
 
-  // Public Modal States
-  const [activeArticle, setActiveArticle] = useState(null);
-  const [activeTrailer, setActiveTrailer] = useState(null);
-  const [showTollywoodRecords, setShowTollywoodRecords] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(false);
+  // Helper to persist updates locally and in state
+  const updateLocalAndState = (newUpdates) => {
+    setUpdates(newUpdates);
+    try {
+      localStorage.setItem('tbo_cms_updates', JSON.stringify(newUpdates));
+    } catch (e) {
+      console.warn('LocalStorage save notice:', e);
+    }
+  };
 
   // Show toast notification utility
   const showToast = (message, type = 'success') => {
@@ -112,13 +126,12 @@ export default function App() {
 
       if (updatesErr) {
         console.warn('Supabase updates fetch notice:', updatesErr.message);
-        // Fallback to initial seeds if database is empty/unseeded
-        setUpdates(getInitialSeedUpdates());
       } else if (updatesData && updatesData.length > 0) {
-        setUpdates(updatesData);
+        updateLocalAndState(updatesData);
       } else {
         // Table empty -> set seeds locally so admin panel can show & seed them
-        setUpdates(getInitialSeedUpdates());
+        const seeds = getInitialSeedUpdates();
+        updateLocalAndState(seeds);
       }
 
       // Fetch Categories
@@ -138,7 +151,6 @@ export default function App() {
       }
     } catch (err) {
       console.error('Error fetching Supabase data:', err);
-      setUpdates(getInitialSeedUpdates());
     } finally {
       setLoadingUpdates(false);
     }
@@ -162,30 +174,55 @@ export default function App() {
   // 3. Admin Actions (Create / Edit / Delete / Toggle Status)
   const handleSaveUpdate = async (updateData) => {
     try {
+      let savedRecord = { ...updateData };
+
       if (editingUpdate?.id) {
         // UPDATE existing record
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('updates')
           .update(updateData)
-          .eq('id', editingUpdate.id);
+          .eq('id', editingUpdate.id)
+          .select();
 
         if (error) throw error;
+        if (data && data[0]) savedRecord = data[0];
         showToast('Update modified successfully!');
       } else {
         // INSERT new record
-        const { error } = await supabase.from('updates').insert([updateData]);
+        const { data, error } = await supabase.from('updates').insert([updateData]).select();
         if (error) throw error;
+        if (data && data[0]) savedRecord = data[0];
         showToast('New update created and published!');
       }
+
+      setUpdates((prev) => {
+        let updatedList;
+        if (editingUpdate) {
+          updatedList = prev.map((u) => (u.id === editingUpdate.id || u.slug === editingUpdate.slug ? { ...u, ...savedRecord } : u));
+        } else {
+          updatedList = [{ id: savedRecord.id || `up-${Date.now()}`, ...savedRecord }, ...prev];
+        }
+        try {
+          localStorage.setItem('tbo_cms_updates', JSON.stringify(updatedList));
+        } catch (e) {}
+        return updatedList;
+      });
+
       fetchSupabaseData();
     } catch (err) {
       console.warn('Supabase save fallback to local state:', err.message);
       // Fallback update in state if Supabase table is not yet created
       setUpdates((prev) => {
+        let updatedList;
         if (editingUpdate) {
-          return prev.map((u) => (u.id === editingUpdate.id ? { ...u, ...updateData } : u));
+          updatedList = prev.map((u) => (u.id === editingUpdate.id ? { ...u, ...updateData } : u));
+        } else {
+          updatedList = [{ id: `up-${Date.now()}`, published_at: new Date().toISOString(), ...updateData }, ...prev];
         }
-        return [{ id: `up-${Date.now()}`, ...updateData }, ...prev];
+        try {
+          localStorage.setItem('tbo_cms_updates', JSON.stringify(updatedList));
+        } catch (e) {}
+        return updatedList;
       });
       showToast('Update saved successfully!');
     }
@@ -200,7 +237,13 @@ export default function App() {
         const { error } = await supabase.from('updates').delete().eq('id', deletingUpdate.id);
         if (error) console.warn('Supabase delete notice:', error.message);
       }
-      setUpdates((prev) => prev.filter((u) => u.id !== deletingUpdate.id && u.slug !== deletingUpdate.slug));
+      setUpdates((prev) => {
+        const filtered = prev.filter((u) => u.id !== deletingUpdate.id && u.slug !== deletingUpdate.slug);
+        try {
+          localStorage.setItem('tbo_cms_updates', JSON.stringify(filtered));
+        } catch (e) {}
+        return filtered;
+      });
       showToast('Update deleted successfully!');
       fetchSupabaseData();
     } catch (err) {
@@ -217,9 +260,13 @@ export default function App() {
       if (item.id) {
         await supabase.from('updates').update({ status: newStatus }).eq('id', item.id);
       }
-      setUpdates((prev) =>
-        prev.map((u) => (u.id === item.id ? { ...u, status: newStatus } : u))
-      );
+      setUpdates((prev) => {
+        const updatedList = prev.map((u) => (u.id === item.id || u.slug === item.slug ? { ...u, status: newStatus } : u));
+        try {
+          localStorage.setItem('tbo_cms_updates', JSON.stringify(updatedList));
+        } catch (e) {}
+        return updatedList;
+      });
       showToast(`Update status changed to ${newStatus}`);
     } catch (err) {
       showToast('Failed to change status', 'error');
@@ -432,15 +479,16 @@ export default function App() {
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Breaking News Ticker */}
-      <BreakingTicker />
+      <BreakingTicker updates={updates} />
 
       {/* Main Page Rendering */}
       <main className="flex-1 pb-20 md:pb-0">
         {activeTab === 'home' && (
           <div className="space-y-6">
-            <HeroCarousel onSelectArticle={handleOpenArticle} />
+            <HeroCarousel updates={updates} onSelectArticle={handleOpenArticle} />
 
             <OttSection
+              updates={updates}
               onSelectMedia={(item) =>
                 handleOpenArticle({
                   title: `${item.title} (${item.platformName || 'OTT'})`,
@@ -455,13 +503,14 @@ export default function App() {
 
             <section className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <NewsSection onSelectArticle={handleOpenArticle} />
-                <BoxOfficeSection onOpenTollywoodRecords={() => setShowTollywoodRecords(true)} />
-                <ReviewsSection onSelectReview={handleOpenReview} />
+                <NewsSection updates={updates} onSelectArticle={handleOpenArticle} />
+                <BoxOfficeSection updates={updates} onOpenTollywoodRecords={() => setShowTollywoodRecords(true)} />
+                <ReviewsSection updates={updates} onSelectReview={handleOpenReview} />
               </div>
             </section>
 
             <UpcomingReleases
+              updates={updates}
               onSelectMovie={(movie) =>
                 handleOpenArticle({
                   title: `${movie.title} - Theatrical Release`,
@@ -474,7 +523,7 @@ export default function App() {
               }
             />
 
-            <TrailersSection onPlayTrailer={(trailer) => setActiveTrailer(trailer)} />
+            <TrailersSection updates={updates} onPlayTrailer={(trailer) => setActiveTrailer(trailer)} />
 
             <Newsletter />
           </div>
@@ -483,6 +532,7 @@ export default function App() {
         {/* Dedicated Standalone Pages */}
         {activeTab === 'ott' && (
           <OttPage
+            updates={updates}
             onSelectMedia={(item) =>
               handleOpenArticle({
                 title: `${item.title} (${item.platformName || 'OTT'})`,
@@ -496,20 +546,21 @@ export default function App() {
           />
         )}
 
-        {activeTab === 'news' && <MovieNewsPage onSelectArticle={handleOpenArticle} />}
+        {activeTab === 'news' && <MovieNewsPage updates={updates} onSelectArticle={handleOpenArticle} />}
 
-        {activeTab === 'reviews' && <ReviewsPage onSelectReview={handleOpenReview} />}
+        {activeTab === 'reviews' && <ReviewsPage updates={updates} onSelectReview={handleOpenReview} />}
 
         {activeTab === 'boxoffice' && (
-          <BoxOfficePage onOpenTollywoodRecords={() => setShowTollywoodRecords(true)} />
+          <BoxOfficePage updates={updates} onOpenTollywoodRecords={() => setShowTollywoodRecords(true)} />
         )}
 
         {activeTab === 'trailers' && (
-          <TrailersPage onPlayTrailer={(trailer) => setActiveTrailer(trailer)} />
+          <TrailersPage updates={updates} onPlayTrailer={(trailer) => setActiveTrailer(trailer)} />
         )}
 
         {activeTab === 'releases' && (
           <UpcomingPage
+            updates={updates}
             onSelectMovie={(movie) =>
               handleOpenArticle({
                 title: `${movie.title} - Release Update`,

@@ -1,14 +1,19 @@
 import React from 'react';
 import { FacebookIcon, InstagramIcon, TwitterIcon, YoutubeIcon } from './SocialIcons';
 
-export function BreakingTicker() {
-  const newsTickerList = [
+export function BreakingTicker({ updates = [] }) {
+  const defaultTickerList = [
     '🔥 Kalki 2898 AD crosses ₹1100 Cr worldwide in just 10 days',
     '⚡ Pushpa 2: The Rule box office collections hit ₹1500 Crore milestone',
     '🎬 SSMB29 shooting officially begins in Kenya with SS Rajamouli & Mahesh Babu',
     '💥 Pawan Kalyan OG climax shoot completed with massive vintage weapons',
     '⭐ Sitaare Zameen Par official trailer released, fans praise Aamir Khan'
   ];
+
+  const publishedUpdates = Array.isArray(updates) ? updates.filter(u => u.status === 'published') : [];
+  const newsTickerList = publishedUpdates.length > 0
+    ? publishedUpdates.slice(0, 10).map(u => `🔥 ${u.title}`)
+    : defaultTickerList;
 
   return (
     <div className="bg-slate-100 border-b border-slate-200 py-1.5 px-2.5 sm:px-6 w-full max-w-full overflow-hidden">

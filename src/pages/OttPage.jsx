@@ -2,14 +2,32 @@ import React, { useState } from 'react';
 import { Sparkles, Play, Search, Calendar, Tv } from 'lucide-react';
 import { ottPlatforms, ottUpdates } from '../data/movieData';
 
-export function OttPage({ onSelectMedia }) {
+export function OttPage({ updates = [], onSelectMedia }) {
   const [selectedPlatform, setSelectedPlatform] = useState('all');
   const [search, setSearch] = useState('');
 
-  const filtered = ottUpdates.filter((item) => {
+  const adminOtt = (Array.isArray(updates) ? updates : [])
+    .filter((u) => u.status === 'published' && u.category === 'OTT Updates')
+    .map((item) => ({
+      id: item.id || item.slug,
+      title: item.title,
+      platform: item.extra_data?.platform || 'netflix',
+      platformName: item.extra_data?.platformName || 'Netflix',
+      status: item.extra_data?.status || 'Streaming Now',
+      quality: item.extra_data?.quality || '4K Ultra HD',
+      language: item.extra_data?.language || 'Telugu, Hindi',
+      releaseDate: item.extra_data?.releaseDate || 'Streaming Now',
+      poster: item.featured_image_url || '/kalki.png',
+      description: item.short_description || item.title,
+      content: item.content || item.short_description
+    }));
+
+  const allOttUpdates = adminOtt.length > 0 ? [...adminOtt, ...ottUpdates] : ottUpdates;
+
+  const filtered = allOttUpdates.filter((item) => {
     const matchesPlatform = selectedPlatform === 'all' || item.platform === selectedPlatform;
     const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) ||
-                          item.description.toLowerCase().includes(search.toLowerCase());
+                          (item.description && item.description.toLowerCase().includes(search.toLowerCase()));
     return matchesPlatform && matchesSearch;
   });
 
