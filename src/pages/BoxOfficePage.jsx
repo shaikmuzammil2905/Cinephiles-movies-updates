@@ -19,10 +19,13 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords }) {
 
   const activeBoxOffice = adminBoxOffice.length > 0 ? [...adminBoxOffice, ...boxOfficeSummary] : boxOfficeSummary;
 
-  const filteredRecords = tollywoodSecondWeekRecords.filter(item =>
-    item.movie.toLowerCase().includes(search.toLowerCase()) ||
-    item.hero.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredRecords = (tollywoodSecondWeekRecords || []).filter((item) => {
+    if (!item) return false;
+    const movieStr = String(item.movie || '').toLowerCase();
+    const heroStr = String(item.hero || '').toLowerCase();
+    const searchStr = String(search || '').toLowerCase();
+    return movieStr.includes(searchStr) || heroStr.includes(searchStr);
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-8 space-y-4 sm:space-y-6 animate-in fade-in">

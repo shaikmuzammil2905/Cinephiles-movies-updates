@@ -32,10 +32,12 @@ export function MovieNewsPage({ updates = [], onSelectArticle }) {
     ...movieNews.list
   ];
 
-  const filtered = allNews.filter(item => {
-    const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) ||
-                          (item.summary && item.summary.toLowerCase().includes(search.toLowerCase()));
-    return matchesSearch;
+  const filtered = allNews.filter((item) => {
+    if (!item) return false;
+    const titleStr = String(item.title || '').toLowerCase();
+    const summaryStr = String(item.summary || '').toLowerCase();
+    const searchStr = String(search || '').toLowerCase();
+    return titleStr.includes(searchStr) || summaryStr.includes(searchStr);
   });
 
   return (

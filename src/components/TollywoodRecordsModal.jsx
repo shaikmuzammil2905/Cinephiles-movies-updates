@@ -8,10 +8,13 @@ export function TollywoodRecordsModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const filteredRecords = tollywoodSecondWeekRecords.filter(item =>
-    item.movie.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.hero.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredRecords = (tollywoodSecondWeekRecords || []).filter((item) => {
+    if (!item) return false;
+    const movieStr = String(item.movie || '').toLowerCase();
+    const heroStr = String(item.hero || '').toLowerCase();
+    const searchStr = String(searchTerm || '').toLowerCase();
+    return movieStr.includes(searchStr) || heroStr.includes(searchStr);
+  });
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 bg-slate-950/80 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200">

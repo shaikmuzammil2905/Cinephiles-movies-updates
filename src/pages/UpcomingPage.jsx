@@ -50,9 +50,12 @@ export function UpcomingPage({ updates = [], onSelectMovie }) {
     return () => clearInterval(interval);
   }, []);
 
-  const filtered = timers.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = (timers || []).filter((item) => {
+    if (!item) return false;
+    const titleStr = String(item.title || '').toLowerCase();
+    const searchStr = String(search || '').toLowerCase();
+    return titleStr.includes(searchStr);
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-8 space-y-6 animate-in fade-in">

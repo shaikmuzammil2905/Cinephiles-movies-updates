@@ -25,10 +25,12 @@ export function OttPage({ updates = [], onSelectMedia }) {
   const allOttUpdates = adminOtt.length > 0 ? [...adminOtt, ...ottUpdates] : ottUpdates;
 
   const filtered = allOttUpdates.filter((item) => {
+    if (!item) return false;
     const matchesPlatform = selectedPlatform === 'all' || item.platform === selectedPlatform;
-    const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) ||
-                          (item.description && item.description.toLowerCase().includes(search.toLowerCase()));
-    return matchesPlatform && matchesSearch;
+    const titleStr = String(item.title || '').toLowerCase();
+    const descStr = String(item.description || '').toLowerCase();
+    const searchStr = String(search || '').toLowerCase();
+    return matchesPlatform && (titleStr.includes(searchStr) || descStr.includes(searchStr));
   });
 
   return (

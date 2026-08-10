@@ -10,9 +10,9 @@ export function BreakingTicker({ updates = [] }) {
     '⭐ Sitaare Zameen Par official trailer released, fans praise Aamir Khan'
   ];
 
-  const publishedUpdates = Array.isArray(updates) ? updates.filter(u => u.status === 'published') : [];
+  const publishedUpdates = Array.isArray(updates) ? updates.filter(u => u && typeof u === 'object' && u.status === 'published') : [];
   const newsTickerList = publishedUpdates.length > 0
-    ? publishedUpdates.slice(0, 10).map(u => `🔥 ${u.title}`)
+    ? publishedUpdates.slice(0, 10).map(u => `🔥 ${u.title || 'Latest Movie Update'}`)
     : defaultTickerList;
 
   return (

@@ -23,11 +23,13 @@ export function ReviewsPage({ updates = [], onSelectReview }) {
   const activeReviews = adminReviews.length > 0 ? [...adminReviews, ...latestReviews] : latestReviews;
 
   const filtered = activeReviews.filter((item) => {
-    const ratingVal = parseFloat(item.rating);
-    const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase()) ||
-                          (item.director && item.director.toLowerCase().includes(search.toLowerCase())) ||
-                          (item.cast && item.cast.toLowerCase().includes(search.toLowerCase()));
-    return ratingVal >= minRating && matchesSearch;
+    if (!item) return false;
+    const ratingVal = parseFloat(item.rating || '0');
+    const titleStr = String(item.title || '').toLowerCase();
+    const dirStr = String(item.director || '').toLowerCase();
+    const castStr = String(item.cast || '').toLowerCase();
+    const searchStr = String(search || '').toLowerCase();
+    return (isNaN(minRating) || ratingVal >= minRating) && (titleStr.includes(searchStr) || dirStr.includes(searchStr) || castStr.includes(searchStr));
   });
 
   return (
