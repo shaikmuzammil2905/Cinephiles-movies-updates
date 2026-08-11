@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, Award, BarChart3, ChevronRight } from 'lucide-react';
-import { boxOfficeSummary, tollywoodSecondWeekRecords } from '../data/movieData';
 
 // Helper component for animated number counting (typing effect)
 export function AnimatedNumber({ value, prefix = '₹', suffix = ' Cr' }) {
@@ -44,7 +43,7 @@ export function BoxOfficeSection({ updates = [], onOpenTollywoodRecords }) {
       poster: item.featured_image_url || '/kalki.png'
     }));
 
-  const activeBoxOffice = adminBoxOffice.length > 0 ? [...adminBoxOffice, ...boxOfficeSummary] : boxOfficeSummary;
+  const activeBoxOffice = adminBoxOffice;
 
   return (
     <div id="boxoffice-section" className="space-y-4">

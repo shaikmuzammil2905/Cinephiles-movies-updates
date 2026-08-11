@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Calendar, Eye } from 'lucide-react';
-import { heroArticles, trendingNow } from '../data/movieData';
 import { formatDate } from '../lib/dateUtils';
 
 export function HeroCarousel({ updates = [], onSelectArticle }) {
@@ -23,12 +22,10 @@ export function HeroCarousel({ updates = [], onSelectArticle }) {
       content: item.content || item.short_description || ''
     }));
 
-  const activeHeroArticles = adminHeroArticles.length > 0
-    ? [...adminHeroArticles, ...heroArticles]
-    : (heroArticles && heroArticles.length > 0 ? heroArticles : []);
+  const activeHeroArticles = adminHeroArticles;
 
   // Transform published admin "Movie News" for Trending Sidebar
-  const adminTrending = (Array.isArray(updates) ? updates : [])
+  const activeTrending = (Array.isArray(updates) ? updates : [])
     .filter((u) => u && typeof u === 'object' && u.status === 'published' && (u.category === 'Movie News' || u.category === 'Top Story'))
     .slice(0, 5)
     .map((item, idx) => ({
@@ -39,8 +36,6 @@ export function HeroCarousel({ updates = [], onSelectArticle }) {
       summary: item.short_description || item.title || '',
       content: item.content || item.short_description || ''
     }));
-
-  const activeTrending = adminTrending.length > 0 ? adminTrending : trendingNow;
 
   useEffect(() => {
     if (!activeHeroArticles || activeHeroArticles.length === 0) return;

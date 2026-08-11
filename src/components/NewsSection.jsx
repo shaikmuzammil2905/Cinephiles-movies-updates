@@ -1,6 +1,5 @@
 import React from 'react';
 import { Clock, Eye, Newspaper } from 'lucide-react';
-import { movieNews } from '../data/movieData';
 import { formatDate } from '../lib/dateUtils';
 
 export function NewsSection({ updates = [], onSelectArticle }) {
@@ -17,10 +16,8 @@ export function NewsSection({ updates = [], onSelectArticle }) {
       content: item.content || item.short_description || ''
     }));
 
-  const activeFeatured = adminNewsList.length > 0 ? adminNewsList[0] : movieNews.featured;
-  const activeList = adminNewsList.length > 1
-    ? [...adminNewsList.slice(1), ...movieNews.list]
-    : movieNews.list;
+  const activeFeatured = adminNewsList.length > 0 ? adminNewsList[0] : null;
+  const activeList = adminNewsList.length > 1 ? adminNewsList.slice(1) : [];
 
   return (
     <div id="news-section" className="space-y-4">
@@ -38,10 +35,11 @@ export function NewsSection({ updates = [], onSelectArticle }) {
       </div>
 
       {/* Featured Big News Card */}
-      <div 
-        onClick={() => onSelectArticle(activeFeatured)}
-        className="bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer"
-      >
+      {activeFeatured ? (
+        <div 
+          onClick={() => onSelectArticle && onSelectArticle(activeFeatured)}
+          className="bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer"
+        >
         <div className="relative aspect-[16/9] overflow-hidden bg-slate-900">
           <img
             src={activeFeatured.image}
@@ -77,6 +75,7 @@ export function NewsSection({ updates = [], onSelectArticle }) {
           </p>
         </div>
       </div>
+      ) : null}
 
       {/* List items below featured */}
       <div className="space-y-3 pt-1">

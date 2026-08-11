@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, ChevronRight } from 'lucide-react';
-import { upcomingReleases } from '../data/movieData';
 
 export function UpcomingReleases({ updates = [], onSelectMovie }) {
   const adminUpcoming = (Array.isArray(updates) ? updates : [])
@@ -15,7 +14,7 @@ export function UpcomingReleases({ updates = [], onSelectMovie }) {
       poster: item.featured_image_url || '/kalki.png'
     }));
 
-  const activeUpcoming = adminUpcoming.length > 0 ? [...adminUpcoming, ...upcomingReleases] : upcomingReleases;
+  const activeUpcoming = adminUpcoming;
 
   // Live ticking countdown logic
   const [timers, setTimers] = useState(activeUpcoming);

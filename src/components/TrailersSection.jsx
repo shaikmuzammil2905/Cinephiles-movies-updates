@@ -1,6 +1,5 @@
 import React from 'react';
 import { Play, Clock, Eye } from 'lucide-react';
-import { latestTrailers } from '../data/movieData';
 import { formatDate } from '../lib/dateUtils';
 
 export function TrailersSection({ updates = [], onPlayTrailer }) {
@@ -16,7 +15,7 @@ export function TrailersSection({ updates = [], onPlayTrailer }) {
       youtubeId: item.extra_data?.youtubeId || 'dQw4w9WgXcQ'
     }));
 
-  const activeTrailers = adminTrailers.length > 0 ? [...adminTrailers, ...latestTrailers] : latestTrailers;
+  const activeTrailers = adminTrailers;
 
   return (
     <section id="trailers-section" className="py-6 bg-slate-50 border-b border-slate-200">

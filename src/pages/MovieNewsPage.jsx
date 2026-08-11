@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Newspaper, Search, Eye, Clock, Calendar, ArrowRight } from 'lucide-react';
-import { movieNews, heroArticles } from '../data/movieData';
 import { formatDate } from '../lib/dateUtils';
 
 export function MovieNewsPage({ updates = [], onSelectArticle }) {
@@ -23,14 +22,7 @@ export function MovieNewsPage({ updates = [], onSelectArticle }) {
       content: item.content || item.short_description || ''
     }));
 
-  const allNews = [
-    ...adminNews,
-    heroArticles[0],
-    heroArticles[1],
-    heroArticles[2],
-    movieNews.featured,
-    ...movieNews.list
-  ];
+  const allNews = adminNews;
 
   const filtered = allNews.filter((item) => {
     if (!item) return false;

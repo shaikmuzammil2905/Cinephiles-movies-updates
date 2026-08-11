@@ -13,7 +13,7 @@ export function BreakingTicker({ updates = [] }) {
   const publishedUpdates = Array.isArray(updates) ? updates.filter(u => u && typeof u === 'object' && u.status === 'published') : [];
   const newsTickerList = publishedUpdates.length > 0
     ? publishedUpdates.slice(0, 10).map(u => `🔥 ${u.title || 'Latest Movie Update'}`)
-    : defaultTickerList;
+    : ['🎬 Welcome to Telangana Box Office - Live Cinema & Trade News Desk'];
 
   return (
     <div className="bg-slate-100 border-b border-slate-200 py-1.5 px-2.5 sm:px-6 w-full max-w-full overflow-hidden">

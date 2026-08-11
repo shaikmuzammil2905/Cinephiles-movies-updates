@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, Search, Sparkles } from 'lucide-react';
-import { upcomingReleases } from '../data/movieData';
 
 export function UpcomingPage({ updates = [], onSelectMovie }) {
   const [search, setSearch] = useState('');
@@ -17,7 +16,7 @@ export function UpcomingPage({ updates = [], onSelectMovie }) {
       poster: item.featured_image_url || '/kalki.png'
     }));
 
-  const activeUpcoming = adminUpcoming.length > 0 ? [...adminUpcoming, ...upcomingReleases] : upcomingReleases;
+  const activeUpcoming = adminUpcoming;
   const [timers, setTimers] = useState(activeUpcoming);
 
   useEffect(() => {

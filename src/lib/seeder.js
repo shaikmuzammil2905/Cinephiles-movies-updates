@@ -167,16 +167,18 @@ export function getInitialSeedUpdates() {
 /**
  * Seed initial website data into Supabase updates table if table exists and is empty
  */
-export async function seedSupabaseData() {
+export async function seedSupabaseData(force = false) {
   try {
-    const { data: existing, error: checkErr } = await supabase.from('updates').select('id').limit(1);
-    if (checkErr) {
-      console.warn('Cannot check updates table in Supabase:', checkErr.message);
-      return { success: false, error: checkErr.message };
-    }
+    if (!force) {
+      const { data: existing, error: checkErr } = await supabase.from('updates').select('id').limit(1);
+      if (checkErr) {
+        console.warn('Cannot check updates table in Supabase:', checkErr.message);
+        return { success: false, error: checkErr.message };
+      }
 
-    if (existing && existing.length > 0) {
-      return { success: true, count: existing.length, message: 'Table already populated.' };
+      if (existing && existing.length > 0) {
+        return { success: true, count: existing.length, message: 'Table already populated.' };
+      }
     }
 
     const itemsToInsert = getInitialSeedUpdates();
@@ -187,7 +189,7 @@ export async function seedSupabaseData() {
       return { success: false, error: error.message };
     }
 
-    return { success: true, count: data ? data.length : 0, message: 'Successfully seeded database.' };
+    return { success: true, count: data ? data.length : 0, data, message: 'Successfully seeded database.' };
   } catch (err) {
     console.error('Seeder exception:', err);
     return { success: false, error: err.message };

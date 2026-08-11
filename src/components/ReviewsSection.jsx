@@ -1,6 +1,5 @@
 import React from 'react';
 import { Star, ChevronRight } from 'lucide-react';
-import { latestReviews } from '../data/movieData';
 
 export function ReviewsSection({ updates = [], onSelectReview }) {
   const adminReviews = (Array.isArray(updates) ? updates : [])
@@ -17,7 +16,7 @@ export function ReviewsSection({ updates = [], onSelectReview }) {
       content: item.content || item.short_description
     }));
 
-  const activeReviews = adminReviews.length > 0 ? [...adminReviews, ...latestReviews] : latestReviews;
+  const activeReviews = adminReviews;
 
   return (
     <div id="reviews-section" className="space-y-4">

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Film, Play, Search, Clock, Eye } from 'lucide-react';
-import { latestTrailers } from '../data/movieData';
 import { formatDate } from '../lib/dateUtils';
 
 export function TrailersPage({ updates = [], onPlayTrailer }) {
@@ -18,7 +17,7 @@ export function TrailersPage({ updates = [], onPlayTrailer }) {
       youtubeId: item.extra_data?.youtubeId || 'dQw4w9WgXcQ'
     }));
 
-  const activeTrailers = adminTrailers.length > 0 ? [...adminTrailers, ...latestTrailers] : latestTrailers;
+  const activeTrailers = adminTrailers;
 
   const filtered = activeTrailers.filter((item) =>
     item.title.toLowerCase().includes(search.toLowerCase())

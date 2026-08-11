@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BarChart3, Trophy, TrendingUp, Search, Award, Flame } from 'lucide-react';
-import { boxOfficeSummary, tollywoodSecondWeekRecords } from '../data/movieData';
+import { tollywoodSecondWeekRecords } from '../data/movieData';
 import { AnimatedNumber } from '../components/BoxOfficeSection';
 
 export function BoxOfficePage({ updates = [], onOpenTollywoodRecords }) {
@@ -17,7 +17,7 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords }) {
       poster: item.featured_image_url || '/kalki.png'
     }));
 
-  const activeBoxOffice = adminBoxOffice.length > 0 ? [...adminBoxOffice, ...boxOfficeSummary] : boxOfficeSummary;
+  const activeBoxOffice = adminBoxOffice;
 
   const filteredRecords = (tollywoodSecondWeekRecords || []).filter((item) => {
     if (!item) return false;

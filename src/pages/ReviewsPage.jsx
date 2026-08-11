@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Star, Search, Filter, CheckCircle } from 'lucide-react';
-import { latestReviews } from '../data/movieData';
 
 export function ReviewsPage({ updates = [], onSelectReview }) {
   const [search, setSearch] = useState('');
@@ -20,7 +19,7 @@ export function ReviewsPage({ updates = [], onSelectReview }) {
       content: item.content || item.short_description
     }));
 
-  const activeReviews = adminReviews.length > 0 ? [...adminReviews, ...latestReviews] : latestReviews;
+  const activeReviews = adminReviews;
 
   const filtered = activeReviews.filter((item) => {
     if (!item) return false;

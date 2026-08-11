@@ -63,25 +63,12 @@ export default function App() {
   const [session, setSession] = useState(null);
   const [adminTab, setAdminTab] = useState('dashboard');
 
-  // Supabase & Local Data State
-  const [updates, setUpdates] = useState(() => {
-    try {
-      const saved = localStorage.getItem('tbo_cms_updates');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          const valid = parsed.filter((item) => item && typeof item === 'object' && item.title);
-          if (valid.length > 0) return valid;
-        }
-      }
-    } catch (e) {
-      console.warn('LocalStorage parse notice:', e);
-    }
-    return getInitialSeedUpdates();
-  });
+  // Supabase Data State
+  const [updates, setUpdates] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loadingUpdates, setLoadingUpdates] = useState(true);
   const [toast, setToast] = useState(null);
+  const hasInitialLoaded = React.useRef(false);
 
   // Admin Modal States
   const [showAddEditModal, setShowAddEditModal] = useState(false);
@@ -98,17 +85,6 @@ export default function App() {
   const [showTollywoodRecords, setShowTollywoodRecords] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
-
-  // Helper to persist updates locally and in state
-  const updateLocalAndState = (newUpdates) => {
-    const valid = Array.isArray(newUpdates) ? newUpdates.filter((u) => u && typeof u === 'object' && u.title) : [];
-    setUpdates(valid.length > 0 ? valid : getInitialSeedUpdates());
-    try {
-      localStorage.setItem('tbo_cms_updates', JSON.stringify(valid.length > 0 ? valid : getInitialSeedUpdates()));
-    } catch (e) {
-      console.warn('LocalStorage save notice:', e);
-    }
-  };
 
   // Show toast notification utility
   const showToast = (message, type = 'success') => {
@@ -135,7 +111,7 @@ export default function App() {
   const fetchSupabaseData = async () => {
     setLoadingUpdates(true);
     try {
-      // Fetch Updates
+      // Fetch Updates from Supabase
       const { data: updatesData, error: updatesErr } = await supabase
         .from('updates')
         .select('*')
@@ -143,13 +119,21 @@ export default function App() {
 
       if (updatesErr) {
         console.warn('Supabase updates fetch notice:', updatesErr.message);
+        setUpdates([]);
       } else if (updatesData && updatesData.length > 0) {
-        updateLocalAndState(updatesData);
+        setUpdates(updatesData);
+      } else if (!hasInitialLoaded.current) {
+        // First application load and table is completely empty -> seed once into Supabase
+        const seedRes = await seedSupabaseData(false);
+        if (seedRes.success && seedRes.data && seedRes.data.length > 0) {
+          setUpdates(seedRes.data);
+        } else {
+          setUpdates([]);
+        }
       } else {
-        // Table empty -> set seeds locally so admin panel can show & seed them
-        const seeds = getInitialSeedUpdates();
-        updateLocalAndState(seeds);
+        setUpdates([]);
       }
+      hasInitialLoaded.current = true;
 
       // Fetch Categories
       const { data: catData } = await supabase.from('categories').select('*');
@@ -168,6 +152,7 @@ export default function App() {
       }
     } catch (err) {
       console.error('Error fetching Supabase data:', err);
+      setUpdates([]);
     } finally {
       setLoadingUpdates(false);
     }
@@ -213,35 +198,17 @@ export default function App() {
       }
 
       setUpdates((prev) => {
-        let updatedList;
         if (editingUpdate) {
-          updatedList = prev.map((u) => (u.id === editingUpdate.id || u.slug === editingUpdate.slug ? { ...u, ...savedRecord } : u));
+          return prev.map((u) => (u.id === editingUpdate.id || u.slug === editingUpdate.slug ? { ...u, ...savedRecord } : u));
         } else {
-          updatedList = [{ id: savedRecord.id || `up-${Date.now()}`, ...savedRecord }, ...prev];
+          return [savedRecord, ...prev];
         }
-        try {
-          localStorage.setItem('tbo_cms_updates', JSON.stringify(updatedList));
-        } catch (e) {}
-        return updatedList;
       });
 
       fetchSupabaseData();
     } catch (err) {
-      console.warn('Supabase save fallback to local state:', err.message);
-      // Fallback update in state if Supabase table is not yet created
-      setUpdates((prev) => {
-        let updatedList;
-        if (editingUpdate) {
-          updatedList = prev.map((u) => (u.id === editingUpdate.id ? { ...u, ...updateData } : u));
-        } else {
-          updatedList = [{ id: `up-${Date.now()}`, published_at: new Date().toISOString(), ...updateData }, ...prev];
-        }
-        try {
-          localStorage.setItem('tbo_cms_updates', JSON.stringify(updatedList));
-        } catch (e) {}
-        return updatedList;
-      });
-      showToast('Update saved successfully!');
+      console.warn('Supabase save notice:', err.message);
+      showToast(err.message || 'Failed to save update', 'error');
     }
   };
 
@@ -252,19 +219,30 @@ export default function App() {
     try {
       if (deletingUpdate.id) {
         const { error } = await supabase.from('updates').delete().eq('id', deletingUpdate.id);
-        if (error) console.warn('Supabase delete notice:', error.message);
+        if (error) {
+          console.error('Supabase delete error:', error);
+          throw error;
+        }
+      } else if (deletingUpdate.slug) {
+        const { error } = await supabase.from('updates').delete().eq('slug', deletingUpdate.slug);
+        if (error) {
+          console.error('Supabase delete error by slug:', error);
+          throw error;
+        }
       }
-      setUpdates((prev) => {
-        const filtered = prev.filter((u) => u.id !== deletingUpdate.id && u.slug !== deletingUpdate.slug);
-        try {
-          localStorage.setItem('tbo_cms_updates', JSON.stringify(filtered));
-        } catch (e) {}
-        return filtered;
-      });
+
+      setUpdates((prev) => prev.filter((u) => u.id !== deletingUpdate.id && u.slug !== deletingUpdate.slug));
       showToast('Update deleted successfully!');
-      fetchSupabaseData();
+
+      // Re-fetch live data from Supabase immediately to ensure sync
+      const { data: freshData } = await supabase
+        .from('updates')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      setUpdates(freshData || []);
     } catch (err) {
-      showToast(err.message, 'error');
+      showToast(err.message || 'Failed to delete update', 'error');
     } finally {
       setDeleteLoading(false);
       setDeletingUpdate(null);
@@ -277,13 +255,7 @@ export default function App() {
       if (item.id) {
         await supabase.from('updates').update({ status: newStatus }).eq('id', item.id);
       }
-      setUpdates((prev) => {
-        const updatedList = prev.map((u) => (u.id === item.id || u.slug === item.slug ? { ...u, status: newStatus } : u));
-        try {
-          localStorage.setItem('tbo_cms_updates', JSON.stringify(updatedList));
-        } catch (e) {}
-        return updatedList;
-      });
+      setUpdates((prev) => prev.map((u) => (u.id === item.id || u.slug === item.slug ? { ...u, status: newStatus } : u)));
       showToast(`Update status changed to ${newStatus}`);
     } catch (err) {
       showToast('Failed to change status', 'error');

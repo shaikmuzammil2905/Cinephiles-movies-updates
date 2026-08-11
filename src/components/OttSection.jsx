@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Play, Sparkles, Tv, CheckCircle2 } from 'lucide-react';
-import { ottPlatforms, ottUpdates } from '../data/movieData';
+import { ottPlatforms } from '../data/movieData';
 
 export function OttSection({ updates = [], onSelectMedia }) {
   const [selectedPlatform, setSelectedPlatform] = useState('all');
@@ -21,7 +21,7 @@ export function OttSection({ updates = [], onSelectMedia }) {
       content: item.content || item.short_description
     }));
 
-  const allOttUpdates = adminOtt.length > 0 ? [...adminOtt, ...ottUpdates] : ottUpdates;
+  const allOttUpdates = adminOtt;
 
   const filteredUpdates = selectedPlatform === 'all'
     ? allOttUpdates

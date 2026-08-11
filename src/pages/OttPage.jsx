@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Sparkles, Play, Search, Calendar, Tv } from 'lucide-react';
-import { ottPlatforms, ottUpdates } from '../data/movieData';
+import { ottPlatforms } from '../data/movieData';
 
 export function OttPage({ updates = [], onSelectMedia }) {
   const [selectedPlatform, setSelectedPlatform] = useState('all');
@@ -22,7 +22,7 @@ export function OttPage({ updates = [], onSelectMedia }) {
       content: item.content || item.short_description
     }));
 
-  const allOttUpdates = adminOtt.length > 0 ? [...adminOtt, ...ottUpdates] : ottUpdates;
+  const allOttUpdates = adminOtt;
 
   const filtered = allOttUpdates.filter((item) => {
     if (!item) return false;
