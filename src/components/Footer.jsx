@@ -31,7 +31,7 @@ export function Footer() {
             </div>
             
             <p className="text-xs leading-relaxed text-slate-400 font-normal">
-              TELANGANA BOX OFFICE is South India’s premier digital news portal providing real-time box office collections, Tollywood 2nd week stats, movie reviews, OTT release schedules, and trailer launches.
+              Telangana Box Office is a focused digital platform dedicated to Telangana state box office updates. We provide timely and curated insights on theatrical performance, trade activity, and film business trends across the region.
             </p>
 
             {/* Contact Email - Highlighted for Mobile and Desktop View */}
@@ -183,8 +183,8 @@ export function Footer() {
               <span>About Us</span>
               <span className="w-2 h-2 rounded-full bg-red-600"></span>
             </h3>
-            <p className="text-xs leading-relaxed text-slate-400 mb-3">
-              Telangana Box Office (TBO) is an independent cinema research and entertainment network. We provide accurate collections, theater gross analysis, exclusive director interviews, and streaming release schedules.
+             <p className="text-xs leading-relaxed text-slate-400 mb-3">
+              Telangana Box Office is a focused digital platform dedicated to Telangana state box office updates. We provide timely and curated insights on theatrical performance, trade activity, and film business trends across the region. We aim to deliver clear and reliable updates with a strong focus on Telangana theatrical collections, audience response, occupancy trends, and regional box office performance analysis.
             </p>
             <button
               onClick={() => setActiveModal('about')}
@@ -275,20 +275,20 @@ export function Footer() {
             </button>
 
             {activeModal === 'about' && (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <div className="flex items-center gap-2 text-red-500 font-extrabold text-sm uppercase">
                   <Info className="w-5 h-5" />
                   <span>About Telangana Box Office</span>
                 </div>
-                <h3 className="text-xl font-black text-white">Your Ultimate Destination for Indian Cinema Intelligence</h3>
+                <h3 className="text-xl font-black text-white">About Us</h3>
                 <p className="text-xs sm:text-sm leading-relaxed text-slate-300">
-                  Telangana Box Office (TBO) is an independent media platform dedicated to bringing transparent, authentic, and real-time box office statistics, movie news, in-depth film reviews, and OTT release tracking for Indian cinema lovers worldwide.
+                  Telangana Box Office is a focused digital platform dedicated to Telangana state box office updates. We provide timely and curated insights on theatrical performance, trade activity, and film business trends across the region.
                 </p>
                 <p className="text-xs sm:text-sm leading-relaxed text-slate-300">
-                  With a dedicated team of trade analysts and entertainment journalists, TBO covers Tollywood 2nd week collections, pan-India blockbusters, digital rights premieres, and theatrical countdowns.
+                  We aim to deliver clear and reliable updates with a strong focus on Telangana theatrical collections, audience response, occupancy trends, and regional box office performance analysis.
                 </p>
                 <div className="pt-2 border-t border-slate-800 text-xs text-slate-400">
-                  Contact Editorial Team: <a href="mailto:info@telanganaboxoffice.com" className="text-red-400 font-bold hover:underline">info@telanganaboxoffice.com</a>
+                  Contact Editorial Team: <a href="mailto:Info@telanganaboxoffice.com" className="text-red-400 font-bold hover:underline">Info@telanganaboxoffice.com</a>
                 </div>
               </div>
             )}
@@ -323,19 +323,42 @@ export function Footer() {
             )}
 
             {activeModal === 'privacy' && (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <div className="flex items-center gap-2 text-red-500 font-extrabold text-sm uppercase">
                   <ShieldCheck className="w-5 h-5" />
                   <span>Privacy Policy</span>
                 </div>
-                <h3 className="text-xl font-black text-white">Privacy Policy for Telangana Box Office</h3>
+                <h3 className="text-xl font-black text-white">Privacy Policy – Telangana Box Office</h3>
+
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  At Telangana Box Office, available at telanganaboxoffice.com, user privacy is one of our top priorities. This Privacy Policy document contains types of information that is collected and recorded by TBO and how we use it.
+                  Telangana Box Office respects your privacy and is committed to protecting any information that may be collected while you use our website. We follow responsible data practices as per the Information Technology Act, 2000 and related Indian IT rules to ensure a safe and transparent user experience.
                 </p>
-                <h4 className="text-xs font-bold text-white uppercase">Log Files & Analytics</h4>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  Telangana Box Office follows a standard procedure of using log files. These files log visitors when they visit websites. The information collected includes internet protocol (IP) addresses, browser type, ISP, date and time stamp, and referring/exit pages.
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  We do not intentionally collect sensitive personal data, but some basic information may be collected automatically or provided by users, such as name, email address, phone number (if submitted), IP address, device and browser details, and website usage activity like pages visited and time spent.
                 </p>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  All box office reports, movie updates, and trade information published on our platform are based on public sources, industry reports, and estimates. We do not access or collect any personal ticket booking details, payment information, or private financial data of users.
+                </p>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  The information collected is used only to improve website performance, provide relevant content, respond to user queries, maintain security, and comply with legal requirements. We may also use cookies and similar technologies to improve user experience and analyze traffic, and users can disable cookies through browser settings if they prefer.
+                </p>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  We take reasonable security measures to protect data, but we cannot guarantee complete security of information transmitted over the internet. Our website may also include third-party services like analytics or ads, which operate under their own privacy policies, and we are not responsible for their practices.
+                </p>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Our website is not intended for children under 13, and we do not knowingly collect their personal data. If such data is found, it will be removed promptly.
+                </p>
+
+                <div className="pt-2 border-t border-slate-800 text-xs text-slate-400">
+                  If you have any questions or concerns about this Privacy Policy, you can contact us at{' '}
+                  <a href="mailto:Info@telanganaboxoffice.com" className="text-red-400 font-bold hover:underline">Info@telanganaboxoffice.com</a>.
+                  We may update this policy from time to time, and any changes will be posted on this page.
+                </div>
               </div>
             )}
 
@@ -356,18 +379,44 @@ export function Footer() {
             )}
 
             {activeModal === 'disclaimer' && (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <div className="flex items-center gap-2 text-red-500 font-extrabold text-sm uppercase">
                   <HelpCircle className="w-5 h-5" />
                   <span>Disclaimer</span>
                 </div>
-                <h3 className="text-xl font-black text-white">Trade & Box Office Disclaimer</h3>
+                <h3 className="text-xl font-black text-white">DISCLAIMER – Telangana Box Office</h3>
+
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  The box office figures reported on Telangana Box Office are compiled from various trade sources, distributor networks, theatre chains, and exhibitor contacts.
+                  The information published by Telangana Box Office, including news, box-office collections, shares, occupancy reports, trade updates, and other related content, is provided for general informational and entertainment purposes only.
                 </p>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  While every attempt is made to verify stats, numbers are approximate estimates for tracking trends and analytical informational purposes only.
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Box-office figures published by us may be based on available trade sources, theatre reports, publicly available data, industry estimates, and other reliable sources. These figures may differ from the final or officially reported numbers, and variations between different sources are possible.
                 </p>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Unless specifically stated otherwise, the box-office figures published by Telangana Box Office should not be considered official figures from producers, distributors, or exhibitors.
+                </p>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Our intention is not to harm the reputation, business, or interests of any individual, film, organization, or entity. All information is published in good faith and for informational purposes.
+                </p>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  If any information is found to be incorrect or requires correction, the concerned person or organization may contact us with relevant details or supporting evidence. We will review the matter and, where appropriate, correct or remove the information.
+                </p>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  Third-party links, advertisements, or information featured on our platforms are the responsibility of their respective owners. Telangana Box Office does not guarantee or endorse the accuracy of such third-party content.
+                </p>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  By accessing or using our website or social media platforms, you acknowledge and agree to this disclaimer.
+                </p>
+
+                <div className="pt-2 border-t border-slate-800 text-xs text-slate-400">
+                  Telangana Box Office reserves the right to update or modify this disclaimer whenever necessary.
+                </div>
               </div>
             )}
 

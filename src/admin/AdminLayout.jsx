@@ -12,7 +12,8 @@ import {
   Globe,
   Database,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Star
 } from 'lucide-react';
 
 export function AdminLayout({
@@ -31,6 +32,7 @@ export function AdminLayout({
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'updates', label: 'All Updates', icon: Layers },
     { id: 'add', label: 'Add Update', icon: PlusCircle, isAction: true },
+    { id: 'reviews', label: 'Reviews', icon: Star },
     { id: 'categories', label: 'Categories', icon: FolderKanban },
     { id: 'media', label: 'Media Assets', icon: ImageIcon }
   ];

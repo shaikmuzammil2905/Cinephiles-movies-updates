@@ -81,3 +81,54 @@ DROP POLICY IF EXISTS "Authenticated users manage categories" ON public.categori
 CREATE POLICY "Authenticated users manage categories"
 ON public.categories FOR ALL
 USING (true);
+
+-- ============================================================
+-- MOVIE REVIEWS TABLE (Box Office Collection Reviews)
+-- ============================================================
+
+-- 7. Create movie_reviews table
+CREATE TABLE IF NOT EXISTS public.movie_reviews (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    movie_id UUID NOT NULL,
+    movie_title TEXT NOT NULL,
+    collection_type TEXT NOT NULL,
+    review_title TEXT NOT NULL,
+    review_content TEXT,
+    images JSONB DEFAULT '[]'::jsonb,
+    author TEXT DEFAULT 'Admin',
+    published BOOLEAN NOT NULL DEFAULT false,
+    published_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indexes for performance
+CREATE INDEX IF NOT EXISTS idx_movie_reviews_movie_id ON public.movie_reviews(movie_id);
+CREATE INDEX IF NOT EXISTS idx_movie_reviews_published ON public.movie_reviews(published);
+CREATE INDEX IF NOT EXISTS idx_movie_reviews_collection_type ON public.movie_reviews(collection_type);
+
+-- Enable RLS
+ALTER TABLE public.movie_reviews ENABLE ROW LEVEL SECURITY;
+
+-- Public can view published reviews
+DROP POLICY IF EXISTS "Public can view published reviews" ON public.movie_reviews;
+CREATE POLICY "Public can view published reviews"
+ON public.movie_reviews FOR SELECT
+USING (published = true OR auth.role() = 'authenticated');
+
+-- Authenticated users full CRUD
+DROP POLICY IF EXISTS "Authenticated users can insert reviews" ON public.movie_reviews;
+CREATE POLICY "Authenticated users can insert reviews"
+ON public.movie_reviews FOR INSERT
+WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Authenticated users can update reviews" ON public.movie_reviews;
+CREATE POLICY "Authenticated users can update reviews"
+ON public.movie_reviews FOR UPDATE
+USING (true);
+
+DROP POLICY IF EXISTS "Authenticated users can delete reviews" ON public.movie_reviews;
+CREATE POLICY "Authenticated users can delete reviews"
+ON public.movie_reviews FOR DELETE
+USING (true);
+

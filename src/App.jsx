@@ -44,6 +44,8 @@ import { UpdateDetailModal } from './admin/UpdateDetailModal';
 import { DeleteConfirmModal } from './admin/DeleteConfirmModal';
 import { CategoriesManager } from './admin/CategoriesManager';
 import { MediaGallery } from './admin/MediaGallery';
+import { ReviewsManager } from './admin/ReviewsManager';
+import { ReviewFormModal } from './admin/ReviewFormModal';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState(() => {
@@ -84,6 +86,14 @@ export default function App() {
   const [deletingCategory, setDeletingCategory] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [seedLoading, setSeedLoading] = useState(false);
+
+  // Reviews State
+  const [reviews, setReviews] = useState([]);
+  const [loadingReviews, setLoadingReviews] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [editingReview, setEditingReview] = useState(null);
+  const [deletingReview, setDeletingReview] = useState(null);
+  const [reviewDeleteLoading, setReviewDeleteLoading] = useState(false);
 
   // Public Modal States
   const [activeArticle, setActiveArticle] = useState(null);
@@ -166,6 +176,26 @@ export default function App() {
 
   useEffect(() => {
     fetchSupabaseData();
+  }, []);
+
+  // Fetch reviews from Supabase (admin sees all, including drafts)
+  const fetchReviews = async () => {
+    setLoadingReviews(true);
+    try {
+      const { data, error } = await supabase
+        .from('movie_reviews')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (!error && data) setReviews(data);
+    } catch (err) {
+      console.warn('Error fetching reviews:', err);
+    } finally {
+      setLoadingReviews(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews();
   }, []);
 
   // Listen for Route Changes (Path & Hash) & Browser Back/Forward
@@ -382,6 +412,66 @@ export default function App() {
     handleOpenArticle(review);
   };
 
+  // Review Admin Handlers
+  const handleSaveReview = async (reviewData) => {
+    try {
+      if (editingReview?.id) {
+        const { data, error } = await supabase
+          .from('movie_reviews')
+          .update(reviewData)
+          .eq('id', editingReview.id)
+          .select();
+        if (error) throw error;
+        showToast('Review updated successfully!');
+      } else {
+        const { data, error } = await supabase
+          .from('movie_reviews')
+          .insert([{ ...reviewData, created_at: new Date().toISOString() }])
+          .select();
+        if (error) throw error;
+        showToast('Review saved successfully!');
+      }
+      fetchReviews();
+    } catch (err) {
+      showToast(err.message || 'Failed to save review', 'error');
+      throw err;
+    }
+  };
+
+  const handleConfirmDeleteReview = async () => {
+    if (!deletingReview) return;
+    setReviewDeleteLoading(true);
+    try {
+      const { error } = await supabase.from('movie_reviews').delete().eq('id', deletingReview.id);
+      if (error) throw error;
+      showToast('Review deleted!');
+      fetchReviews();
+    } catch (err) {
+      showToast(err.message || 'Failed to delete review', 'error');
+    } finally {
+      setReviewDeleteLoading(false);
+      setDeletingReview(null);
+    }
+  };
+
+  const handleToggleReviewPublish = async (review) => {
+    const newPublished = !review.published;
+    try {
+      const { error } = await supabase
+        .from('movie_reviews')
+        .update({
+          published: newPublished,
+          ...(newPublished ? { published_at: new Date().toISOString() } : {})
+        })
+        .eq('id', review.id);
+      if (error) throw error;
+      showToast(`Review ${newPublished ? 'published' : 'unpublished'} successfully!`);
+      fetchReviews();
+    } catch (err) {
+      showToast('Failed to update review status', 'error');
+    }
+  };
+
   // RENDER ADMIN PANEL IF ACTIVE TAB IS 'admin'
   if (activeTab === 'admin') {
     if (!session) {
@@ -467,6 +557,24 @@ export default function App() {
 
         {adminTab === 'media' && <MediaGallery updates={updates} />}
 
+        {adminTab === 'reviews' && (
+          <ReviewsManager
+            boxOfficeMovies={updates.filter((u) => u.category === 'Box Office')}
+            reviews={reviews}
+            loading={loadingReviews}
+            onAddNew={() => {
+              setEditingReview(null);
+              setShowReviewForm(true);
+            }}
+            onEdit={(item) => {
+              setEditingReview(item);
+              setShowReviewForm(true);
+            }}
+            onDelete={(item) => setDeletingReview(item)}
+            onTogglePublish={handleToggleReviewPublish}
+          />
+        )}
+
         {/* Admin Modals */}
         <UpdateFormModal
           isOpen={showAddEditModal}
@@ -496,6 +604,27 @@ export default function App() {
           loading={deleteLoading}
           onConfirm={handleConfirmDeleteUpdate}
           onCancel={() => setDeletingUpdate(null)}
+        />
+
+        {/* Review Form Modal */}
+        <ReviewFormModal
+          isOpen={showReviewForm}
+          initialData={editingReview}
+          boxOfficeMovies={updates.filter((u) => u.category === 'Box Office')}
+          onClose={() => {
+            setShowReviewForm(false);
+            setEditingReview(null);
+          }}
+          onSave={handleSaveReview}
+        />
+
+        {/* Review Delete Confirm */}
+        <DeleteConfirmModal
+          isOpen={!!deletingReview}
+          title={deletingReview?.review_title}
+          loading={reviewDeleteLoading}
+          onConfirm={handleConfirmDeleteReview}
+          onCancel={() => setDeletingReview(null)}
         />
       </AdminLayout>
     );

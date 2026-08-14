@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
-import { ArrowLeft, TrendingUp, Calendar, DollarSign, Award, Tv, ShieldAlert, BarChart2 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { ArrowLeft, TrendingUp, Calendar, DollarSign, Award, Tv, ShieldAlert, BarChart2, Star, ChevronRight, BookOpen, Loader2 } from 'lucide-react';
 import { AnimatedNumber } from '../components/BoxOfficeSection';
+import { CollectionReviewPage } from './CollectionReviewPage';
+import { supabase } from '../lib/supabaseClient';
 
 export function BoxOfficeDetailPage({ movieId, updates = [], onBack }) {
   // Find box office movie by ID or slug
@@ -10,9 +12,62 @@ export function BoxOfficeDetailPage({ movieId, updates = [], onBack }) {
       (String(u.id) === String(movieId) || String(u.slug) === String(movieId) || String(u.title).toLowerCase() === String(movieId).toLowerCase())
   );
 
+  // Reviews state
+  const [reviews, setReviews] = useState([]);
+  const [loadingReviews, setLoadingReviews] = useState(false);
+  const [activeReview, setActiveReview] = useState(null); // { collectionType, reviewData|null }
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [movieId]);
+
+  // Fetch published reviews for this movie from Supabase
+  useEffect(() => {
+    if (!movieRecord?.id) return;
+    const fetchReviews = async () => {
+      setLoadingReviews(true);
+      try {
+        const { data, error } = await supabase
+          .from('movie_reviews')
+          .select('*')
+          .eq('movie_id', movieRecord.id)
+          .eq('published', true)
+          .order('created_at', { ascending: false });
+        if (!error && data) {
+          setReviews(data);
+        }
+      } catch (err) {
+        // silently handle – reviews are optional
+      } finally {
+        setLoadingReviews(false);
+      }
+    };
+    fetchReviews();
+  }, [movieRecord?.id]);
+
+  // Handle clicking a collection type label → find its review
+  const handleCollectionClick = (collectionType) => {
+    const found = reviews.find(
+      (r) => r.collection_type?.toLowerCase() === collectionType?.toLowerCase()
+    );
+    setActiveReview({ collectionType, reviewData: found || null });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // --- Sub-page: Review Detail ---
+  if (activeReview) {
+    return (
+      <CollectionReviewPage
+        review={activeReview.reviewData}
+        movieTitle={movieRecord?.title}
+        collectionType={activeReview.collectionType}
+        onBack={() => {
+          setActiveReview(null);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
+    );
+  }
 
   if (!movieRecord) {
     return (
@@ -49,6 +104,22 @@ export function BoxOfficeDetailPage({ movieId, updates = [], onBack }) {
   const verdict = extra.verdict;
   const releaseDate = extra.releaseDate || extra.release_date;
   const screens = extra.screens;
+
+  // Collection rows that can have reviews – filter to only visible ones
+  const collectionRows = [
+    openingCollection && { label: 'Opening Collection', value: openingCollection },
+    day1Collection && { label: 'Day 1 Collection', value: day1Collection },
+    weekendCollection && { label: 'Weekend Collection', value: weekendCollection },
+    indiaNetCollection && { label: 'India Net Collection', value: indiaNetCollection },
+    overseasCollection && { label: 'Overseas Collection', value: overseasCollection },
+    worldwideCollection && { label: 'Worldwide Gross', value: worldwideCollection },
+    totalCollection && { label: 'Total Collection', value: totalCollection },
+  ].filter(Boolean);
+
+  // Also add any collection types that have published reviews but aren't in above list
+  const reviewOnlyCollections = reviews
+    .filter((r) => !collectionRows.some((c) => c.label.toLowerCase() === r.collection_type.toLowerCase()))
+    .map((r) => ({ label: r.collection_type, value: null, reviewOnly: true }));
 
   return (
     <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-8 space-y-6 animate-in fade-in">
@@ -195,6 +266,92 @@ export function BoxOfficeDetailPage({ movieId, updates = [], onBack }) {
               {movieRecord.content}
             </p>
           </div>
+        )}
+      </div>
+
+      {/* ===== COLLECTION REVIEWS SECTION ===== */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 shadow-sm space-y-5">
+        <h2 className="text-base sm:text-lg font-extrabold text-slate-900 uppercase flex items-center gap-2 border-b border-slate-100 pb-3">
+          <span className="w-1.5 h-5 bg-[#d90429] rounded-full" />
+          <Star className="w-4 h-4 text-amber-500 fill-amber-400" />
+          COLLECTION REVIEWS
+        </h2>
+
+        {loadingReviews ? (
+          <div className="flex items-center gap-2 text-slate-500 py-4">
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span className="text-sm">Loading reviews...</span>
+          </div>
+        ) : (
+          <>
+            <p className="text-xs text-slate-500">
+              Click on a collection type below to read the full review published by our trade team.
+            </p>
+
+            <div className="space-y-2">
+              {/* Collection rows with review button */}
+              {collectionRows.map((row) => {
+                const hasReview = reviews.some(
+                  (r) => r.collection_type?.toLowerCase() === row.label?.toLowerCase()
+                );
+                return (
+                  <button
+                    key={row.label}
+                    onClick={() => handleCollectionClick(row.label)}
+                    className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border transition text-left group cursor-pointer ${
+                      hasReview
+                        ? 'bg-red-50 border-red-200 hover:bg-red-100 hover:border-red-400'
+                        : 'bg-slate-50 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      {hasReview ? (
+                        <Star className="w-4 h-4 text-amber-500 fill-amber-400 shrink-0" />
+                      ) : (
+                        <BookOpen className="w-4 h-4 text-slate-400 shrink-0" />
+                      )}
+                      <div className="min-w-0">
+                        <p className={`text-sm font-bold truncate ${hasReview ? 'text-red-700' : 'text-slate-700'}`}>
+                          {row.label}
+                        </p>
+                        {hasReview && (
+                          <p className="text-[11px] text-red-500 font-semibold">Review Available – Click to Read</p>
+                        )}
+                        {!hasReview && (
+                          <p className="text-[11px] text-slate-400">Review not available yet</p>
+                        )}
+                      </div>
+                    </div>
+                    <ChevronRight className={`w-4 h-4 shrink-0 transition-transform group-hover:translate-x-0.5 ${hasReview ? 'text-red-500' : 'text-slate-400'}`} />
+                  </button>
+                );
+              })}
+
+              {/* Review-only collections (reviews that don't match any collection card) */}
+              {reviewOnlyCollections.map((row) => (
+                <button
+                  key={row.label}
+                  onClick={() => handleCollectionClick(row.label)}
+                  className="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border bg-red-50 border-red-200 hover:bg-red-100 hover:border-red-400 transition text-left group cursor-pointer"
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <Star className="w-4 h-4 text-amber-500 fill-amber-400 shrink-0" />
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-red-700 truncate">{row.label}</p>
+                      <p className="text-[11px] text-red-500 font-semibold">Review Available – Click to Read</p>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-red-500 shrink-0 transition-transform group-hover:translate-x-0.5" />
+                </button>
+              ))}
+
+              {collectionRows.length === 0 && reviewOnlyCollections.length === 0 && (
+                <div className="py-6 text-center text-sm text-slate-400">
+                  No collection data available for this movie.
+                </div>
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>
