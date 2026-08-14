@@ -37,7 +37,7 @@ export function Footer() {
             {/* Contact Email - Highlighted for Mobile and Desktop View */}
             <div className="pt-1">
               <a
-                href="mailto:contact@telanganaboxoffice.com"
+                href="mailto:info@telanganaboxoffice.com"
                 className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-red-500/50 hover:bg-slate-900 text-slate-200 text-xs font-semibold transition-all group shadow-md w-full sm:w-auto"
               >
                 <div className="w-7 h-7 rounded-lg bg-red-600/20 text-red-500 flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-colors shrink-0">
@@ -45,7 +45,7 @@ export function Footer() {
                 </div>
                 <div className="flex flex-col text-left overflow-hidden">
                   <span className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">Contact Mail Desk</span>
-                  <span className="text-xs font-bold text-white group-hover:text-red-400 transition-colors truncate">contact@telanganaboxoffice.com</span>
+                  <span className="text-xs font-bold text-white group-hover:text-red-400 transition-colors truncate">info@telanganaboxoffice.com</span>
                 </div>
               </a>
             </div>
@@ -288,7 +288,7 @@ export function Footer() {
                   With a dedicated team of trade analysts and entertainment journalists, TBO covers Tollywood 2nd week collections, pan-India blockbusters, digital rights premieres, and theatrical countdowns.
                 </p>
                 <div className="pt-2 border-t border-slate-800 text-xs text-slate-400">
-                  Contact Editorial Team: <a href="mailto:contact@telanganaboxoffice.com" className="text-red-400 font-bold hover:underline">contact@telanganaboxoffice.com</a>
+                  Contact Editorial Team: <a href="mailto:info@telanganaboxoffice.com" className="text-red-400 font-bold hover:underline">info@telanganaboxoffice.com</a>
                 </div>
               </div>
             )}
@@ -309,8 +309,8 @@ export function Footer() {
                     <Mail className="w-5 h-5 text-red-500 shrink-0" />
                     <div>
                       <span className="text-xs text-slate-400 block font-semibold">Official Email Address:</span>
-                      <a href="mailto:contact@telanganaboxoffice.com" className="text-sm font-bold text-white hover:text-red-400 transition-colors">
-                        contact@telanganaboxoffice.com
+                      <a href="mailto:info@telanganaboxoffice.com" className="text-sm font-bold text-white hover:text-red-400 transition-colors">
+                        info@telanganaboxoffice.com
                       </a>
                     </div>
                   </div>

@@ -166,61 +166,71 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords }) {
             <div>
               <h3 className="text-lg font-black text-slate-900 flex items-center gap-2">
                 <Trophy className="w-5 h-5 text-amber-500" />
-                Highest 2nd Week Collections in Tollywood (TG/AP & Worldwide)
+                Highest Collections in Tollywood (TG/AP & Worldwide)
               </h3>
               <p className="text-xs text-slate-500">
-                Reference record database matching official trade reports.
+                Official CMS records uploaded from Admin Panel.
               </p>
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-[#031738] text-white font-bold uppercase text-[11px]">
-                <tr>
-                  <th className="p-3 text-center">Rank</th>
-                  <th className="p-3">Movie & Lead Actor</th>
-                  <th className="p-3 text-right">TG/AP 2nd Wk Share</th>
-                  <th className="p-3 text-right">India Net 2nd Wk</th>
-                  <th className="p-3 text-right">Total Worldwide</th>
-                  <th className="p-3 text-center">Verdict</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200">
-                {filteredRecords.map((item) => (
-                  <tr key={item.rank} className="hover:bg-red-50/50 transition-colors">
-                    <td className="p-3 text-center">
-                      <span className={`w-7 h-7 rounded-full font-black text-xs inline-flex items-center justify-center shadow-xs ${
-                        item.rank === 1 ? 'bg-amber-400 text-amber-950 ring-2 ring-amber-300' :
-                        item.rank === 2 ? 'bg-slate-300 text-slate-900' :
-                        item.rank === 3 ? 'bg-amber-700 text-white' : 'bg-slate-100 text-slate-700'
-                      }`}>
-                        {item.rank}
-                      </span>
-                    </td>
-                    <td className="p-3">
-                      <h4 className="font-extrabold text-slate-900 text-sm">{item.movie}</h4>
-                      <p className="text-xs text-slate-500">{item.hero} • Dir: {item.director} ({item.year})</p>
-                    </td>
-                    <td className="p-3 text-right font-extrabold text-red-600">
-                      {item.tgapSecondWeekShare}
-                    </td>
-                    <td className="p-3 text-right font-bold text-slate-800">
-                      {item.indiaNetSecondWeek}
-                    </td>
-                    <td className="p-3 text-right font-bold text-slate-900">
-                      {item.totalWorldwide}
-                    </td>
-                    <td className="p-3 text-center">
-                      <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap">
-                        {item.verdict}
-                      </span>
-                    </td>
+          {activeBoxOffice.length === 0 ? (
+            <div className="p-8 text-center space-y-3">
+              <BarChart3 className="w-12 h-12 text-slate-300 mx-auto" />
+              <h3 className="text-base font-bold text-slate-800">No Box Office Data Available</h3>
+              <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                No Box Office movies have been published yet. Movies uploaded in the Admin panel will appear here dynamically.
+              </p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs sm:text-sm">
+                <thead className="bg-[#031738] text-white font-bold uppercase text-[11px]">
+                  <tr>
+                    <th className="p-3 text-center">Rank</th>
+                    <th className="p-3">Movie Name</th>
+                    <th className="p-3 text-right">India Net</th>
+                    <th className="p-3 text-right">Total Worldwide</th>
+                    <th className="p-3 text-center">Verdict</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-slate-200">
+                  {activeBoxOffice.map((item) => (
+                    <tr
+                      key={item.id}
+                      onClick={() => onSelectMovie && onSelectMovie(item.id)}
+                      className="hover:bg-red-50/50 transition-colors cursor-pointer group"
+                    >
+                      <td className="p-3 text-center">
+                        <span className={`w-7 h-7 rounded-full font-black text-xs inline-flex items-center justify-center shadow-xs ${
+                          item.rank === 1 ? 'bg-amber-400 text-amber-950 ring-2 ring-amber-300' :
+                          item.rank === 2 ? 'bg-slate-300 text-slate-900' :
+                          item.rank === 3 ? 'bg-amber-700 text-white' : 'bg-slate-100 text-slate-700'
+                        }`}>
+                          {item.rank}
+                        </span>
+                      </td>
+                      <td className="p-3 font-extrabold text-slate-900 flex items-center gap-3">
+                        <img src={item.poster} alt={item.movie} className="w-8 h-10 object-cover rounded shadow-xs group-hover:scale-105 transition-transform" />
+                        <span>{item.movie}</span>
+                      </td>
+                      <td className="p-3 text-right font-bold text-slate-800">
+                        {item.indiaNet ? <AnimatedNumber value={item.indiaNet} /> : <span className="text-slate-400 font-normal">-</span>}
+                      </td>
+                      <td className="p-3 text-right font-extrabold text-red-600">
+                        {item.worldwide ? <AnimatedNumber value={item.worldwide} /> : <span className="text-slate-400 font-normal">-</span>}
+                      </td>
+                      <td className="p-3 text-center">
+                        <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap uppercase">
+                          {item.verdict}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       )}
 

@@ -621,6 +621,8 @@ export default function App() {
       <TollywoodRecordsModal
         isOpen={showTollywoodRecords}
         onClose={() => setShowTollywoodRecords(false)}
+        updates={updates}
+        onSelectMovie={handleOpenMovie}
       />
 
       <LoginModal
