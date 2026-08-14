@@ -9,13 +9,24 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords }) {
 
   const adminBoxOffice = (Array.isArray(updates) ? updates : [])
     .filter((u) => u && typeof u === 'object' && u.status === 'published' && u.category === 'Box Office')
-    .map((item, idx) => ({
-      rank: idx + 1,
-      movie: item.title,
-      indiaNet: parseFloat(item.extra_data?.indiaNet || item.extra_data?.gross || '500'),
-      worldwide: parseFloat(item.extra_data?.worldwide || item.extra_data?.gross || '850'),
-      poster: item.featured_image_url || '/kalki.png'
-    }));
+    .map((item, idx) => {
+      const extra = item.extra_data || {};
+      const isManual = extra.manual_override === true || extra.manual_override === 'true';
+      const worldwideVal = isManual && extra.manual_collection
+        ? extra.manual_collection
+        : (extra.worldwide || extra.gross || extra.totalCollection || '');
+      const indiaNetVal = extra.indiaNet || extra.india_net || '';
+
+      return {
+        id: item.id || item.slug,
+        rank: item.extra_data?.rank || idx + 1,
+        movie: item.title,
+        indiaNet: indiaNetVal,
+        worldwide: worldwideVal,
+        verdict: extra.verdict || 'Published',
+        poster: item.featured_image_url || '/kalki.png'
+      };
+    });
 
   const activeBoxOffice = adminBoxOffice;
 
@@ -41,7 +52,7 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords }) {
             Telangana & Worldwide Box Office Center
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl leading-relaxed">
-            Verified box office figures, India Net collections, gross earnings, and all-time Tollywood 2nd week collection benchmarks.
+            Verified box office figures, India Net collections, gross earnings, and all-time Tollywood collection benchmarks.
           </p>
         </div>
 
@@ -62,7 +73,7 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords }) {
       <div className="flex items-center gap-2 sm:gap-3 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
         <button
           onClick={() => setActiveTab('summary')}
-          className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-1.5 sm:gap-2 shrink-0 ${
+          className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-1.5 sm:gap-2 shrink-0 cursor-pointer ${
             activeTab === 'summary'
               ? 'bg-[#031738] text-white shadow-md'
               : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
@@ -74,7 +85,7 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords }) {
 
         <button
           onClick={() => setActiveTab('tollywood2ndWeek')}
-          className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-1.5 sm:gap-2 shrink-0 ${
+          className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-1.5 sm:gap-2 shrink-0 cursor-pointer ${
             activeTab === 'tollywood2ndWeek'
               ? 'bg-red-600 text-white shadow-md'
               : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
@@ -87,71 +98,66 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords }) {
 
       {activeTab === 'summary' ? (
         <div className="space-y-6">
-          {/* Summary Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
-              <span className="text-xs font-bold text-slate-400 uppercase">Top Grosser 2024-2025</span>
-              <h3 className="text-xl font-black text-slate-900">Pushpa 2: The Rule</h3>
-              <p className="text-2xl font-black text-red-600 font-mono">₹1,500+ Cr</p>
-              <span className="text-[11px] text-emerald-600 font-bold">All-Time Worldwide Benchmark</span>
+          {activeBoxOffice.length === 0 ? (
+            /* Empty State */
+            <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center space-y-4 shadow-sm">
+              <div className="w-16 h-16 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
+                <BarChart3 className="w-8 h-8" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-800">No Box Office Data Available</h3>
+              <p className="text-sm text-slate-500 max-w-sm mx-auto">
+                No Box Office movies have been published yet. Added movies will appear here dynamically.
+              </p>
             </div>
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
-              <span className="text-xs font-bold text-slate-400 uppercase">Fastest ₹1100 Cr</span>
-              <h3 className="text-xl font-black text-slate-900">Kalki 2898 AD</h3>
-              <p className="text-2xl font-black text-red-600 font-mono">₹1,100 Cr</p>
-              <span className="text-[11px] text-blue-600 font-bold">10 Days Global Run</span>
-            </div>
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
-              <span className="text-xs font-bold text-slate-400 uppercase">Telangana / AP Share</span>
-              <h3 className="text-xl font-black text-slate-900">Baahubali 2</h3>
-              <p className="text-2xl font-black text-red-600 font-mono">₹68.40 Cr</p>
-              <span className="text-[11px] text-amber-600 font-bold">Highest 2nd Week Share</span>
-            </div>
-          </div>
+          ) : (
+            /* Full Table */
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-md overflow-hidden">
+              <div className="p-4 bg-slate-900 text-white font-extrabold text-sm uppercase tracking-wider flex justify-between items-center">
+                <span>Current India Net & Worldwide Box Office Table</span>
+                <span className="text-xs text-red-400 font-medium">Live Supabase Data</span>
+              </div>
 
-          {/* Full Table */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-md overflow-hidden">
-            <div className="p-4 bg-slate-900 text-white font-extrabold text-sm uppercase tracking-wider flex justify-between items-center">
-              <span>Current India Net & Worldwide Box Office Table</span>
-              <span className="text-xs text-red-400 font-medium">Live Trade Data</span>
-            </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs sm:text-sm">
-                <thead className="bg-slate-100 text-slate-700 font-bold uppercase text-[11px]">
-                  <tr>
-                    <th className="p-3 text-center">#</th>
-                    <th className="p-3">Movie Name</th>
-                    <th className="p-3 text-right">India Net</th>
-                    <th className="p-3 text-right">Worldwide Gross</th>
-                    <th className="p-3 text-center">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 font-medium">
-                  {activeBoxOffice.map((item, idx) => (
-                    <tr key={item.rank} className="hover:bg-slate-50 transition-colors">
-                      <td className="p-3 text-center font-bold text-slate-700">{item.rank}</td>
-                      <td className="p-3 font-extrabold text-slate-900 flex items-center gap-3">
-                        <img src={item.poster} alt={item.movie} className="w-8 h-10 object-cover rounded shadow-xs" />
-                        <span>{item.movie}</span>
-                      </td>
-                      <td className="p-3 text-right font-bold text-slate-800">
-                        <AnimatedNumber value={item.indiaNet} />
-                      </td>
-                      <td className="p-3 text-right font-extrabold text-red-600">
-                        <AnimatedNumber value={item.worldwide} />
-                      </td>
-                      <td className="p-3 text-center">
-                        <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">
-                          BLOCKBUSTER
-                        </span>
-                      </td>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs sm:text-sm">
+                  <thead className="bg-slate-100 text-slate-700 font-bold uppercase text-[11px]">
+                    <tr>
+                      <th className="p-3 text-center">#</th>
+                      <th className="p-3">Movie Name</th>
+                      <th className="p-3 text-right">India Net</th>
+                      <th className="p-3 text-right">Worldwide Gross</th>
+                      <th className="p-3 text-center">Verdict</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 font-medium">
+                    {activeBoxOffice.map((item) => (
+                      <tr
+                        key={item.id}
+                        onClick={() => onSelectMovie && onSelectMovie(item.id)}
+                        className="hover:bg-slate-50 transition-colors cursor-pointer group"
+                      >
+                        <td className="p-3 text-center font-bold text-slate-700">{item.rank}</td>
+                        <td className="p-3 font-extrabold text-slate-900 group-hover:text-red-600 transition-colors flex items-center gap-3">
+                          <img src={item.poster} alt={item.movie} className="w-8 h-10 object-cover rounded shadow-xs group-hover:scale-105 transition-transform" />
+                          <span>{item.movie}</span>
+                        </td>
+                        <td className="p-3 text-right font-bold text-slate-800">
+                          {item.indiaNet ? <AnimatedNumber value={item.indiaNet} /> : <span className="text-slate-400 font-normal">-</span>}
+                        </td>
+                        <td className="p-3 text-right font-extrabold text-red-600">
+                          {item.worldwide ? <AnimatedNumber value={item.worldwide} /> : <span className="text-slate-400 font-normal">-</span>}
+                        </td>
+                        <td className="p-3 text-center">
+                          <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
+                            {item.verdict}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       ) : (
         /* Tollywood 2nd Week Full List */

@@ -70,7 +70,19 @@ export function UpdateFormModal({ isOpen, initialData, onClose, onSave, categori
           quality: initialData.extra_data?.quality || '4K Ultra HD',
           language: initialData.extra_data?.language || 'Telugu, Hindi',
           youtubeId: initialData.extra_data?.youtubeId || '',
-          releaseDate: initialData.extra_data?.releaseDate || ''
+          releaseDate: initialData.extra_data?.releaseDate || '',
+          indiaNet: initialData.extra_data?.indiaNet || '',
+          worldwide: initialData.extra_data?.worldwide || '',
+          openingCollection: initialData.extra_data?.openingCollection || '',
+          day1Collection: initialData.extra_data?.day1Collection || '',
+          weekendCollection: initialData.extra_data?.weekendCollection || '',
+          overseasCollection: initialData.extra_data?.overseasCollection || '',
+          totalCollection: initialData.extra_data?.totalCollection || '',
+          budget: initialData.extra_data?.budget || '',
+          screens: initialData.extra_data?.screens || '',
+          rank: initialData.extra_data?.rank || '',
+          manual_override: initialData.extra_data?.manual_override || false,
+          manual_collection: initialData.extra_data?.manual_collection || ''
         }
       });
     } else {
@@ -95,7 +107,19 @@ export function UpdateFormModal({ isOpen, initialData, onClose, onSave, categori
           quality: '4K Ultra HD',
           language: 'Telugu, Hindi',
           youtubeId: '',
-          releaseDate: ''
+          releaseDate: '',
+          indiaNet: '',
+          worldwide: '',
+          openingCollection: '',
+          day1Collection: '',
+          weekendCollection: '',
+          overseasCollection: '',
+          totalCollection: '',
+          budget: '',
+          screens: '',
+          rank: '',
+          manual_override: false,
+          manual_collection: ''
         }
       });
     }
@@ -456,6 +480,235 @@ export function UpdateFormModal({ isOpen, initialData, onClose, onSave, categori
                     className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white"
                   />
                 </div>
+              </div>
+            </div>
+          )}
+
+          {formData.category === 'Box Office' && (
+            <div className="p-4 bg-slate-950 border border-slate-800 rounded-xl space-y-4">
+              <h4 className="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center justify-between">
+                <span>Box Office Collection Numbers & Trade Details</span>
+                <span className="text-[10px] text-slate-400 font-normal">All fields are optional</span>
+              </h4>
+
+              {/* Collections Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-xs text-slate-400">India Net Collection (e.g. 645 Cr)</label>
+                  <input
+                    type="text"
+                    placeholder="645 Cr"
+                    value={formData.extra_data.indiaNet || ''}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        extra_data: { ...formData.extra_data, indiaNet: e.target.value }
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-slate-400">Worldwide Gross (e.g. 1100 Cr)</label>
+                  <input
+                    type="text"
+                    placeholder="1100 Cr"
+                    value={formData.extra_data.worldwide || ''}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        extra_data: { ...formData.extra_data, worldwide: e.target.value }
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white font-bold text-red-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-slate-400">Opening Collection</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 80 Cr"
+                    value={formData.extra_data.openingCollection || ''}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        extra_data: { ...formData.extra_data, openingCollection: e.target.value }
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-slate-400">Day 1 Collection</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 125 Cr"
+                    value={formData.extra_data.day1Collection || ''}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        extra_data: { ...formData.extra_data, day1Collection: e.target.value }
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-slate-400">Weekend Collection</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 350 Cr"
+                    value={formData.extra_data.weekendCollection || ''}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        extra_data: { ...formData.extra_data, weekendCollection: e.target.value }
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-slate-400">Overseas Collection</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 250 Cr"
+                    value={formData.extra_data.overseasCollection || ''}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        extra_data: { ...formData.extra_data, overseasCollection: e.target.value }
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white"
+                  />
+                </div>
+              </div>
+
+              {/* Extra Box Office Meta */}
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-2 border-t border-slate-900">
+                <div>
+                  <label className="block text-xs text-slate-400">Budget (e.g. 350 Cr)</label>
+                  <input
+                    type="text"
+                    placeholder="350 Cr"
+                    value={formData.extra_data.budget || ''}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        extra_data: { ...formData.extra_data, budget: e.target.value }
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-slate-400">Verdict</label>
+                  <select
+                    value={formData.extra_data.verdict || 'Blockbuster'}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        extra_data: { ...formData.extra_data, verdict: e.target.value }
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white"
+                  >
+                    <option value="All-Time Blockbuster">All-Time Blockbuster</option>
+                    <option value="Blockbuster">Blockbuster</option>
+                    <option value="Super Hit">Super Hit</option>
+                    <option value="Hit">Hit</option>
+                    <option value="Average">Average</option>
+                    <option value="Flop">Flop</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs text-slate-400">Release Date</label>
+                  <input
+                    type="text"
+                    placeholder="May 16, 2025"
+                    value={formData.extra_data.releaseDate || ''}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        extra_data: { ...formData.extra_data, releaseDate: e.target.value }
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-slate-400">Rank / Display Order</label>
+                  <input
+                    type="number"
+                    placeholder="1"
+                    value={formData.extra_data.rank || ''}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        extra_data: { ...formData.extra_data, rank: e.target.value }
+                      })
+                    }
+                    className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-white"
+                  />
+                </div>
+              </div>
+
+              {/* MANUAL OVERRIDE SECTION */}
+              <div className="p-3 bg-slate-900/90 border border-amber-500/30 rounded-xl space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="manual_override_toggle"
+                      checked={formData.extra_data.manual_override === true || formData.extra_data.manual_override === 'true'}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          extra_data: { ...formData.extra_data, manual_override: e.target.checked }
+                        })
+                      }
+                      className="w-4 h-4 text-red-600 bg-slate-950 border-slate-800 rounded focus:ring-red-500"
+                    />
+                    <label htmlFor="manual_override_toggle" className="text-xs font-extrabold text-amber-300 cursor-pointer">
+                      Enable Manual Number Override
+                    </label>
+                  </div>
+                  <span className="text-[10px] text-slate-400">
+                    {formData.extra_data.manual_override ? 'Active: Showing Manual Value' : 'Inactive: Showing Calculated Value'}
+                  </span>
+                </div>
+
+                {(formData.extra_data.manual_override === true || formData.extra_data.manual_override === 'true') && (
+                  <div className="pt-2">
+                    <label className="block text-xs font-semibold text-slate-300 mb-1">
+                      Manual Collection Override Value (e.g. 140 Cr)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 140 Cr"
+                      value={formData.extra_data.manual_collection || ''}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          extra_data: { ...formData.extra_data, manual_collection: e.target.value }
+                        })
+                      }
+                      className="w-full px-3 py-2 bg-slate-950 border border-amber-500/50 rounded-lg text-xs text-amber-300 font-bold placeholder-slate-600 focus:outline-none focus:border-amber-400"
+                    />
+                    <p className="text-[10px] text-amber-400/80 mt-1">
+                      Public website will display this exact manual number instead of automatically calculated values.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           )}

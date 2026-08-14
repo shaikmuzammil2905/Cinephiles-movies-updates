@@ -24,6 +24,8 @@ import { ReviewsPage } from './pages/ReviewsPage';
 import { BoxOfficePage } from './pages/BoxOfficePage';
 import { TrailersPage } from './pages/TrailersPage';
 import { UpcomingPage } from './pages/UpcomingPage';
+import { ArticleDetailPage } from './pages/ArticleDetailPage';
+import { BoxOfficeDetailPage } from './pages/BoxOfficeDetailPage';
 
 // Public Modals
 import { ArticleModal } from './components/ArticleModal';
@@ -58,6 +60,10 @@ export default function App() {
   });
 
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Dynamic Route States
+  const [activeArticleId, setActiveArticleId] = useState(null);
+  const [activeBoxOfficeId, setActiveBoxOfficeId] = useState(null);
 
   // Admin Auth State
   const [session, setSession] = useState(null);
@@ -162,16 +168,75 @@ export default function App() {
     fetchSupabaseData();
   }, []);
 
-  // Handle URL hash changes for #admin
+  // Listen for Route Changes (Path & Hash) & Browser Back/Forward
   useEffect(() => {
-    const handleHash = () => {
-      if (window.location.hash === '#admin') {
+    const handleUrlChange = () => {
+      const path = window.location.pathname;
+      const hash = window.location.hash;
+
+      if (hash === '#admin' || path === '/admin') {
         setActiveTab('admin');
+        setActiveArticleId(null);
+        setActiveBoxOfficeId(null);
+        return;
       }
+
+      // Check Article routes: /news/:id or /post/:id or #news/:id or #post/:id
+      const newsMatch = path.match(/^\/(?:news|post)\/(.+)$/i) || hash.match(/^#(?:news|post)\/(.+)$/i);
+      if (newsMatch && newsMatch[1]) {
+        setActiveArticleId(newsMatch[1]);
+        setActiveBoxOfficeId(null);
+        return;
+      }
+
+      // Check Box Office routes: /box-office/:id or #box-office/:id
+      const boMatch = path.match(/^\/box-office\/(.+)$/i) || hash.match(/^#box-office\/(.+)$/i);
+      if (boMatch && boMatch[1]) {
+        setActiveBoxOfficeId(boMatch[1]);
+        setActiveArticleId(null);
+        return;
+      }
+
+      setActiveArticleId(null);
+      setActiveBoxOfficeId(null);
     };
-    window.addEventListener('hashchange', handleHash);
-    return () => window.removeEventListener('hashchange', handleHash);
+
+    handleUrlChange();
+    window.addEventListener('popstate', handleUrlChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange);
+      window.removeEventListener('hashchange', handleUrlChange);
+    };
   }, []);
+
+  const handleOpenArticle = (articleOrId) => {
+    let id = articleOrId;
+    if (typeof articleOrId === 'object' && articleOrId !== null) {
+      id = articleOrId.id || articleOrId.slug;
+    }
+    if (id) {
+      window.history.pushState({ route: 'news', id }, '', `/news/${id}`);
+      setActiveArticleId(id);
+      setActiveBoxOfficeId(null);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleOpenMovie = (movieId) => {
+    if (movieId) {
+      window.history.pushState({ route: 'boxoffice', id: movieId }, '', `/box-office/${movieId}`);
+      setActiveBoxOfficeId(movieId);
+      setActiveArticleId(null);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleBackToPublicHome = () => {
+    window.history.pushState({}, '', '/');
+    setActiveArticleId(null);
+    setActiveBoxOfficeId(null);
+  };
 
   // 3. Admin Actions (Create / Edit / Delete / Toggle Status)
   const handleSaveUpdate = async (updateData) => {
@@ -312,24 +377,9 @@ export default function App() {
     }
   };
 
-  // Public Article handlers
-  const handleOpenArticle = (article) => {
-    setActiveArticle(article);
-  };
-
+  // Public Article & Review Handlers
   const handleOpenReview = (review) => {
-    setActiveArticle({
-      title: `${review.title} Review`,
-      date: 'Latest Review',
-      views: `${review.rating} ★ Rating`,
-      image: review.poster || review.featured_image_url,
-      summary: review.summary || review.short_description,
-      content: `Verdict: ${review.verdict || review.extra_data?.verdict || 'Must Watch'}\nRating: ${
-        review.rating || review.extra_data?.rating || '4.0'
-      }/5.0\nDirector: ${review.director || review.extra_data?.director || 'Standard'}\nCast: ${
-        review.cast || review.extra_data?.cast || 'N/A'
-      }\n\nReview Breakdown:\n${review.content || review.summary}`
-    });
+    handleOpenArticle(review);
   };
 
   // RENDER ADMIN PANEL IF ACTIVE TAB IS 'admin'
@@ -468,99 +518,88 @@ export default function App() {
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Breaking News Ticker */}
-      <BreakingTicker updates={updates} />
+      <BreakingTicker updates={updates} onSelectArticle={handleOpenArticle} />
 
       {/* Main Page Rendering */}
       <main className="flex-1 pb-20 md:pb-0">
-        {activeTab === 'home' && (
-          <div className="space-y-6">
-            <HeroCarousel updates={updates} onSelectArticle={handleOpenArticle} />
+        {activeArticleId ? (
+          <ArticleDetailPage
+            articleId={activeArticleId}
+            updates={updates}
+            onBack={handleBackToPublicHome}
+            onNavigateArticle={handleOpenArticle}
+          />
+        ) : activeBoxOfficeId ? (
+          <BoxOfficeDetailPage
+            movieId={activeBoxOfficeId}
+            updates={updates}
+            onBack={handleBackToPublicHome}
+          />
+        ) : (
+          <>
+            {activeTab === 'home' && (
+              <div className="space-y-6">
+                <HeroCarousel updates={updates} onSelectArticle={handleOpenArticle} />
 
-            <OttSection
-              updates={updates}
-              onSelectMedia={(item) =>
-                handleOpenArticle({
-                  title: `${item.title} (${item.platformName || 'OTT'})`,
-                  date: item.releaseDate || 'Streaming Now',
-                  views: 'OTT Release',
-                  image: item.poster || item.featured_image_url,
-                  summary: item.description || item.short_description,
-                  content: item.content || item.description
-                })
-              }
-            />
+                <OttSection
+                  updates={updates}
+                  onSelectMedia={(item) => handleOpenArticle(item)}
+                />
 
-            <section className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <NewsSection updates={updates} onSelectArticle={handleOpenArticle} />
-                <BoxOfficeSection updates={updates} onOpenTollywoodRecords={() => setShowTollywoodRecords(true)} />
-                <ReviewsSection updates={updates} onSelectReview={handleOpenReview} />
+                <section className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <NewsSection updates={updates} onSelectArticle={handleOpenArticle} />
+                    <BoxOfficeSection
+                      updates={updates}
+                      onOpenTollywoodRecords={() => setShowTollywoodRecords(true)}
+                      onSelectMovie={handleOpenMovie}
+                    />
+                    <ReviewsSection updates={updates} onSelectReview={handleOpenReview} />
+                  </div>
+                </section>
+
+                <UpcomingReleases
+                  updates={updates}
+                  onSelectMovie={(movie) => handleOpenArticle(movie)}
+                />
+
+                <TrailersSection updates={updates} onPlayTrailer={(trailer) => setActiveTrailer(trailer)} />
+
+                <Newsletter />
               </div>
-            </section>
+            )}
 
-            <UpcomingReleases
-              updates={updates}
-              onSelectMovie={(movie) =>
-                handleOpenArticle({
-                  title: `${movie.title} - Theatrical Release`,
-                  date: movie.releaseDate,
-                  views: 'Countdown Active',
-                  image: movie.poster || movie.featured_image_url,
-                  summary: `Releasing in theaters on ${movie.releaseDate}`,
-                  content: `The upcoming blockbuster '${movie.title}' is scheduled for premiere on ${movie.releaseDate}.`
-                })
-              }
-            />
+            {/* Dedicated Standalone Pages */}
+            {activeTab === 'ott' && (
+              <OttPage
+                updates={updates}
+                onSelectMedia={(item) => handleOpenArticle(item)}
+              />
+            )}
 
-            <TrailersSection updates={updates} onPlayTrailer={(trailer) => setActiveTrailer(trailer)} />
+            {activeTab === 'news' && <MovieNewsPage updates={updates} onSelectArticle={handleOpenArticle} />}
 
-            <Newsletter />
-          </div>
-        )}
+            {activeTab === 'reviews' && <ReviewsPage updates={updates} onSelectReview={handleOpenReview} />}
 
-        {/* Dedicated Standalone Pages */}
-        {activeTab === 'ott' && (
-          <OttPage
-            updates={updates}
-            onSelectMedia={(item) =>
-              handleOpenArticle({
-                title: `${item.title} (${item.platformName || 'OTT'})`,
-                date: item.releaseDate || 'OTT Premiere',
-                views: 'OTT Hub',
-                image: item.poster || item.featured_image_url,
-                summary: item.description || item.short_description,
-                content: item.content || item.description
-              })
-            }
-          />
-        )}
+            {activeTab === 'boxoffice' && (
+              <BoxOfficePage
+                updates={updates}
+                onOpenTollywoodRecords={() => setShowTollywoodRecords(true)}
+                onSelectMovie={handleOpenMovie}
+              />
+            )}
 
-        {activeTab === 'news' && <MovieNewsPage updates={updates} onSelectArticle={handleOpenArticle} />}
+            {activeTab === 'trailers' && (
+              <TrailersPage updates={updates} onPlayTrailer={(trailer) => setActiveTrailer(trailer)} />
+            )}
 
-        {activeTab === 'reviews' && <ReviewsPage updates={updates} onSelectReview={handleOpenReview} />}
-
-        {activeTab === 'boxoffice' && (
-          <BoxOfficePage updates={updates} onOpenTollywoodRecords={() => setShowTollywoodRecords(true)} />
-        )}
-
-        {activeTab === 'trailers' && (
-          <TrailersPage updates={updates} onPlayTrailer={(trailer) => setActiveTrailer(trailer)} />
-        )}
-
-        {activeTab === 'releases' && (
-          <UpcomingPage
-            updates={updates}
-            onSelectMovie={(movie) =>
-              handleOpenArticle({
-                title: `${movie.title} - Release Update`,
-                date: movie.releaseDate,
-                views: 'Countdown Live',
-                image: movie.poster || movie.featured_image_url,
-                summary: `Releasing in theaters on ${movie.releaseDate}`,
-                content: `The upcoming cinematic release '${movie.title}' is scheduled for premiere on ${movie.releaseDate}.`
-              })
-            }
-          />
+            {activeTab === 'releases' && (
+              <UpcomingPage
+                updates={updates}
+                onSelectMovie={(movie) => handleOpenArticle(movie)}
+              />
+            )}
+          </>
         )}
       </main>
 

@@ -210,13 +210,7 @@ export const movieNews = {
   ]
 };
 
-export const boxOfficeSummary = [
-  { rank: 1, movie: 'Kalki 2898 AD', indiaNet: 645, worldwide: 1100, poster: '/kalki.png' },
-  { rank: 2, movie: 'Pushpa 2: The Rule', indiaNet: 820, worldwide: 1500, poster: '/pushpa2.png' },
-  { rank: 3, movie: 'Devara: Part 1', indiaNet: 310, worldwide: 520, poster: '/devara.png' },
-  { rank: 4, movie: 'HanuMan', indiaNet: 215, worldwide: 350, poster: '/hanuman.png' },
-  { rank: 5, movie: 'They Call Him OG', indiaNet: 180, worldwide: 290, poster: '/og.png' }
-];
+export const boxOfficeSummary = [];
 
 export const tollywoodSecondWeekRecords = [
   {

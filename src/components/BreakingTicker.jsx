@@ -1,19 +1,8 @@
 import React from 'react';
 import { FacebookIcon, InstagramIcon, TwitterIcon, YoutubeIcon } from './SocialIcons';
 
-export function BreakingTicker({ updates = [] }) {
-  const defaultTickerList = [
-    '🔥 Kalki 2898 AD crosses ₹1100 Cr worldwide in just 10 days',
-    '⚡ Pushpa 2: The Rule box office collections hit ₹1500 Crore milestone',
-    '🎬 SSMB29 shooting officially begins in Kenya with SS Rajamouli & Mahesh Babu',
-    '💥 Pawan Kalyan OG climax shoot completed with massive vintage weapons',
-    '⭐ Sitaare Zameen Par official trailer released, fans praise Aamir Khan'
-  ];
-
+export function BreakingTicker({ updates = [], onSelectArticle }) {
   const publishedUpdates = Array.isArray(updates) ? updates.filter(u => u && typeof u === 'object' && u.status === 'published') : [];
-  const newsTickerList = publishedUpdates.length > 0
-    ? publishedUpdates.slice(0, 10).map(u => `🔥 ${u.title || 'Latest Movie Update'}`)
-    : ['🎬 Welcome to Telangana Box Office - Live Cinema & Trade News Desk'];
 
   return (
     <div className="bg-slate-100 border-b border-slate-200 py-1.5 px-2.5 sm:px-6 w-full max-w-full overflow-hidden">
@@ -28,15 +17,29 @@ export function BreakingTicker({ updates = [] }) {
 
           <div className="overflow-hidden relative w-full min-w-0 text-xs font-medium text-slate-800">
             <div className="animate-ticker space-x-6 sm:space-x-8">
-              {newsTickerList.map((item, idx) => (
-                <span key={idx} className="inline-flex items-center gap-2 cursor-pointer hover:text-red-600 transition-colors">
-                  <span>{item}</span>
-                  <span className="text-red-500 font-bold">•</span>
+              {publishedUpdates.length > 0 ? (
+                publishedUpdates.slice(0, 10).map((u, idx) => (
+                  <span
+                    key={u.id || u.slug || idx}
+                    onClick={() => onSelectArticle && onSelectArticle(u)}
+                    className="inline-flex items-center gap-2 cursor-pointer hover:text-red-600 font-semibold transition-colors"
+                  >
+                    <span>🔥 {u.title}</span>
+                    <span className="text-red-500 font-bold">•</span>
+                  </span>
+                ))
+              ) : (
+                <span className="inline-flex items-center gap-2 text-slate-600">
+                  🎬 Welcome to Telangana Box Office - Live Cinema & Trade News Desk
                 </span>
-              ))}
-              {newsTickerList.map((item, idx) => (
-                <span key={`dup-${idx}`} className="inline-flex items-center gap-2 cursor-pointer hover:text-red-600 transition-colors">
-                  <span>{item}</span>
+              )}
+              {publishedUpdates.length > 0 && publishedUpdates.slice(0, 10).map((u, idx) => (
+                <span
+                  key={`dup-${u.id || u.slug || idx}`}
+                  onClick={() => onSelectArticle && onSelectArticle(u)}
+                  className="inline-flex items-center gap-2 cursor-pointer hover:text-red-600 font-semibold transition-colors"
+                >
+                  <span>🔥 {u.title}</span>
                   <span className="text-red-500 font-bold">•</span>
                 </span>
               ))}
@@ -59,3 +62,4 @@ export function BreakingTicker({ updates = [] }) {
     </div>
   );
 }
+
