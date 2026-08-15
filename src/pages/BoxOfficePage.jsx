@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { BarChart3, Trophy, TrendingUp, Search, Award, Flame } from 'lucide-react';
-import { tollywoodSecondWeekRecords, boxOfficeSummary } from '../data/movieData';
 import { AnimatedNumber } from '../components/BoxOfficeSection';
 
 export function BoxOfficePage({ updates = [], onOpenTollywoodRecords, onSelectMovie }) {
@@ -38,10 +37,7 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords, onSelectMo
       };
     });
 
-  const baseSummary = adminBoxOffice.length > 0 ? adminBoxOffice : boxOfficeSummary;
-  const baseSecondWeek = adminBoxOffice.length > 0 ? adminBoxOffice : tollywoodSecondWeekRecords;
-
-  const activeBoxOffice = baseSummary.filter((item) => {
+  const activeBoxOffice = adminBoxOffice.filter((item) => {
     if (!search || !search.trim()) return true;
     const searchStr = search.toLowerCase().trim();
     const movieStr = String(item.movie || '').toLowerCase();
@@ -49,7 +45,7 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords, onSelectMo
     return movieStr.includes(searchStr) || verdictStr.includes(searchStr);
   });
 
-  const activeSecondWeek = baseSecondWeek.filter((item) => {
+  const activeSecondWeek = adminBoxOffice.filter((item) => {
     if (!search || !search.trim()) return true;
     const searchStr = search.toLowerCase().trim();
     const movieStr = String(item.movie || '').toLowerCase();

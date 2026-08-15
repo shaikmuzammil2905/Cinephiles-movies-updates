@@ -167,9 +167,9 @@ export function HeroCarousel({ updates = [], onSelectArticle }) {
             </div>
 
             <div className="divide-y divide-slate-100 space-y-2 pt-2">
-              {activeTrending.map((item) => (
+              {activeTrending.map((item, idx) => (
                 <div
-                  key={item.id}
+                  key={item.id || idx}
                   onClick={() => onSelectArticle({
                     title: item.title,
                     date: item.time,
@@ -181,7 +181,7 @@ export function HeroCarousel({ updates = [], onSelectArticle }) {
                   className="pt-2.5 flex items-center gap-3 group cursor-pointer"
                 >
                   <span className="w-6 h-6 rounded-full bg-red-600 text-white font-extrabold text-xs flex items-center justify-center shrink-0 shadow-sm">
-                    {item.id}
+                    {idx + 1}
                   </span>
 
                   <div className="flex-1 min-w-0">

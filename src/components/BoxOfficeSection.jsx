@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { TrendingUp, Award, BarChart3, ChevronRight, FileQuestion } from 'lucide-react';
-import { boxOfficeSummary } from '../data/movieData';
 
 // Helper component for animated number counting (typing effect)
 export function AnimatedNumber({ value, prefix = '₹', suffix = ' Cr' }) {
@@ -68,8 +67,6 @@ export function BoxOfficeSection({ updates = [], onOpenTollywoodRecords, onSelec
       };
     });
 
-  const itemsToDisplay = adminBoxOffice.length > 0 ? adminBoxOffice : boxOfficeSummary;
-
   return (
     <div id="boxoffice-section" className="space-y-4">
       {/* Header */}
@@ -87,7 +84,7 @@ export function BoxOfficeSection({ updates = [], onOpenTollywoodRecords, onSelec
       </div>
 
       {/* If 0 Records -> Empty State */}
-      {itemsToDisplay.length === 0 ? (
+      {adminBoxOffice.length === 0 ? (
         <div className="bg-white rounded-xl border border-slate-200 p-8 text-center space-y-3 shadow-xs">
           <div className="w-12 h-12 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
             <BarChart3 className="w-6 h-6" />
@@ -111,7 +108,7 @@ export function BoxOfficeSection({ updates = [], onOpenTollywoodRecords, onSelec
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 font-medium text-xs sm:text-sm">
-                {itemsToDisplay.map((item) => (
+                {adminBoxOffice.map((item) => (
                   <tr
                     key={item.id}
                     onClick={() => onSelectMovie && onSelectMovie(item.id)}
