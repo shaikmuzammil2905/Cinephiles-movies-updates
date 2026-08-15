@@ -44,7 +44,11 @@ export function AnimatedNumber({ value, prefix = '₹', suffix = ' Cr' }) {
 
 export function BoxOfficeSection({ updates = [], onOpenTollywoodRecords, onSelectMovie }) {
   const adminBoxOffice = (Array.isArray(updates) ? updates : [])
-    .filter((u) => u && typeof u === 'object' && u.status === 'published' && u.category === 'Box Office')
+    .filter((u) => {
+      if (!u || typeof u !== 'object' || u.status !== 'published') return false;
+      const cat = String(u.category || '').toLowerCase().trim();
+      return cat === 'box office' || cat === 'box-office';
+    })
     .map((item, idx) => {
       const extra = item.extra_data || {};
       const isManual = extra.manual_override === true || extra.manual_override === 'true';
@@ -54,7 +58,7 @@ export function BoxOfficeSection({ updates = [], onOpenTollywoodRecords, onSelec
       const indiaNetVal = extra.indiaNet || extra.india_net || '';
 
       return {
-        id: item.id || item.slug,
+        id: item.id || item.slug || item.title,
         rank: item.extra_data?.rank || idx + 1,
         movie: item.title,
         indiaNet: indiaNetVal,
@@ -108,21 +112,21 @@ export function BoxOfficeSection({ updates = [], onOpenTollywoodRecords, onSelec
                   <tr
                     key={item.id}
                     onClick={() => onSelectMovie && onSelectMovie(item.id)}
-                    className="hover:bg-slate-50 transition-colors cursor-pointer group"
+                    className="hover:bg-red-50/60 active:bg-red-100 transition-colors cursor-pointer group select-none"
                   >
-                    <td className="px-2 py-2 sm:px-3 sm:py-2.5 font-bold text-slate-700 text-center">{item.rank}</td>
-                    <td className="px-2 py-2 sm:px-3 sm:py-2.5 font-bold text-slate-900 group-hover:text-red-600 transition-colors flex items-center gap-2">
+                    <td className="px-2 py-2.5 sm:px-3 sm:py-2.5 font-bold text-slate-700 text-center">{item.rank}</td>
+                    <td className="px-2 py-2.5 sm:px-3 sm:py-2.5 font-bold text-slate-900 group-hover:text-red-600 transition-colors flex items-center gap-2">
                       <img 
                         src={item.poster} 
                         alt={item.movie} 
                         className="w-6 h-8 object-cover rounded shadow-xs hidden sm:block group-hover:scale-105 transition-transform" 
                       />
-                      <span className="truncate max-w-[120px] sm:max-w-none">{item.movie}</span>
+                      <span className="truncate max-w-[140px] sm:max-w-none text-xs sm:text-sm font-extrabold">{item.movie}</span>
                     </td>
-                    <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-right text-slate-700 font-semibold whitespace-nowrap text-[11px] sm:text-xs md:text-sm">
+                    <td className="px-2 py-2.5 sm:px-3 sm:py-2.5 text-right text-slate-700 font-semibold whitespace-nowrap text-[11px] sm:text-xs md:text-sm">
                       {item.indiaNet ? <AnimatedNumber value={item.indiaNet} /> : <span className="text-slate-400 font-normal">-</span>}
                     </td>
-                    <td className="px-2 py-2 sm:px-3 sm:py-2.5 text-right text-red-600 font-bold whitespace-nowrap text-[11px] sm:text-xs md:text-sm">
+                    <td className="px-2 py-2.5 sm:px-3 sm:py-2.5 text-right text-red-600 font-bold whitespace-nowrap text-[11px] sm:text-xs md:text-sm">
                       {item.worldwide ? <AnimatedNumber value={item.worldwide} /> : <span className="text-slate-400 font-normal">-</span>}
                     </td>
                   </tr>

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { ArrowLeft, Clock, Eye, User, Share2, Tag, Calendar, Sparkles } from 'lucide-react';
 import { formatDate } from '../lib/dateUtils';
+import { renderFormattedContent } from '../lib/contentUtils';
 
 export function ArticleDetailPage({ articleId, updates = [], onBack, onNavigateArticle }) {
   // Find article by ID or slug
@@ -133,17 +134,7 @@ export function ArticleDetailPage({ articleId, updates = [], onBack, onNavigateA
 
       {/* Full Article Content */}
       <div className="bg-white p-5 sm:p-10 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-        <div className="prose prose-slate max-w-none text-slate-800 text-sm sm:text-base leading-relaxed space-y-4">
-          {article.content ? (
-            article.content.split('\n\n').map((paragraph, index) => (
-              <p key={index} className="leading-relaxed">
-                {paragraph}
-              </p>
-            ))
-          ) : (
-            <p>{article.short_description || article.title}</p>
-          )}
-        </div>
+        {renderFormattedContent(article.content, article.short_description || article.title)}
 
         {/* Extra data details if review/OTT/trailer */}
         {article.category === 'Reviews' && article.extra_data && (

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Calendar, Eye, Share2, ThumbsUp, MessageSquare, Check, Copy } from 'lucide-react';
 import { FacebookIcon, InstagramIcon, TwitterIcon, WhatsappIcon } from './SocialIcons';
+import { renderFormattedContent } from '../lib/contentUtils';
 
 export function ArticleModal({ article, onClose }) {
   const [copied, setCopied] = useState(false);
@@ -78,7 +79,10 @@ export function ArticleModal({ article, onClose }) {
           </p>
 
           <div className="text-slate-700 space-y-3">
-            {article.content || `TELANGANA BOX OFFICE reports that this project is gaining immense traction across trade networks and movie lovers. With positive word of mouth, numbers are surging across multiplexes and single screen theaters globally.\n\nStay connected with Telangana Box Office for more real-time box office breakdowns, news, and official statements.`}
+            {renderFormattedContent(
+              article.content,
+              `TELANGANA BOX OFFICE reports that this project is gaining immense traction across trade networks and movie lovers. With positive word of mouth, numbers are surging across multiplexes and single screen theaters globally.\n\nStay connected with Telangana Box Office for more real-time box office breakdowns, news, and official statements.`
+            )}
           </div>
 
           {/* Social Share Bar After Article */}

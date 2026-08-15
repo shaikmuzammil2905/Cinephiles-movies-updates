@@ -5,31 +5,36 @@ import { formatDate } from '../lib/dateUtils';
 export function HeroCarousel({ updates = [], onSelectArticle }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Transform published admin "Top Story" updates for Hero Slider
-  const adminHeroArticles = (Array.isArray(updates) ? updates : [])
-    .filter((u) => u && typeof u === 'object' && u.status === 'published' && u.category === 'Top Story')
-    .map((item) => ({
-      id: item.id || item.slug,
-      badge: item.extra_data?.badge || item.tags || 'TOP STORY',
-      movieTag: item.extra_data?.movieTag || item.tags?.split(',')[0] || 'Exclusive',
-      actor: item.extra_data?.actor || '',
-      title: item.title || 'Latest Update',
-      date: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, 'Latest Story'),
-      views: item.extra_data?.views || '10.5K Views',
-      image: item.featured_image_url || '/kalki.png',
-      poster: item.featured_image_url || '/kalki.png',
-      summary: item.short_description || item.title || '',
-      content: item.content || item.short_description || ''
-    }));
+  // Transform published admin updates for Hero Slider (prefer "Top Story", fallback to any published update)
+  const publishedUpdates = (Array.isArray(updates) ? updates : []).filter(
+    (u) => u && typeof u === 'object' && u.status === 'published'
+  );
+  const topStoryUpdates = publishedUpdates.filter((u) => u.category === 'Top Story');
+  const pool = topStoryUpdates.length > 0 ? topStoryUpdates : publishedUpdates;
+
+  const adminHeroArticles = pool.map((item, idx) => ({
+    id: item.id || item.slug || `hero-${idx}`,
+    slug: item.slug || item.id || `hero-${idx}`,
+    badge: item.extra_data?.badge || item.tags || item.category || 'TOP STORY',
+    movieTag: item.extra_data?.movieTag || item.tags?.split(',')[0] || 'Exclusive',
+    actor: item.extra_data?.actor || '',
+    title: item.title || 'Latest Update',
+    date: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, 'Latest Story'),
+    views: item.extra_data?.views || '10.5K Views',
+    image: item.featured_image_url || '/kalki.png',
+    poster: item.featured_image_url || '/kalki.png',
+    summary: item.short_description || item.title || '',
+    content: item.content || item.short_description || ''
+  }));
 
   const activeHeroArticles = adminHeroArticles;
 
-  // Transform published admin "Movie News" for Trending Sidebar
-  const activeTrending = (Array.isArray(updates) ? updates : [])
-    .filter((u) => u && typeof u === 'object' && u.status === 'published' && (u.category === 'Movie News' || u.category === 'Top Story'))
+  // Transform published admin updates for Trending Sidebar
+  const activeTrending = publishedUpdates
     .slice(0, 5)
     .map((item, idx) => ({
-      id: idx + 1,
+      id: item.id || item.slug || idx + 1,
+      slug: item.slug || item.id,
       title: item.title || 'Movie Update',
       time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric' }, 'Just now'),
       image: item.featured_image_url || '/kalki.png',
@@ -118,12 +123,20 @@ export function HeroCarousel({ updates = [], onSelectArticle }) {
               </div>
 
               <div className="pt-0.5 sm:pt-2 flex items-center justify-between">
-                <button
-                  onClick={() => onSelectArticle(current)}
-                  className="px-3.5 sm:px-5 py-1 sm:py-2 rounded-full bg-red-600 text-white font-bold text-[11px] sm:text-sm hover:bg-red-700 transition-all shadow-md active:scale-95 border border-red-500"
+                <a
+                  href={`/news/${current.id || current.slug || ''}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => {
+                    if (!e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                      e.preventDefault();
+                      onSelectArticle && onSelectArticle(current);
+                    }
+                  }}
+                  className="px-3.5 sm:px-5 py-1 sm:py-2 rounded-full bg-red-600 text-white font-bold text-[11px] sm:text-sm hover:bg-red-700 transition-all shadow-md active:scale-95 border border-red-500 inline-flex items-center justify-center cursor-pointer"
                 >
                   Read More
-                </button>
+                </a>
 
                 {/* Dots Indicator */}
                 <div className="flex items-center gap-1 sm:gap-2">

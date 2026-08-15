@@ -9,6 +9,7 @@ import {
   AlertTriangle,
   ChevronRight
 } from 'lucide-react';
+import { renderFormattedContent } from '../lib/contentUtils';
 
 function formatDate(dateStr) {
   if (!dateStr) return null;
@@ -127,20 +128,8 @@ export function CollectionReviewPage({ review, movieTitle, collectionType, onBac
               REVIEW CONTENT
             </h2>
 
-            {/* Review Text – paragraphs split by double newline */}
-            <div className="prose prose-slate max-w-none">
-              {review.review_content
-                .split(/\n\n+/)
-                .filter((p) => p.trim())
-                .map((para, idx) => (
-                  <p
-                    key={idx}
-                    className="text-sm sm:text-base text-slate-700 leading-relaxed mb-4 last:mb-0 whitespace-pre-line"
-                  >
-                    {para.trim()}
-                  </p>
-                ))}
-            </div>
+            {/* Review Content */}
+            {renderFormattedContent(review.review_content)}
           </div>
 
           {/* Review Images Gallery */}

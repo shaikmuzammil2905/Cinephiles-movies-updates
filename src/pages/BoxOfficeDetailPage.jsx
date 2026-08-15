@@ -3,14 +3,26 @@ import { ArrowLeft, TrendingUp, Calendar, DollarSign, Award, Tv, ShieldAlert, Ba
 import { AnimatedNumber } from '../components/BoxOfficeSection';
 import { CollectionReviewPage } from './CollectionReviewPage';
 import { supabase } from '../lib/supabaseClient';
+import { renderFormattedContent } from '../lib/contentUtils';
 
 export function BoxOfficeDetailPage({ movieId, updates = [], onBack }) {
-  // Find box office movie by ID or slug
-  const movieRecord = (updates || []).find(
-    (u) =>
-      u.category === 'Box Office' &&
-      (String(u.id) === String(movieId) || String(u.slug) === String(movieId) || String(u.title).toLowerCase() === String(movieId).toLowerCase())
-  );
+  const cleanId = String(movieId || '').toLowerCase().trim();
+  const decodedId = decodeURIComponent(cleanId);
+
+  // Find box office movie by ID, slug, or title (case-insensitive & URL decoded)
+  const movieRecord = (updates || []).find((u) => {
+    if (!u) return false;
+    const uid = String(u.id || '').toLowerCase().trim();
+    const uslug = String(u.slug || '').toLowerCase().trim();
+    const utitle = String(u.title || '').toLowerCase().trim();
+    const cat = String(u.category || '').toLowerCase().trim();
+
+    const isBoxOfficeCat = cat === 'box office' || cat === 'box-office';
+    const matchesId = uid === cleanId || uslug === cleanId || utitle === cleanId ||
+                      uid === decodedId || uslug === decodedId || utitle === decodedId;
+
+    return (isBoxOfficeCat && matchesId) || matchesId;
+  });
 
   // Reviews state
   const [reviews, setReviews] = useState([]);
@@ -262,9 +274,9 @@ export function BoxOfficeDetailPage({ movieId, updates = [], onBack }) {
         {movieRecord.content && (
           <div className="pt-4 border-t border-slate-100 space-y-2">
             <h3 className="text-xs font-bold text-slate-500 uppercase">Trade Analysis Notes</h3>
-            <p className="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line">
-              {movieRecord.content}
-            </p>
+            <div className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              {renderFormattedContent(movieRecord.content)}
+            </div>
           </div>
         )}
       </div>
