@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Award, Flame, Search, Trophy, TrendingUp, BarChart3 } from 'lucide-react';
 import { AnimatedNumber } from './BoxOfficeSection';
+import { tollywoodSecondWeekRecords } from '../data/movieData';
 
 export function TollywoodRecordsModal({ isOpen, onClose, updates = [], onSelectMovie }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -36,7 +37,9 @@ export function TollywoodRecordsModal({ isOpen, onClose, updates = [], onSelectM
       };
     });
 
-  const filteredRecords = adminRecords.filter((item) => {
+  const recordsToDisplay = adminRecords.length > 0 ? adminRecords : tollywoodSecondWeekRecords;
+
+  const filteredRecords = recordsToDisplay.filter((item) => {
     if (!item) return false;
     const movieStr = String(item.movie || '').toLowerCase();
     const heroStr = String(item.hero || '').toLowerCase();
@@ -93,7 +96,7 @@ export function TollywoodRecordsModal({ isOpen, onClose, updates = [], onSelectM
 
         {/* Records Table or Empty State */}
         <div className="overflow-x-auto overflow-y-auto p-2 sm:p-4 flex-1">
-          {adminRecords.length === 0 ? (
+          {recordsToDisplay.length === 0 ? (
             <div className="p-12 text-center space-y-3">
               <BarChart3 className="w-12 h-12 text-slate-300 mx-auto" />
               <h3 className="text-base font-bold text-slate-800">No Box Office Data Available</h3>

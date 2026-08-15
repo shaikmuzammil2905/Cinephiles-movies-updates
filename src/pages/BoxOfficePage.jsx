@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BarChart3, Trophy, TrendingUp, Search, Award, Flame } from 'lucide-react';
-import { tollywoodSecondWeekRecords } from '../data/movieData';
+import { tollywoodSecondWeekRecords, boxOfficeSummary } from '../data/movieData';
 import { AnimatedNumber } from '../components/BoxOfficeSection';
 
 export function BoxOfficePage({ updates = [], onOpenTollywoodRecords, onSelectMovie }) {
@@ -25,19 +25,36 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords, onSelectMo
         id: item.id || item.slug || item.title,
         rank: item.extra_data?.rank || idx + 1,
         movie: item.title,
+        hero: extra.cast || extra.hero || 'Tollywood Star',
+        director: extra.director || 'Director',
+        year: extra.releaseDate || '2025',
+        tgapSecondWeekShare: extra.weekendCollection || extra.tgapSecondWeekShare || '-',
+        indiaNetSecondWeek: indiaNetVal,
         indiaNet: indiaNetVal,
         worldwide: worldwideVal,
+        totalWorldwide: worldwideVal,
         verdict: extra.verdict || 'Published',
         poster: item.featured_image_url || '/kalki.png'
       };
     });
 
-  const activeBoxOffice = adminBoxOffice.filter((item) => {
+  const baseSummary = adminBoxOffice.length > 0 ? adminBoxOffice : boxOfficeSummary;
+  const baseSecondWeek = adminBoxOffice.length > 0 ? adminBoxOffice : tollywoodSecondWeekRecords;
+
+  const activeBoxOffice = baseSummary.filter((item) => {
     if (!search || !search.trim()) return true;
     const searchStr = search.toLowerCase().trim();
     const movieStr = String(item.movie || '').toLowerCase();
     const verdictStr = String(item.verdict || '').toLowerCase();
     return movieStr.includes(searchStr) || verdictStr.includes(searchStr);
+  });
+
+  const activeSecondWeek = baseSecondWeek.filter((item) => {
+    if (!search || !search.trim()) return true;
+    const searchStr = search.toLowerCase().trim();
+    const movieStr = String(item.movie || '').toLowerCase();
+    const heroStr = String(item.hero || '').toLowerCase();
+    return movieStr.includes(searchStr) || heroStr.includes(searchStr);
   });
 
   return (
@@ -176,7 +193,7 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords, onSelectMo
             </div>
           </div>
 
-          {activeBoxOffice.length === 0 ? (
+          {activeSecondWeek.length === 0 ? (
             <div className="p-8 text-center space-y-3">
               <BarChart3 className="w-12 h-12 text-slate-300 mx-auto" />
               <h3 className="text-base font-bold text-slate-800">No Box Office Data Available</h3>
@@ -190,17 +207,18 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords, onSelectMo
                 <thead className="bg-[#031738] text-white font-bold uppercase text-[11px]">
                   <tr>
                     <th className="p-3 text-center">Rank</th>
-                    <th className="p-3">Movie Name</th>
+                    <th className="p-3">Movie & Details</th>
+                    <th className="p-3 text-right">Weekend / TG-AP Share</th>
                     <th className="p-3 text-right">India Net</th>
                     <th className="p-3 text-right">Total Worldwide</th>
                     <th className="p-3 text-center">Verdict</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200">
-                  {activeBoxOffice.map((item) => (
+                  {activeSecondWeek.map((item) => (
                     <tr
-                      key={item.id}
-                      onClick={() => onSelectMovie && onSelectMovie(item.id)}
+                      key={item.id || item.rank}
+                      onClick={() => onSelectMovie && onSelectMovie(item.id || item.movie)}
                       className="hover:bg-red-50/50 transition-colors cursor-pointer group"
                     >
                       <td className="p-3 text-center">
@@ -212,19 +230,22 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords, onSelectMo
                           {item.rank}
                         </span>
                       </td>
-                      <td className="p-3 font-extrabold text-slate-900 flex items-center gap-3">
-                        <img src={item.poster} alt={item.movie} className="w-8 h-10 object-cover rounded shadow-xs group-hover:scale-105 transition-transform" />
-                        <span>{item.movie}</span>
+                      <td className="p-3">
+                        <h4 className="font-extrabold text-slate-900 text-xs sm:text-sm">{item.movie}</h4>
+                        <p className="text-[11px] text-slate-500">{item.hero} {item.director ? `• Dir: ${item.director}` : ''} {item.year ? `(${item.year})` : ''}</p>
                       </td>
-                      <td className="p-3 text-right font-bold text-slate-800">
-                        {item.indiaNet ? <AnimatedNumber value={item.indiaNet} /> : <span className="text-slate-400 font-normal">-</span>}
+                      <td className="p-3 text-right font-extrabold text-red-600 whitespace-nowrap">
+                        {item.tgapSecondWeekShare || '-'}
                       </td>
-                      <td className="p-3 text-right font-extrabold text-red-600">
-                        {item.worldwide ? <AnimatedNumber value={item.worldwide} /> : <span className="text-slate-400 font-normal">-</span>}
+                      <td className="p-3 text-right font-bold text-slate-800 whitespace-nowrap">
+                        {item.indiaNetSecondWeek || item.indiaNet ? <AnimatedNumber value={item.indiaNetSecondWeek || item.indiaNet} /> : <span className="text-slate-400 font-normal">-</span>}
+                      </td>
+                      <td className="p-3 text-right font-extrabold text-slate-900 whitespace-nowrap">
+                        {item.totalWorldwide || item.worldwide ? <AnimatedNumber value={item.totalWorldwide || item.worldwide} /> : <span className="text-slate-400 font-normal">-</span>}
                       </td>
                       <td className="p-3 text-center">
                         <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap uppercase">
-                          {item.verdict}
+                          {item.verdict || 'Blockbuster'}
                         </span>
                       </td>
                     </tr>
