@@ -7,12 +7,12 @@ export function TrailersSection({ updates = [], onPlayTrailer }) {
     .filter((u) => u && typeof u === 'object' && u.status === 'published' && u.category === 'Trailers')
     .map((item) => ({
       id: item.id || item.slug,
-      title: item.title || 'Trailer',
-      duration: item.extra_data?.duration || '2:45',
-      time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric' }, 'Recently Released'),
-      views: item.extra_data?.views || '1.5M Views',
+      title: item.title || '',
+      duration: item.extra_data?.duration || '',
+      time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric' }, ''),
+      views: item.extra_data?.views || '',
       thumbnail: item.featured_image_url || '',
-      youtubeId: item.extra_data?.youtubeId || 'dQw4w9WgXcQ'
+      youtubeId: item.extra_data?.youtubeId || ''
     }));
 
   const activeTrailers = adminTrailers;

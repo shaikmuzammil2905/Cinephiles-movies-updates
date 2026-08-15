@@ -24,15 +24,15 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords, onSelectMo
         id: item.id || item.slug || item.title,
         rank: item.extra_data?.rank || idx + 1,
         movie: item.title,
-        hero: extra.cast || extra.hero || 'Tollywood Star',
-        director: extra.director || 'Director',
-        year: extra.releaseDate || '2025',
-        tgapSecondWeekShare: extra.weekendCollection || extra.tgapSecondWeekShare || '-',
+        hero: extra.cast || extra.hero || '',
+        director: extra.director || '',
+        year: extra.releaseDate || '',
+        tgapSecondWeekShare: extra.weekendCollection || extra.tgapSecondWeekShare || '',
         indiaNetSecondWeek: indiaNetVal,
         indiaNet: indiaNetVal,
         worldwide: worldwideVal,
         totalWorldwide: worldwideVal,
-        verdict: extra.verdict || 'Published',
+        verdict: extra.verdict || '',
         poster: item.featured_image_url || ''
       };
     });

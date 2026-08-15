@@ -12,11 +12,11 @@ export function MovieNewsPage({ updates = [], onSelectArticle }) {
     .filter((u) => u && typeof u === 'object' && u.status === 'published' && (u.category === 'Movie News' || u.category === 'Top Story'))
     .map((item) => ({
       id: item.id || item.slug,
-      title: item.title || 'Movie News',
-      badge: item.extra_data?.badge || item.category || 'NEWS',
-      date: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, 'Recently Added'),
-      time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, 'Recently Added'),
-      views: item.extra_data?.views || '9.8K Views',
+      title: item.title || '',
+      badge: item.extra_data?.badge || item.category || '',
+      date: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, ''),
+      time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, ''),
+      views: item.extra_data?.views || '',
       image: item.featured_image_url || '',
       summary: item.short_description || item.title || '',
       content: item.content || item.short_description || ''

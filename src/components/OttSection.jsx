@@ -10,15 +10,15 @@ export function OttSection({ updates = [], onSelectMedia }) {
     .map((item) => ({
       id: item.id || item.slug,
       title: item.title,
-      platform: item.extra_data?.platform || 'netflix',
-      platformName: item.extra_data?.platformName || 'Netflix',
-      status: item.extra_data?.status || 'Streaming Now',
-      quality: item.extra_data?.quality || '4K Ultra HD',
-      language: item.extra_data?.language || 'Telugu, Hindi',
-      releaseDate: item.extra_data?.releaseDate || 'Streaming Now',
+      platform: item.extra_data?.platform || '',
+      platformName: item.extra_data?.platformName || (item.extra_data?.platform ? String(item.extra_data.platform).toUpperCase() : 'OTT'),
+      status: item.extra_data?.status || '',
+      quality: item.extra_data?.quality || '',
+      language: item.extra_data?.language || '',
+      releaseDate: item.extra_data?.releaseDate || '',
       poster: item.featured_image_url || '',
-      description: item.short_description || item.title,
-      content: item.content || item.short_description
+      description: item.short_description || item.title || '',
+      content: item.content || item.short_description || ''
     }));
 
   const allOttUpdates = adminOtt;

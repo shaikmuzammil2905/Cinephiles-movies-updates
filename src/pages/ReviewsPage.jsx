@@ -10,13 +10,13 @@ export function ReviewsPage({ updates = [], onSelectReview }) {
     .map((item) => ({
       id: item.id || item.slug,
       title: item.title,
-      rating: item.extra_data?.rating || '4.0',
-      director: item.extra_data?.director || 'Director',
-      cast: item.extra_data?.cast || 'Star Cast',
-      verdict: item.extra_data?.verdict || 'MUST WATCH',
+      rating: item.extra_data?.rating || '',
+      director: item.extra_data?.director || '',
+      cast: item.extra_data?.cast || '',
+      verdict: item.extra_data?.verdict || '',
       poster: item.featured_image_url || '',
-      summary: item.short_description || item.title,
-      content: item.content || item.short_description
+      summary: item.short_description || item.title || '',
+      content: item.content || item.short_description || ''
     }));
 
   const activeReviews = adminReviews;

@@ -9,10 +9,10 @@ export function UpcomingPage({ updates = [], onSelectMovie }) {
     .map((item) => ({
       id: item.id || item.slug,
       title: item.title,
-      releaseDate: item.extra_data?.releaseDate || 'Coming Soon',
-      days: parseInt(item.extra_data?.days || '14', 10),
-      hrs: parseInt(item.extra_data?.hrs || '6', 10),
-      mins: parseInt(item.extra_data?.mins || '45', 10),
+      releaseDate: item.extra_data?.releaseDate || '',
+      days: parseInt(item.extra_data?.days || 0, 10),
+      hrs: parseInt(item.extra_data?.hrs || 0, 10),
+      mins: parseInt(item.extra_data?.mins || 0, 10),
       poster: item.featured_image_url || ''
     }));
 

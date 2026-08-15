@@ -7,10 +7,10 @@ export function NewsSection({ updates = [], onSelectArticle }) {
     .filter((u) => u && typeof u === 'object' && u.status === 'published' && (u.category === 'Movie News' || u.category === 'Top Story'))
     .map((item) => ({
       id: item.id || item.slug,
-      title: item.title || 'Movie News',
+      title: item.title || '',
       category: item.category || 'Movie News',
-      time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, 'Just now'),
-      views: item.extra_data?.views || '12.4K Views',
+      time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, ''),
+      views: item.extra_data?.views || '',
       image: item.featured_image_url || '',
       summary: item.short_description || item.title || '',
       content: item.content || item.short_description || ''

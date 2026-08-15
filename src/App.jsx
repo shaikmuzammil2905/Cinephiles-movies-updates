@@ -333,8 +333,12 @@ export default function App() {
 
     try {
       if (deletingUpdate.id) {
+        // Delete update from Supabase
         const { error } = await supabase.from('updates').delete().eq('id', deletingUpdate.id);
         if (error) throw error;
+
+        // Also delete any linked reviews in movie_reviews to prevent orphaned records
+        await supabase.from('movie_reviews').delete().eq('movie_id', deletingUpdate.id);
       } else if (deletingUpdate.slug) {
         const { error } = await supabase.from('updates').delete().eq('slug', deletingUpdate.slug);
         if (error) throw error;
@@ -342,6 +346,7 @@ export default function App() {
 
       showToast('Update deleted successfully!');
       await fetchSupabaseData();
+      await fetchReviews();
     } catch (err) {
       console.error('Supabase delete error:', err);
       showToast(err.message || 'Failed to delete update', 'error');

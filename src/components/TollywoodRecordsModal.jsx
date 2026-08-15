@@ -26,13 +26,13 @@ export function TollywoodRecordsModal({ isOpen, onClose, updates = [], onSelectM
         id: item.id || item.slug || item.title,
         rank: item.extra_data?.rank || idx + 1,
         movie: item.title,
-        hero: extra.cast || extra.hero || 'Tollywood Star',
-        director: extra.director || 'Director',
-        year: extra.releaseDate || '2025',
-        tgapSecondWeekShare: weekendVal,
+        hero: extra.cast || extra.hero || '',
+        director: extra.director || '',
+        year: extra.releaseDate || '',
+        tgapSecondWeekShare: weekendVal === '-' ? '' : weekendVal,
         indiaNetSecondWeek: indiaNetVal,
         totalWorldwide: worldwideVal,
-        verdict: extra.verdict || 'Published'
+        verdict: extra.verdict || ''
       };
     });
 

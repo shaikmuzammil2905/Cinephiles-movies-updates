@@ -190,22 +190,30 @@ export function ArticleDetailPage({ articleId, updates = [], onBack, onNavigateA
               Review Summary
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div>
-                <span className="text-slate-500 block">Rating:</span>
-                <span className="font-bold text-amber-700 text-sm">{article.extra_data.rating || '4.0'} / 5.0</span>
-              </div>
-              <div>
-                <span className="text-slate-500 block">Director:</span>
-                <span className="font-bold text-slate-800">{article.extra_data.director || 'N/A'}</span>
-              </div>
-              <div>
-                <span className="text-slate-500 block">Cast:</span>
-                <span className="font-bold text-slate-800">{article.extra_data.cast || 'N/A'}</span>
-              </div>
-              <div>
-                <span className="text-slate-500 block">Verdict:</span>
-                <span className="font-bold text-emerald-700 uppercase">{article.extra_data.verdict || 'Must Watch'}</span>
-              </div>
+              {article.extra_data.rating && (
+                <div>
+                  <span className="text-slate-500 block">Rating:</span>
+                  <span className="font-bold text-amber-700 text-sm">{article.extra_data.rating} / 5.0</span>
+                </div>
+              )}
+              {article.extra_data.director && (
+                <div>
+                  <span className="text-slate-500 block">Director:</span>
+                  <span className="font-bold text-slate-800">{article.extra_data.director}</span>
+                </div>
+              )}
+              {article.extra_data.cast && (
+                <div>
+                  <span className="text-slate-500 block">Cast:</span>
+                  <span className="font-bold text-slate-800">{article.extra_data.cast}</span>
+                </div>
+              )}
+              {article.extra_data.verdict && (
+                <div>
+                  <span className="text-slate-500 block">Verdict:</span>
+                  <span className="font-bold text-emerald-700 uppercase">{article.extra_data.verdict}</span>
+                </div>
+              )}
             </div>
           </div>
         )}
