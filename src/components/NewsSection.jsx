@@ -11,7 +11,7 @@ export function NewsSection({ updates = [], onSelectArticle }) {
       category: item.category || 'Movie News',
       time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, 'Just now'),
       views: item.extra_data?.views || '12.4K Views',
-      image: item.featured_image_url || '/kalki.png',
+      image: item.featured_image_url || '',
       summary: item.short_description || item.title || '',
       content: item.content || item.short_description || ''
     }));

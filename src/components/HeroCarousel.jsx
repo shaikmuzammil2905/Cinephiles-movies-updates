@@ -21,8 +21,8 @@ export function HeroCarousel({ updates = [], onSelectArticle }) {
     title: item.title || 'Latest Update',
     date: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, 'Latest Story'),
     views: item.extra_data?.views || '10.5K Views',
-    image: item.featured_image_url || '/kalki.png',
-    poster: item.featured_image_url || '/kalki.png',
+    image: item.featured_image_url || '',
+    poster: item.featured_image_url || '',
     summary: item.short_description || item.title || '',
     content: item.content || item.short_description || ''
   }));
@@ -37,7 +37,7 @@ export function HeroCarousel({ updates = [], onSelectArticle }) {
       slug: item.slug || item.id,
       title: item.title || 'Movie Update',
       time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric' }, 'Just now'),
-      image: item.featured_image_url || '/kalki.png',
+      image: item.featured_image_url || '',
       summary: item.short_description || item.title || '',
       content: item.content || item.short_description || ''
     }));
@@ -54,8 +54,8 @@ export function HeroCarousel({ updates = [], onSelectArticle }) {
     title: 'Telangana Box Office',
     badge: 'TOP STORY',
     date: 'Latest',
-    views: '10K Views',
-    image: '/kalki.png',
+    views: 'Live Updates',
+    image: '',
     summary: 'Welcome to Telangana Box Office'
   };
 

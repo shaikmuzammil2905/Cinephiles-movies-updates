@@ -13,7 +13,7 @@ export function TrailersPage({ updates = [], onPlayTrailer }) {
       duration: item.extra_data?.duration || '2:45',
       time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric' }, 'Recently Released'),
       views: item.extra_data?.views || '1.5M Views',
-      thumbnail: item.featured_image_url || '/kalki.png',
+      thumbnail: item.featured_image_url || '',
       youtubeId: item.extra_data?.youtubeId || 'dQw4w9WgXcQ'
     }));
 

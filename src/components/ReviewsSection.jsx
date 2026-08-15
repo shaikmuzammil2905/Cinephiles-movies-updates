@@ -11,7 +11,7 @@ export function ReviewsSection({ updates = [], onSelectReview }) {
       director: item.extra_data?.director || 'Director',
       cast: item.extra_data?.cast || 'Star Cast',
       verdict: item.extra_data?.verdict || 'MUST WATCH',
-      poster: item.featured_image_url || '/kalki.png',
+      poster: item.featured_image_url || '',
       summary: item.short_description || item.title,
       content: item.content || item.short_description
     }));

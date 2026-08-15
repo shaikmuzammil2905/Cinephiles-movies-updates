@@ -63,7 +63,7 @@ export function BoxOfficeSection({ updates = [], onOpenTollywoodRecords, onSelec
         movie: item.title,
         indiaNet: indiaNetVal,
         worldwide: worldwideVal,
-        poster: item.featured_image_url || '/kalki.png'
+        poster: item.featured_image_url || ''
       };
     });
 

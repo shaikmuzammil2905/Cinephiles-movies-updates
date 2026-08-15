@@ -11,7 +11,7 @@ export function UpcomingReleases({ updates = [], onSelectMovie }) {
       days: parseInt(item.extra_data?.days || '14', 10),
       hrs: parseInt(item.extra_data?.hrs || '6', 10),
       mins: parseInt(item.extra_data?.mins || '45', 10),
-      poster: item.featured_image_url || '/kalki.png'
+      poster: item.featured_image_url || ''
     }));
 
   const activeUpcoming = adminUpcoming;

@@ -17,7 +17,7 @@ export function MovieNewsPage({ updates = [], onSelectArticle }) {
       date: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, 'Recently Added'),
       time: formatDate(item.published_at || item.created_at, { month: 'short', day: 'numeric', year: 'numeric' }, 'Recently Added'),
       views: item.extra_data?.views || '9.8K Views',
-      image: item.featured_image_url || '/kalki.png',
+      image: item.featured_image_url || '',
       summary: item.short_description || item.title || '',
       content: item.content || item.short_description || ''
     }));

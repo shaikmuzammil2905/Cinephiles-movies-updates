@@ -17,7 +17,7 @@ export function OttPage({ updates = [], onSelectMedia }) {
       quality: item.extra_data?.quality || '4K Ultra HD',
       language: item.extra_data?.language || 'Telugu, Hindi',
       releaseDate: item.extra_data?.releaseDate || 'Streaming Now',
-      poster: item.featured_image_url || '/kalki.png',
+      poster: item.featured_image_url || '',
       description: item.short_description || item.title,
       content: item.content || item.short_description
     }));

@@ -33,7 +33,7 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords, onSelectMo
         worldwide: worldwideVal,
         totalWorldwide: worldwideVal,
         verdict: extra.verdict || 'Published',
-        poster: item.featured_image_url || '/kalki.png'
+        poster: item.featured_image_url || ''
       };
     });
 
