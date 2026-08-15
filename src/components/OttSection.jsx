@@ -80,55 +80,67 @@ export function OttSection({ updates = [], onSelectMedia }) {
           })}
         </div>
 
-        {/* Filtered OTT Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          {filteredUpdates.map((item) => (
-            <div
-              key={item.id}
-              onClick={() => onSelectMedia(item)}
-              className="bg-slate-50 hover:bg-white rounded-xl border border-slate-200 hover:border-red-500/50 p-2.5 sm:p-3 flex gap-3 group cursor-pointer transition-all hover:shadow-lg active:scale-[0.99]"
-            >
-              <div className="relative w-20 h-28 sm:w-24 sm:h-32 rounded-lg overflow-hidden shrink-0 bg-slate-900 shadow">
-                <img
-                  src={item.poster}
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <div className="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg">
-                    <Play className="w-4 h-4 fill-white ml-0.5" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex-1 min-w-0 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-1.5 mb-1 flex-wrap">
-                    <span className="bg-slate-900 text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded">
-                      {item.platformName}
-                    </span>
-                    <span className="text-[9px] sm:text-[10px] font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded">
-                      {item.status}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 group-hover:text-red-600 transition-colors line-clamp-1">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 line-clamp-2 leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-
-                <div className="pt-1.5 border-t border-slate-200/60 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500">
-                  <span>{item.quality}</span>
-                  <span className="font-semibold text-slate-700">{item.releaseDate}</span>
-                </div>
-              </div>
+        {/* Filtered OTT Cards Grid or Empty State */}
+        {filteredUpdates.length === 0 ? (
+          <div className="bg-slate-50 rounded-xl border border-slate-200 p-8 text-center space-y-2">
+            <div className="w-12 h-12 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
+              <Tv className="w-6 h-6" />
             </div>
-          ))}
-        </div>
+            <h3 className="text-sm font-bold text-slate-800">No OTT Updates Available</h3>
+            <p className="text-xs text-slate-500">
+              Published OTT updates will appear here live once added from the admin panel.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+            {filteredUpdates.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => onSelectMedia(item)}
+                className="bg-slate-50 hover:bg-white rounded-xl border border-slate-200 hover:border-red-500/50 p-2.5 sm:p-3 flex gap-3 group cursor-pointer transition-all hover:shadow-lg active:scale-[0.99]"
+              >
+                <div className="relative w-20 h-28 sm:w-24 sm:h-32 rounded-lg overflow-hidden shrink-0 bg-slate-900 shadow">
+                  <img
+                    src={item.poster}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg">
+                      <Play className="w-4 h-4 fill-white ml-0.5" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex-1 min-w-0 flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-1.5 mb-1 flex-wrap">
+                      <span className="bg-slate-900 text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded">
+                        {item.platformName}
+                      </span>
+                      <span className="text-[9px] sm:text-[10px] font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded">
+                        {item.status}
+                      </span>
+                    </div>
+
+                    <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 group-hover:text-red-600 transition-colors line-clamp-1">
+                      {item.title}
+                    </h3>
+
+                    <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 line-clamp-2 leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+
+                  <div className="pt-1.5 border-t border-slate-200/60 flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500">
+                    <span>{item.quality}</span>
+                    <span className="font-semibold text-slate-700">{item.releaseDate}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
       </div>
     </section>

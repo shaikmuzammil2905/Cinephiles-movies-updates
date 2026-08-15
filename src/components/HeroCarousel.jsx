@@ -50,14 +50,22 @@ export function HeroCarousel({ updates = [], onSelectArticle }) {
     return () => clearInterval(timer);
   }, [activeHeroArticles.length]);
 
-  const current = activeHeroArticles[currentIndex] || activeHeroArticles[0] || {
-    title: 'Telangana Box Office',
-    badge: 'TOP STORY',
-    date: 'Latest',
-    views: 'Live Updates',
-    image: '',
-    summary: 'Welcome to Telangana Box Office'
-  };
+  if (activeHeroArticles.length === 0) {
+    return (
+      <section id="hero-section" className="py-4 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-2.5 sm:px-4 lg:px-6">
+          <div className="bg-[#031738] text-white rounded-2xl p-6 sm:p-10 text-center space-y-3 shadow-xl border border-slate-800">
+            <h2 className="text-xl sm:text-3xl font-extrabold tracking-tight">Welcome to Telangana Box Office</h2>
+            <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
+              Real-time updates, box office reports, and cinema news will appear here once published from the admin panel.
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const current = activeHeroArticles[currentIndex] || activeHeroArticles[0];
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + activeHeroArticles.length) % activeHeroArticles.length);

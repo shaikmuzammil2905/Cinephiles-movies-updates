@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from './lib/supabaseClient';
-import { seedSupabaseData, getInitialSeedUpdates } from './lib/seeder';
+import { seedSupabaseData } from './lib/seeder';
 
 // Public Header & Footer
 import { Header } from './components/Header';
@@ -75,7 +75,6 @@ export default function App() {
   const [categories, setCategories] = useState([]);
   const [loadingUpdates, setLoadingUpdates] = useState(true);
   const [toast, setToast] = useState(null);
-  const hasInitialLoaded = React.useRef(false);
 
   // Admin Modal States
   const [showAddEditModal, setShowAddEditModal] = useState(false);
@@ -122,7 +121,7 @@ export default function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  // 2. Fetch updates & categories from Supabase
+  // 2. Fetch updates & categories purely from Supabase (No static fallbacks)
   const fetchSupabaseData = async () => {
     setLoadingUpdates(true);
     try {
@@ -133,26 +132,15 @@ export default function App() {
         .order('created_at', { ascending: false });
 
       if (updatesErr) {
-        console.warn('Supabase updates fetch notice:', updatesErr.message);
-        setUpdates(getInitialSeedUpdates());
-      } else if (updatesData && updatesData.length > 0) {
-        setUpdates(updatesData);
-      } else if (!hasInitialLoaded.current) {
-        // First application load and table is completely empty -> seed once into Supabase
-        const seedRes = await seedSupabaseData(false);
-        if (seedRes.success && seedRes.data && seedRes.data.length > 0) {
-          setUpdates(seedRes.data);
-        } else {
-          setUpdates(getInitialSeedUpdates());
-        }
+        console.error('Supabase updates fetch error:', updatesErr.message);
+        setUpdates([]);
       } else {
-        setUpdates(getInitialSeedUpdates());
+        setUpdates(updatesData || []);
       }
-      hasInitialLoaded.current = true;
 
-      // Fetch Categories
-      const { data: catData } = await supabase.from('categories').select('*');
-      if (catData && catData.length > 0) {
+      // Fetch Categories from Supabase
+      const { data: catData, error: catErr } = await supabase.from('categories').select('*');
+      if (!catErr && catData && catData.length > 0) {
         setCategories(catData);
       } else {
         setCategories([
@@ -167,7 +155,7 @@ export default function App() {
       }
     } catch (err) {
       console.error('Error fetching Supabase data:', err);
-      setUpdates(getInitialSeedUpdates());
+      setUpdates([]);
     } finally {
       setLoadingUpdates(false);
     }
@@ -194,7 +182,36 @@ export default function App() {
   };
 
   useEffect(() => {
+    fetchSupabaseData();
     fetchReviews();
+
+    // Realtime subscriptions: Auto-refetches live data whenever Supabase database changes
+    const updatesChannel = supabase
+      .channel('public:updates')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'updates' }, () => {
+        fetchSupabaseData();
+      })
+      .subscribe();
+
+    const reviewsChannel = supabase
+      .channel('public:movie_reviews')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'movie_reviews' }, () => {
+        fetchReviews();
+      })
+      .subscribe();
+
+    const categoriesChannel = supabase
+      .channel('public:categories')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'categories' }, () => {
+        fetchSupabaseData();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(updatesChannel);
+      supabase.removeChannel(reviewsChannel);
+      supabase.removeChannel(categoriesChannel);
+    };
   }, []);
 
   // Listen for Route Changes (Path & Hash) & Browser Back/Forward
@@ -286,39 +303,27 @@ export default function App() {
   // 3. Admin Actions (Create / Edit / Delete / Toggle Status)
   const handleSaveUpdate = async (updateData) => {
     try {
-      let savedRecord = { ...updateData };
-
       if (editingUpdate?.id) {
-        // UPDATE existing record
-        const { data, error } = await supabase
+        // UPDATE existing record using exact ID
+        const { error } = await supabase
           .from('updates')
           .update(updateData)
-          .eq('id', editingUpdate.id)
-          .select();
+          .eq('id', editingUpdate.id);
 
         if (error) throw error;
-        if (data && data[0]) savedRecord = data[0];
         showToast('Update modified successfully!');
       } else {
-        // INSERT new record
-        const { data, error } = await supabase.from('updates').insert([updateData]).select();
+        // INSERT new record into Supabase
+        const { error } = await supabase.from('updates').insert([updateData]);
         if (error) throw error;
-        if (data && data[0]) savedRecord = data[0];
         showToast('New update created and published!');
       }
 
-      setUpdates((prev) => {
-        if (editingUpdate) {
-          return prev.map((u) => (u.id === editingUpdate.id || u.slug === editingUpdate.slug ? { ...u, ...savedRecord } : u));
-        } else {
-          return [savedRecord, ...prev];
-        }
-      });
-
-      fetchSupabaseData();
+      await fetchSupabaseData();
     } catch (err) {
-      console.warn('Supabase save notice:', err.message);
+      console.error('Supabase save error:', err.message);
       showToast(err.message || 'Failed to save update', 'error');
+      throw err;
     }
   };
 
@@ -329,29 +334,16 @@ export default function App() {
     try {
       if (deletingUpdate.id) {
         const { error } = await supabase.from('updates').delete().eq('id', deletingUpdate.id);
-        if (error) {
-          console.error('Supabase delete error:', error);
-          throw error;
-        }
+        if (error) throw error;
       } else if (deletingUpdate.slug) {
         const { error } = await supabase.from('updates').delete().eq('slug', deletingUpdate.slug);
-        if (error) {
-          console.error('Supabase delete error by slug:', error);
-          throw error;
-        }
+        if (error) throw error;
       }
 
-      setUpdates((prev) => prev.filter((u) => u.id !== deletingUpdate.id && u.slug !== deletingUpdate.slug));
       showToast('Update deleted successfully!');
-
-      // Re-fetch live data from Supabase immediately to ensure sync
-      const { data: freshData } = await supabase
-        .from('updates')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      setUpdates(freshData || []);
+      await fetchSupabaseData();
     } catch (err) {
+      console.error('Supabase delete error:', err);
       showToast(err.message || 'Failed to delete update', 'error');
     } finally {
       setDeleteLoading(false);
@@ -360,59 +352,73 @@ export default function App() {
   };
 
   const handleToggleStatus = async (item) => {
+    if (!item) return;
     const newStatus = item.status === 'published' ? 'draft' : 'published';
     try {
       if (item.id) {
-        await supabase.from('updates').update({ status: newStatus }).eq('id', item.id);
+        const { error } = await supabase
+          .from('updates')
+          .update({ status: newStatus, updated_at: new Date().toISOString() })
+          .eq('id', item.id);
+        if (error) throw error;
+      } else if (item.slug) {
+        const { error } = await supabase
+          .from('updates')
+          .update({ status: newStatus, updated_at: new Date().toISOString() })
+          .eq('slug', item.slug);
+        if (error) throw error;
       }
-      setUpdates((prev) => prev.map((u) => (u.id === item.id || u.slug === item.slug ? { ...u, status: newStatus } : u)));
+
       showToast(`Update status changed to ${newStatus}`);
+      await fetchSupabaseData();
     } catch (err) {
-      showToast('Failed to change status', 'error');
+      console.error('Failed to change status:', err);
+      showToast('Failed to change status: ' + err.message, 'error');
     }
   };
 
   // Category CRUD
   const handleAddCategory = async (cat) => {
     try {
-      const { data, error } = await supabase.from('categories').insert([cat]).select();
+      const { error } = await supabase.from('categories').insert([cat]);
       if (error) throw error;
       showToast('Category added!');
-      fetchSupabaseData();
+      await fetchSupabaseData();
     } catch (err) {
-      setCategories((prev) => [...prev, { id: `cat-${Date.now()}`, ...cat }]);
-      showToast('Category added!');
+      showToast(err.message || 'Failed to add category', 'error');
     }
   };
 
   const handleEditCategory = async (cat) => {
     try {
       if (cat.id) {
-        await supabase.from('categories').update(cat).eq('id', cat.id);
+        const { error } = await supabase.from('categories').update(cat).eq('id', cat.id);
+        if (error) throw error;
       }
-      setCategories((prev) => prev.map((c) => (c.id === cat.id ? cat : c)));
       showToast('Category updated!');
+      await fetchSupabaseData();
     } catch (err) {
-      showToast(err.message, 'error');
+      showToast(err.message || 'Failed to update category', 'error');
     }
   };
 
   const handleDeleteCategory = async (cat) => {
     try {
       if (cat.id) {
-        await supabase.from('categories').delete().eq('id', cat.id);
+        const { error } = await supabase.from('categories').delete().eq('id', cat.id);
+        if (error) throw error;
       }
-      setCategories((prev) => prev.filter((c) => c.id !== cat.id));
       showToast('Category deleted!');
+      await fetchSupabaseData();
     } catch (err) {
-      showToast(err.message, 'error');
+      showToast(err.message || 'Failed to delete category', 'error');
     }
   };
 
-  // 1-Click Database Seeder
+  // 1-Click Database Seeder (Manual trigger only)
   const handleSeedDatabase = async () => {
     setSeedLoading(true);
-    const res = await seedSupabaseData();
+    const res = await seedSupabaseData(true);
     setSeedLoading(false);
     if (res.success) {
       showToast('Supabase database seeded with website updates!');
@@ -431,22 +437,20 @@ export default function App() {
   const handleSaveReview = async (reviewData) => {
     try {
       if (editingReview?.id) {
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from('movie_reviews')
-          .update(reviewData)
-          .eq('id', editingReview.id)
-          .select();
+          .update({ ...reviewData, updated_at: new Date().toISOString() })
+          .eq('id', editingReview.id);
         if (error) throw error;
         showToast('Review updated successfully!');
       } else {
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from('movie_reviews')
-          .insert([{ ...reviewData, created_at: new Date().toISOString() }])
-          .select();
+          .insert([{ ...reviewData, created_at: new Date().toISOString(), updated_at: new Date().toISOString() }]);
         if (error) throw error;
         showToast('Review saved successfully!');
       }
-      fetchReviews();
+      await fetchReviews();
     } catch (err) {
       showToast(err.message || 'Failed to save review', 'error');
       throw err;
@@ -460,7 +464,7 @@ export default function App() {
       const { error } = await supabase.from('movie_reviews').delete().eq('id', deletingReview.id);
       if (error) throw error;
       showToast('Review deleted!');
-      fetchReviews();
+      await fetchReviews();
     } catch (err) {
       showToast(err.message || 'Failed to delete review', 'error');
     } finally {
@@ -470,20 +474,22 @@ export default function App() {
   };
 
   const handleToggleReviewPublish = async (review) => {
+    if (!review?.id) return;
     const newPublished = !review.published;
     try {
       const { error } = await supabase
         .from('movie_reviews')
         .update({
           published: newPublished,
-          ...(newPublished ? { published_at: new Date().toISOString() } : {})
+          published_at: newPublished ? new Date().toISOString() : null,
+          updated_at: new Date().toISOString()
         })
         .eq('id', review.id);
       if (error) throw error;
       showToast(`Review ${newPublished ? 'published' : 'unpublished'} successfully!`);
-      fetchReviews();
+      await fetchReviews();
     } catch (err) {
-      showToast('Failed to update review status', 'error');
+      showToast('Failed to update review status: ' + err.message, 'error');
     }
   };
 

@@ -87,54 +87,66 @@ export function OttPage({ updates = [], onSelectMedia }) {
         })}
       </div>
 
-      {/* OTT Cards Display Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.map((item) => (
-          <div
-            key={item.id}
-            onClick={() => onSelectMedia(item)}
-            className="bg-white rounded-2xl border border-slate-200 hover:border-red-500/50 p-4 shadow-sm hover:shadow-xl transition-all group cursor-pointer flex flex-col justify-between"
-          >
-            <div className="relative aspect-[16/9] sm:aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-slate-900">
-              <img
-                src={item.poster}
-                alt={item.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shadow-xl">
-                  <Play className="w-6 h-6 fill-white ml-0.5" />
+      {/* OTT Cards Display Grid or Empty State */}
+      {filtered.length === 0 ? (
+        <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center space-y-3 shadow-xs">
+          <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
+            <Tv className="w-7 h-7" />
+          </div>
+          <h3 className="text-base font-bold text-slate-800">No OTT Releases Available</h3>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            No OTT platform updates found matching your criteria.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => onSelectMedia(item)}
+              className="bg-white rounded-2xl border border-slate-200 hover:border-red-500/50 p-4 shadow-sm hover:shadow-xl transition-all group cursor-pointer flex flex-col justify-between"
+            >
+              <div className="relative aspect-[16/9] sm:aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-slate-900">
+                <img
+                  src={item.poster}
+                  alt={item.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shadow-xl">
+                    <Play className="w-6 h-6 fill-white ml-0.5" />
+                  </div>
                 </div>
-              </div>
-              <span className="absolute top-3 left-3 bg-slate-950/80 text-white text-xs font-black px-3 py-1 rounded shadow">
-                {item.platformName}
-              </span>
-              <span className="absolute bottom-3 right-3 bg-red-600 text-white text-xs font-black px-2.5 py-0.5 rounded shadow">
-                {item.status}
-              </span>
-            </div>
-
-            <div className="space-y-2 flex-1 flex flex-col justify-between">
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 group-hover:text-red-600 transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-xs text-slate-600 mt-1 line-clamp-2 leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
-
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
-                <span>{item.quality}</span>
-                <span className="font-bold text-slate-800 flex items-center gap-1">
-                  <Calendar className="w-3.5 h-3.5 text-red-500" />
-                  {item.releaseDate}
+                <span className="absolute top-3 left-3 bg-slate-950/80 text-white text-xs font-black px-3 py-1 rounded shadow">
+                  {item.platformName}
+                </span>
+                <span className="absolute bottom-3 right-3 bg-red-600 text-white text-xs font-black px-2.5 py-0.5 rounded shadow">
+                  {item.status}
                 </span>
               </div>
+
+              <div className="space-y-2 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-base font-extrabold text-slate-900 group-hover:text-red-600 transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs text-slate-600 mt-1 line-clamp-2 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
+                  <span>{item.quality}</span>
+                  <span className="font-bold text-slate-800 flex items-center gap-1">
+                    <Calendar className="w-3.5 h-3.5 text-red-500" />
+                    {item.releaseDate}
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
     </div>
   );

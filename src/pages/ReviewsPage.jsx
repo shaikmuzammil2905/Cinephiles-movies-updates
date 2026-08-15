@@ -83,63 +83,75 @@ export function ReviewsPage({ updates = [], onSelectReview }) {
         ))}
       </div>
 
-      {/* Reviews Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {filtered.map((item) => (
-          <div
-            key={item.id}
-            onClick={() => onSelectReview(item)}
-            className="bg-white rounded-2xl border border-slate-200 hover:border-red-500/50 p-5 shadow-sm hover:shadow-xl transition-all group cursor-pointer flex flex-col sm:flex-row gap-5"
-          >
-            <div className="relative w-full sm:w-40 aspect-[2/3] rounded-xl overflow-hidden bg-slate-900 shrink-0 shadow-md">
-              <img
-                src={item.poster}
-                alt={item.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-              <div className="absolute top-2 right-2 bg-red-600 text-white font-black text-xs px-2.5 py-1 rounded shadow flex items-center gap-1">
-                <span>{item.rating}</span>
-                <Star className="w-3 h-3 fill-white text-white" />
-              </div>
-            </div>
-
-            <div className="flex-1 min-w-0 flex flex-col justify-between space-y-3">
-              <div>
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-red-600 bg-red-50 px-2 py-0.5 rounded">
-                  {item.verdict}
-                </span>
-
-                <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 group-hover:text-red-600 transition-colors mt-1.5">
-                  {item.title}
-                </h3>
-
-                <p className="text-xs text-slate-500 font-semibold mt-0.5">
-                  Director: {item.director}
-                </p>
-                <p className="text-xs text-slate-400 line-clamp-1">
-                  Cast: {item.cast}
-                </p>
-
-                <p className="text-xs text-slate-600 mt-2 line-clamp-3 leading-relaxed">
-                  {item.summary}
-                </p>
-              </div>
-
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelectReview(item);
-                  }}
-                  className="text-xs font-black text-blue-600 hover:text-blue-700 hover:underline"
-                >
-                  Read Detailed Review &gt;
-                </button>
-              </div>
-            </div>
+      {/* Reviews Cards Grid or Empty State */}
+      {filtered.length === 0 ? (
+        <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center space-y-3 shadow-xs">
+          <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
+            <Star className="w-7 h-7 text-slate-400" />
           </div>
-        ))}
-      </div>
+          <h3 className="text-base font-bold text-slate-800">No Reviews Available</h3>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            No published movie reviews found matching your criteria.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {filtered.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => onSelectReview(item)}
+              className="bg-white rounded-2xl border border-slate-200 hover:border-red-500/50 p-5 shadow-sm hover:shadow-xl transition-all group cursor-pointer flex flex-col sm:flex-row gap-5"
+            >
+              <div className="relative w-full sm:w-40 aspect-[2/3] rounded-xl overflow-hidden bg-slate-900 shrink-0 shadow-md">
+                <img
+                  src={item.poster}
+                  alt={item.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-2 right-2 bg-red-600 text-white font-black text-xs px-2.5 py-1 rounded shadow flex items-center gap-1">
+                  <span>{item.rating}</span>
+                  <Star className="w-3 h-3 fill-white text-white" />
+                </div>
+              </div>
+
+              <div className="flex-1 min-w-0 flex flex-col justify-between space-y-3">
+                <div>
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-red-600 bg-red-50 px-2 py-0.5 rounded">
+                    {item.verdict}
+                  </span>
+
+                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 group-hover:text-red-600 transition-colors mt-1.5">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-xs text-slate-500 font-semibold mt-0.5">
+                    Director: {item.director}
+                  </p>
+                  <p className="text-xs text-slate-400 line-clamp-1">
+                    Cast: {item.cast}
+                  </p>
+
+                  <p className="text-xs text-slate-600 mt-2 line-clamp-3 leading-relaxed">
+                    {item.summary}
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelectReview(item);
+                    }}
+                    className="text-xs font-black text-blue-600 hover:text-blue-700 hover:underline"
+                  >
+                    Read Detailed Review &gt;
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
     </div>
   );

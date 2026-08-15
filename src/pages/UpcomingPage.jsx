@@ -87,53 +87,65 @@ export function UpcomingPage({ updates = [], onSelectMovie }) {
         </div>
       </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.map((item) => (
-          <div
-            key={item.id}
-            onClick={() => onSelectMovie(item)}
-            className="bg-white rounded-2xl border border-slate-200 hover:border-red-500/50 p-5 shadow-sm hover:shadow-xl transition-all group cursor-pointer flex gap-4"
-          >
-            <img
-              src={item.poster}
-              alt={item.title}
-              className="w-28 h-40 object-cover rounded-xl shrink-0 border border-slate-200 group-hover:scale-105 transition-transform shadow-md"
-            />
+      {/* Grid or Empty State */}
+      {filtered.length === 0 ? (
+        <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center space-y-3 shadow-xs">
+          <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
+            <Calendar className="w-7 h-7 text-slate-400" />
+          </div>
+          <h3 className="text-base font-bold text-slate-800">No Upcoming Releases Available</h3>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            No published upcoming movie countdowns found matching your criteria.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => onSelectMovie(item)}
+              className="bg-white rounded-2xl border border-slate-200 hover:border-red-500/50 p-5 shadow-sm hover:shadow-xl transition-all group cursor-pointer flex gap-4"
+            >
+              <img
+                src={item.poster}
+                alt={item.title}
+                className="w-28 h-40 object-cover rounded-xl shrink-0 border border-slate-200 group-hover:scale-105 transition-transform shadow-md"
+              />
 
-            <div className="flex-1 min-w-0 flex flex-col justify-between space-y-2">
-              <div>
-                <h3 className="text-base font-extrabold text-slate-900 group-hover:text-red-600 transition-colors">
-                  {item.title}
-                </h3>
-                <span className="text-xs font-semibold text-slate-500 mt-1 flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-red-500" />
-                  {item.releaseDate}
-                </span>
-              </div>
+              <div className="flex-1 min-w-0 flex flex-col justify-between space-y-2">
+                <div>
+                  <h3 className="text-base font-extrabold text-slate-900 group-hover:text-red-600 transition-colors">
+                    {item.title}
+                  </h3>
+                  <span className="text-xs font-semibold text-slate-500 mt-1 flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-red-500" />
+                    {item.releaseDate}
+                  </span>
+                </div>
 
-              {/* Countdown */}
-              <div className="bg-red-50 p-2.5 rounded-xl border border-red-100">
-                <span className="text-[10px] font-extrabold text-red-600 uppercase tracking-wider block mb-1">Releasing In:</span>
-                <div className="grid grid-cols-3 gap-1 text-center">
-                  <div>
-                    <span className="text-sm font-black text-slate-900 font-mono">{String(item.days).padStart(2, '0')}</span>
-                    <span className="text-[9px] font-bold text-slate-500 block">DAYS</span>
-                  </div>
-                  <div>
-                    <span className="text-sm font-black text-slate-900 font-mono">{String(item.hrs).padStart(2, '0')}</span>
-                    <span className="text-[9px] font-bold text-slate-500 block">HRS</span>
-                  </div>
-                  <div>
-                    <span className="text-sm font-black text-slate-900 font-mono">{String(item.mins).padStart(2, '0')}</span>
-                    <span className="text-[9px] font-bold text-slate-500 block">MINS</span>
+                {/* Countdown */}
+                <div className="bg-red-50 p-2.5 rounded-xl border border-red-100">
+                  <span className="text-[10px] font-extrabold text-red-600 uppercase tracking-wider block mb-1">Releasing In:</span>
+                  <div className="grid grid-cols-3 gap-1 text-center">
+                    <div>
+                      <span className="text-sm font-black text-slate-900 font-mono">{String(item.days).padStart(2, '0')}</span>
+                      <span className="text-[9px] font-bold text-slate-500 block">DAYS</span>
+                    </div>
+                    <div>
+                      <span className="text-sm font-black text-slate-900 font-mono">{String(item.hrs).padStart(2, '0')}</span>
+                      <span className="text-[9px] font-bold text-slate-500 block">HRS</span>
+                    </div>
+                    <div>
+                      <span className="text-sm font-black text-slate-900 font-mono">{String(item.mins).padStart(2, '0')}</span>
+                      <span className="text-[9px] font-bold text-slate-500 block">MINS</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
     </div>
   );

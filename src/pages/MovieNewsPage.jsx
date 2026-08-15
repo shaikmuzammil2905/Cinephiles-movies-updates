@@ -80,57 +80,69 @@ export function MovieNewsPage({ updates = [], onSelectArticle }) {
         ))}
       </div>
 
-      {/* News Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.map((item) => (
-          <div
-            key={item.id}
-            onClick={() => onSelectArticle(item)}
-            className="bg-white rounded-2xl border border-slate-200 hover:border-red-500/50 overflow-hidden shadow-sm hover:shadow-xl transition-all group cursor-pointer flex flex-col justify-between"
-          >
-            <div>
-              <div className="relative aspect-[16/9] overflow-hidden bg-slate-900">
-                <img
-                  src={item.image || item.poster}
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <span className="absolute top-3 left-3 bg-[#d90429] text-white text-[11px] font-black uppercase px-2.5 py-0.5 rounded shadow">
-                  {item.badge || item.category || 'NEWS'}
-                </span>
-              </div>
-
-              <div className="p-5 space-y-2">
-                <h3 className="text-base sm:text-lg font-extrabold text-slate-900 group-hover:text-red-600 transition-colors leading-snug">
-                  {item.title}
-                </h3>
-
-                <div className="flex items-center gap-3 text-xs text-slate-400 font-medium">
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-slate-400" />
-                    {item.date || item.time}
-                  </span>
-                  <span>•</span>
-                  <span className="flex items-center gap-1">
-                    <Eye className="w-3.5 h-3.5 text-slate-400" />
-                    {item.views || '8.5K views'}
+      {/* News Grid or Empty State */}
+      {filtered.length === 0 ? (
+        <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center space-y-3 shadow-xs">
+          <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
+            <Newspaper className="w-7 h-7" />
+          </div>
+          <h3 className="text-base font-bold text-slate-800">No News Stories Available</h3>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            No published movie news found matching your criteria.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => onSelectArticle(item)}
+              className="bg-white rounded-2xl border border-slate-200 hover:border-red-500/50 overflow-hidden shadow-sm hover:shadow-xl transition-all group cursor-pointer flex flex-col justify-between"
+            >
+              <div>
+                <div className="relative aspect-[16/9] overflow-hidden bg-slate-900">
+                  <img
+                    src={item.image || item.poster}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <span className="absolute top-3 left-3 bg-[#d90429] text-white text-[11px] font-black uppercase px-2.5 py-0.5 rounded shadow">
+                    {item.badge || item.category || 'NEWS'}
                   </span>
                 </div>
 
-                <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed pt-1">
-                  {item.summary}
-                </p>
+                <div className="p-5 space-y-2">
+                  <h3 className="text-base sm:text-lg font-extrabold text-slate-900 group-hover:text-red-600 transition-colors leading-snug">
+                    {item.title}
+                  </h3>
+
+                  <div className="flex items-center gap-3 text-xs text-slate-400 font-medium">
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5 text-slate-400" />
+                      {item.date || item.time}
+                    </span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1">
+                      <Eye className="w-3.5 h-3.5 text-slate-400" />
+                      {item.views || '8.5K views'}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed pt-1">
+                    {item.summary}
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-5 pt-0">
+                <span className="inline-flex items-center gap-1 text-xs font-extrabold text-red-600 group-hover:text-red-700">
+                  Read Full Story <ArrowRight className="w-3.5 h-3.5" />
+                </span>
               </div>
             </div>
-
-            <div className="p-5 pt-0">
-              <span className="inline-flex items-center gap-1 text-xs font-extrabold text-red-600 group-hover:text-red-700">
-                Read Full Story <ArrowRight className="w-3.5 h-3.5" />
-              </span>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
     </div>
   );

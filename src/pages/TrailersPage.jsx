@@ -54,45 +54,57 @@ export function TrailersPage({ updates = [], onPlayTrailer }) {
         </div>
       </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filtered.map((trailer) => (
-          <div
-            key={trailer.id}
-            onClick={() => onPlayTrailer(trailer)}
-            className="bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-red-500/50 shadow-sm hover:shadow-xl transition-all group cursor-pointer flex flex-col justify-between"
-          >
-            <div className="relative aspect-[16/9] bg-slate-950 overflow-hidden">
-              <img
-                src={trailer.thumbnail}
-                alt={trailer.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
-              />
+      {/* Grid or Empty State */}
+      {filtered.length === 0 ? (
+        <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center space-y-3 shadow-xs">
+          <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
+            <Film className="w-7 h-7 text-slate-400" />
+          </div>
+          <h3 className="text-base font-bold text-slate-800">No Movie Trailers Available</h3>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
+            No published trailers found matching your criteria.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {filtered.map((trailer) => (
+            <div
+              key={trailer.id}
+              onClick={() => onPlayTrailer(trailer)}
+              className="bg-white rounded-2xl overflow-hidden border border-slate-200 hover:border-red-500/50 shadow-sm hover:shadow-xl transition-all group cursor-pointer flex flex-col justify-between"
+            >
+              <div className="relative aspect-[16/9] bg-slate-950 overflow-hidden">
+                <img
+                  src={trailer.thumbnail}
+                  alt={trailer.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                />
 
-              <div className="absolute bottom-2 right-2 bg-slate-950/80 text-white font-mono text-xs font-bold px-2 py-0.5 rounded">
-                {trailer.duration}
+                <div className="absolute bottom-2 right-2 bg-slate-950/80 text-white font-mono text-xs font-bold px-2 py-0.5 rounded">
+                  {trailer.duration}
+                </div>
+
+                <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-slate-950/10 transition-all flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-red-600 group-hover:scale-110 text-white flex items-center justify-center shadow-xl transition-transform">
+                    <Play className="w-6 h-6 fill-white ml-0.5" />
+                  </div>
+                </div>
               </div>
 
-              <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-slate-950/10 transition-all flex items-center justify-center">
-                <div className="w-12 h-12 rounded-full bg-red-600 group-hover:scale-110 text-white flex items-center justify-center shadow-xl transition-transform">
-                  <Play className="w-6 h-6 fill-white ml-0.5" />
+              <div className="p-4 space-y-2">
+                <h3 className="text-sm font-extrabold text-slate-900 group-hover:text-red-600 transition-colors line-clamp-2 leading-snug">
+                  {trailer.title}
+                </h3>
+                <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
+                  <span>{trailer.time}</span>
+                  <span>•</span>
+                  <span>{trailer.views}</span>
                 </div>
               </div>
             </div>
-
-            <div className="p-4 space-y-2">
-              <h3 className="text-sm font-extrabold text-slate-900 group-hover:text-red-600 transition-colors line-clamp-2 leading-snug">
-                {trailer.title}
-              </h3>
-              <div className="flex items-center gap-2 text-xs text-slate-400 font-medium">
-                <span>{trailer.time}</span>
-                <span>•</span>
-                <span>{trailer.views}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
     </div>
   );
