@@ -240,23 +240,39 @@ export default function App() {
     };
   }, []);
 
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    setActiveArticleId(null);
+    setActiveBoxOfficeId(null);
+    if (tabId === 'admin') {
+      window.history.pushState({ route: 'admin' }, '', '/admin');
+    } else {
+      window.history.pushState({ route: tabId }, '', tabId === 'home' ? '/' : `/#${tabId}`);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleOpenArticle = (articleOrId) => {
     let id = articleOrId;
     if (typeof articleOrId === 'object' && articleOrId !== null) {
-      id = articleOrId.id || articleOrId.slug;
+      id = articleOrId.id || articleOrId.slug || articleOrId.title;
     }
     if (id) {
-      window.history.pushState({ route: 'news', id }, '', `/news/${id}`);
+      window.history.pushState({ route: 'news', id }, '', `/news/${encodeURIComponent(id)}`);
       setActiveArticleId(id);
       setActiveBoxOfficeId(null);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  const handleOpenMovie = (movieId) => {
-    if (movieId) {
-      window.history.pushState({ route: 'boxoffice', id: movieId }, '', `/box-office/${movieId}`);
-      setActiveBoxOfficeId(movieId);
+  const handleOpenMovie = (movieOrId) => {
+    let id = movieOrId;
+    if (typeof movieOrId === 'object' && movieOrId !== null) {
+      id = movieOrId.id || movieOrId.slug || movieOrId.title;
+    }
+    if (id) {
+      window.history.pushState({ route: 'boxoffice', id }, '', `/box-office/${encodeURIComponent(id)}`);
+      setActiveBoxOfficeId(id);
       setActiveArticleId(null);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -639,12 +655,12 @@ export default function App() {
         onSearch={setSearchQuery}
         onOpenMenu={() => setShowSidebar(true)}
         onLoginClick={() => setShowLoginModal(true)}
-        onAdminClick={() => setActiveTab('admin')}
-        onLogoClick={() => setActiveTab('home')}
+        onAdminClick={() => handleTabChange('admin')}
+        onLogoClick={() => handleTabChange('home')}
       />
 
       {/* Red Category Navbar */}
-      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Navbar activeTab={activeTab} setActiveTab={handleTabChange} />
 
       {/* Breaking News Ticker */}
       <BreakingTicker updates={updates} onSelectArticle={handleOpenArticle} />
@@ -657,12 +673,14 @@ export default function App() {
             updates={updates}
             onBack={handleBackToPublicHome}
             onNavigateArticle={handleOpenArticle}
+            onNavigateCategory={handleTabChange}
           />
         ) : activeBoxOfficeId ? (
           <BoxOfficeDetailPage
             movieId={activeBoxOfficeId}
             updates={updates}
             onBack={handleBackToPublicHome}
+            onNavigateCategory={handleTabChange}
           />
         ) : (
           <>
@@ -738,7 +756,7 @@ export default function App() {
       {/* Mobile Sticky Bottom Navigation */}
       <MobileBottomBar
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleTabChange}
         onOpenMenu={() => setShowSidebar(true)}
       />
 
@@ -759,14 +777,14 @@ export default function App() {
         onClose={() => setShowLoginModal(false)}
         onAdminClick={() => {
           setShowLoginModal(false);
-          setActiveTab('admin');
+          handleTabChange('admin');
         }}
       />
 
       <SidebarDrawer
         isOpen={showSidebar}
         onClose={() => setShowSidebar(false)}
-        onNavigate={(tab) => setActiveTab(tab)}
+        onNavigate={(tab) => handleTabChange(tab)}
         onOpenTollywoodRecords={() => setShowTollywoodRecords(true)}
       />
     </div>

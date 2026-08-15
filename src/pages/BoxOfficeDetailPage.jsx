@@ -5,12 +5,12 @@ import { CollectionReviewPage } from './CollectionReviewPage';
 import { supabase } from '../lib/supabaseClient';
 import { renderFormattedContent } from '../lib/contentUtils';
 
-export function BoxOfficeDetailPage({ movieId, updates = [], onBack }) {
+export function BoxOfficeDetailPage({ movieId, updates = [], onBack, onNavigateCategory }) {
   const cleanId = String(movieId || '').toLowerCase().trim();
   const decodedId = decodeURIComponent(cleanId);
 
   // Find box office movie by ID, slug, or title (case-insensitive & URL decoded)
-  const movieRecord = (updates || []).find((u) => {
+  let movieRecord = (updates || []).find((u) => {
     if (!u) return false;
     const uid = String(u.id || '').toLowerCase().trim();
     const uslug = String(u.slug || '').toLowerCase().trim();
@@ -23,6 +23,15 @@ export function BoxOfficeDetailPage({ movieId, updates = [], onBack }) {
 
     return (isBoxOfficeCat && matchesId) || matchesId;
   });
+
+  // Fallback: search by title substring if exact match failed
+  if (!movieRecord && cleanId) {
+    movieRecord = (updates || []).find((u) => {
+      if (!u) return false;
+      const utitle = String(u.title || '').toLowerCase().trim();
+      return utitle.includes(cleanId) || cleanId.includes(utitle);
+    });
+  }
 
   // Reviews state
   const [reviews, setReviews] = useState([]);
@@ -135,14 +144,36 @@ export function BoxOfficeDetailPage({ movieId, updates = [], onBack }) {
 
   return (
     <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-8 space-y-6 animate-in fade-in">
-      {/* Back Button */}
-      <button
-        onClick={onBack}
-        className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-700 hover:text-red-600 transition bg-white border border-slate-200 px-3.5 py-2 rounded-xl shadow-xs cursor-pointer"
-      >
-        <ArrowLeft className="w-4 h-4 text-red-600" />
-        <span>Back to Box Office</span>
-      </button>
+      {/* Top Action Bar & Category Switcher */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <button
+          onClick={onBack}
+          className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-700 hover:text-red-600 transition bg-white border border-slate-200 px-3.5 py-2 rounded-xl shadow-xs cursor-pointer self-start"
+        >
+          <ArrowLeft className="w-4 h-4 text-red-600" />
+          <span>Back to Box Office</span>
+        </button>
+
+        {/* Quick Category Switcher */}
+        <div className="bg-[#031738] p-1.5 rounded-xl shadow-md border border-slate-800 flex items-center gap-1 sm:gap-2 overflow-x-auto no-scrollbar">
+          <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider px-2 shrink-0 hidden md:inline">Switch Section:</span>
+          {[
+            { id: 'home', label: 'Home' },
+            { id: 'news', label: 'Breaking News' },
+            { id: 'ott', label: 'OTT Updates' },
+            { id: 'boxoffice', label: 'Box Office' },
+            { id: 'reviews', label: 'Reviews' },
+          ].map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => onNavigateCategory && onNavigateCategory(cat.id)}
+              className="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-800/90 hover:bg-red-600 text-slate-200 hover:text-white transition whitespace-nowrap shrink-0 border border-slate-700/60 cursor-pointer"
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Main Header Banner */}
       <div className="bg-[#031738] text-white rounded-2xl p-5 sm:p-8 shadow-xl border border-slate-800 flex flex-col md:flex-row items-center md:items-start gap-6">

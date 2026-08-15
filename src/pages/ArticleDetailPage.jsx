@@ -3,11 +3,29 @@ import { ArrowLeft, Clock, Eye, User, Share2, Tag, Calendar, Sparkles } from 'lu
 import { formatDate } from '../lib/dateUtils';
 import { renderFormattedContent } from '../lib/contentUtils';
 
-export function ArticleDetailPage({ articleId, updates = [], onBack, onNavigateArticle }) {
-  // Find article by ID or slug
-  const article = (updates || []).find(
-    (u) => String(u.id) === String(articleId) || String(u.slug) === String(articleId)
-  );
+export function ArticleDetailPage({ articleId, updates = [], onBack, onNavigateArticle, onNavigateCategory }) {
+  const cleanId = String(articleId || '').toLowerCase().trim();
+  const decodedId = decodeURIComponent(cleanId);
+
+  // Find article by ID, slug, or title (case-insensitive & URL decoded)
+  let article = (updates || []).find((u) => {
+    if (!u) return false;
+    const uid = String(u.id || '').toLowerCase().trim();
+    const uslug = String(u.slug || '').toLowerCase().trim();
+    const utitle = String(u.title || '').toLowerCase().trim();
+
+    return uid === cleanId || uslug === cleanId || utitle === cleanId ||
+           uid === decodedId || uslug === decodedId || utitle === decodedId;
+  });
+
+  // Fallback: search by title substring if exact match failed
+  if (!article && cleanId) {
+    article = (updates || []).find((u) => {
+      if (!u) return false;
+      const utitle = String(u.title || '').toLowerCase().trim();
+      return utitle.includes(cleanId) || cleanId.includes(utitle);
+    });
+  }
 
   // Scroll to top when page opens
   useEffect(() => {
@@ -22,13 +40,15 @@ export function ArticleDetailPage({ articleId, updates = [], onBack, onNavigateA
         </div>
         <h2 className="text-2xl font-extrabold text-slate-900">Article Not Found</h2>
         <p className="text-sm text-slate-600">The requested news post may have been removed or updated.</p>
-        <button
-          onClick={onBack}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#d90429] text-white text-sm font-bold rounded-xl shadow-md hover:bg-red-700 transition cursor-pointer"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Home</span>
-        </button>
+        <div className="flex justify-center gap-3">
+          <button
+            onClick={onBack}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#d90429] text-white text-sm font-bold rounded-xl shadow-md hover:bg-red-700 transition cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to Home</span>
+          </button>
+        </div>
       </div>
     );
   }
@@ -59,23 +79,49 @@ export function ArticleDetailPage({ articleId, updates = [], onBack, onNavigateA
 
   return (
     <article className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-8 space-y-6 animate-in fade-in">
-      {/* Back Button */}
-      <div className="flex items-center justify-between">
-        <button
-          onClick={onBack}
-          className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-700 hover:text-red-600 transition bg-white border border-slate-200 px-3.5 py-2 rounded-xl shadow-xs cursor-pointer"
-        >
-          <ArrowLeft className="w-4 h-4 text-red-600" />
-          <span>Back</span>
-        </button>
+      {/* Top Header & Category Switcher */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={onBack}
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-700 hover:text-red-600 transition bg-white border border-slate-200 px-3.5 py-2 rounded-xl shadow-xs cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4 text-red-600" />
+            <span>Back</span>
+          </button>
 
-        <button
-          onClick={shareArticle}
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-red-600 bg-white border border-slate-200 px-3 py-2 rounded-xl shadow-xs transition cursor-pointer"
-        >
-          <Share2 className="w-3.5 h-3.5 text-red-600" />
-          <span>Share</span>
-        </button>
+          <button
+            onClick={shareArticle}
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-red-600 bg-white border border-slate-200 px-3 py-2 rounded-xl shadow-xs transition cursor-pointer"
+          >
+            <Share2 className="w-3.5 h-3.5 text-red-600" />
+            <span>Share</span>
+          </button>
+        </div>
+
+        {/* Quick Category Switcher Bar */}
+        <div className="bg-[#031738] p-1.5 rounded-xl shadow-md border border-slate-800 flex items-center gap-1 sm:gap-2 overflow-x-auto no-scrollbar">
+          <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider px-2 shrink-0 hidden md:inline">Switch Section:</span>
+          {[
+            { id: 'home', label: 'Home' },
+            { id: 'news', label: 'Breaking News' },
+            { id: 'ott', label: 'OTT Updates' },
+            { id: 'boxoffice', label: 'Box Office' },
+            { id: 'reviews', label: 'Reviews' },
+          ].map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => onNavigateCategory && onNavigateCategory(cat.id)}
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition whitespace-nowrap shrink-0 border cursor-pointer ${
+                article.category?.toLowerCase() === cat.label.toLowerCase() || (cat.id === 'news' && article.category?.toLowerCase().includes('news'))
+                  ? 'bg-red-600 text-white border-red-500 shadow-xs'
+                  : 'bg-slate-800/90 hover:bg-red-600 text-slate-200 hover:text-white border-slate-700/60'
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Main Header */}

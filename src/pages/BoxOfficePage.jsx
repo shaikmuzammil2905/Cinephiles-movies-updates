@@ -3,7 +3,7 @@ import { BarChart3, Trophy, TrendingUp, Search, Award, Flame } from 'lucide-reac
 import { tollywoodSecondWeekRecords } from '../data/movieData';
 import { AnimatedNumber } from '../components/BoxOfficeSection';
 
-export function BoxOfficePage({ updates = [], onOpenTollywoodRecords }) {
+export function BoxOfficePage({ updates = [], onOpenTollywoodRecords, onSelectMovie }) {
   const [search, setSearch] = useState('');
   const [activeTab, setActiveTab] = useState('summary'); // 'summary' or 'tollywood2ndWeek'
 
@@ -32,14 +32,12 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords }) {
       };
     });
 
-  const activeBoxOffice = adminBoxOffice;
-
-  const filteredRecords = (tollywoodSecondWeekRecords || []).filter((item) => {
-    if (!item) return false;
+  const activeBoxOffice = adminBoxOffice.filter((item) => {
+    if (!search || !search.trim()) return true;
+    const searchStr = search.toLowerCase().trim();
     const movieStr = String(item.movie || '').toLowerCase();
-    const heroStr = String(item.hero || '').toLowerCase();
-    const searchStr = String(search || '').toLowerCase();
-    return movieStr.includes(searchStr) || heroStr.includes(searchStr);
+    const verdictStr = String(item.verdict || '').toLowerCase();
+    return movieStr.includes(searchStr) || verdictStr.includes(searchStr);
   });
 
   return (
