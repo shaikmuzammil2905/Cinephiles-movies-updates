@@ -13,7 +13,6 @@ import { BoxOfficeSection } from './components/BoxOfficeSection';
 import { ReviewsSection } from './components/ReviewsSection';
 import { UpcomingReleases } from './components/UpcomingReleases';
 import { TrailersSection } from './components/TrailersSection';
-import { Newsletter } from './components/Newsletter';
 import { Footer } from './components/Footer';
 import { MobileBottomBar } from './components/MobileBottomBar';
 
@@ -711,8 +710,6 @@ export default function App() {
                 />
 
                 <TrailersSection updates={updates} onPlayTrailer={(trailer) => setActiveTrailer(trailer)} />
-
-                <Newsletter />
               </div>
             )}
 
