@@ -52,9 +52,10 @@ ALTER TABLE public.updates ENABLE ROW LEVEL SECURITY;
 
 -- 6. RLS Policies: Allow public full read for published updates, authenticated users full CRUD
 DROP POLICY IF EXISTS "Public can view published updates" ON public.updates;
-CREATE POLICY "Public can view published updates"
+DROP POLICY IF EXISTS "Public can view updates" ON public.updates;
+CREATE POLICY "Public can view updates"
 ON public.updates FOR SELECT
-USING (status = 'published' OR auth.role() = 'authenticated');
+USING (true);
 
 DROP POLICY IF EXISTS "Authenticated users can insert updates" ON public.updates;
 CREATE POLICY "Authenticated users can insert updates"
