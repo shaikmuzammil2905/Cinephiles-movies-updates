@@ -6,7 +6,8 @@ import {
   movieNews,
   latestReviews,
   upcomingReleases,
-  latestTrailers
+  latestTrailers,
+  boxOfficeSummary
 } from '../data/movieData';
 
 /**
@@ -156,6 +157,28 @@ export function getInitialSeedUpdates() {
         days: item.days,
         hrs: item.hrs,
         mins: item.mins
+      },
+      published_at: new Date().toISOString()
+    });
+  });
+
+  // 7. Box Office
+  boxOfficeSummary.forEach((item) => {
+    updates.push({
+      title: item.movie,
+      slug: `bo-${item.movie.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+      category: 'Box Office',
+      short_description: `${item.movie} box office collections - India Net: ${item.indiaNet}, Worldwide: ${item.worldwide}`,
+      content: `${item.movie} box office collections breakdown:\nIndia Net: ${item.indiaNet}\nWorldwide Gross: ${item.worldwide}\nVerdict: ${item.verdict}`,
+      featured_image_url: item.poster,
+      author: 'Trade Analyst',
+      status: 'published',
+      tags: 'Box Office',
+      extra_data: {
+        rank: item.rank,
+        indiaNet: item.indiaNet,
+        worldwide: item.worldwide,
+        verdict: item.verdict
       },
       published_at: new Date().toISOString()
     });

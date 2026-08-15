@@ -134,7 +134,7 @@ export default function App() {
 
       if (updatesErr) {
         console.warn('Supabase updates fetch notice:', updatesErr.message);
-        setUpdates([]);
+        setUpdates(getInitialSeedUpdates());
       } else if (updatesData && updatesData.length > 0) {
         setUpdates(updatesData);
       } else if (!hasInitialLoaded.current) {
@@ -143,10 +143,10 @@ export default function App() {
         if (seedRes.success && seedRes.data && seedRes.data.length > 0) {
           setUpdates(seedRes.data);
         } else {
-          setUpdates([]);
+          setUpdates(getInitialSeedUpdates());
         }
       } else {
-        setUpdates([]);
+        setUpdates(getInitialSeedUpdates());
       }
       hasInitialLoaded.current = true;
 
@@ -167,7 +167,7 @@ export default function App() {
       }
     } catch (err) {
       console.error('Error fetching Supabase data:', err);
-      setUpdates([]);
+      setUpdates(getInitialSeedUpdates());
     } finally {
       setLoadingUpdates(false);
     }
