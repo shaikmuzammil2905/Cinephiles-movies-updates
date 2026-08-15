@@ -34,8 +34,18 @@ export function NewsSection({ updates = [], onSelectArticle }) {
         </button>
       </div>
 
-      {/* Featured Big News Card */}
-      {activeFeatured ? (
+      {/* Featured Big News Card or Empty State */}
+      {adminNewsList.length === 0 ? (
+        <div className="bg-white rounded-xl border border-slate-200 p-8 text-center space-y-3 shadow-xs">
+          <div className="w-12 h-12 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
+            <Newspaper className="w-6 h-6" />
+          </div>
+          <h3 className="text-sm font-bold text-slate-800">No News Updates Available</h3>
+          <p className="text-xs text-slate-500 max-w-xs mx-auto">
+            Latest movie news and stories will appear here live once published from the admin panel.
+          </p>
+        </div>
+      ) : activeFeatured ? (
         <div 
           onClick={() => onSelectArticle && onSelectArticle(activeFeatured)}
           className="bg-white rounded-xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all group cursor-pointer"

@@ -34,9 +34,20 @@ export function ReviewsSection({ updates = [], onSelectReview }) {
         </button>
       </div>
 
-      {/* Review List matching mobile & desktop screenshots */}
-      <div className="space-y-3">
-        {activeReviews.map((review) => (
+      {/* Review List or Empty State */}
+      {activeReviews.length === 0 ? (
+        <div className="bg-white rounded-xl border border-slate-200 p-8 text-center space-y-3 shadow-xs">
+          <div className="w-12 h-12 bg-slate-100 text-slate-400 rounded-full flex items-center justify-center mx-auto">
+            <Star className="w-6 h-6" />
+          </div>
+          <h3 className="text-sm font-bold text-slate-800">No Reviews Available</h3>
+          <p className="text-xs text-slate-500 max-w-xs mx-auto">
+            Film reviews and verdicts will appear here live once published from the admin panel.
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {activeReviews.map((review) => (
           <div
             key={review.id}
             onClick={() => onSelectReview(review)}
@@ -72,6 +83,7 @@ export function ReviewsSection({ updates = [], onSelectReview }) {
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }
