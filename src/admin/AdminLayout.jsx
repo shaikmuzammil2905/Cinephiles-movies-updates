@@ -13,7 +13,8 @@ import {
   Database,
   CheckCircle2,
   AlertCircle,
-  Star
+  Star,
+  Flame
 } from 'lucide-react';
 
 export function AdminLayout({
@@ -30,6 +31,7 @@ export function AdminLayout({
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'topstories', label: 'Top Stories', icon: Flame },
     { id: 'updates', label: 'All Updates', icon: Layers },
     { id: 'add', label: 'Add Update', icon: PlusCircle, isAction: true },
     { id: 'reviews', label: 'Reviews', icon: Star },

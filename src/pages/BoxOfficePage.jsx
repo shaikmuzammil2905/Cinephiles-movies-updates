@@ -86,29 +86,12 @@ export function BoxOfficePage({ updates = [], onOpenTollywoodRecords, onSelectMo
 
       {/* Navigation Tabs */}
       <div className="flex items-center gap-2 sm:gap-3 border-b border-slate-200 pb-2 overflow-x-auto no-scrollbar">
-        <button
-          onClick={() => setActiveTab('summary')}
-          className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-1.5 sm:gap-2 shrink-0 cursor-pointer ${
-            activeTab === 'summary'
-              ? 'bg-[#031738] text-white shadow-md'
-              : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
-          }`}
+        <div
+          className="px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm bg-[#031738] text-white shadow-md flex items-center gap-1.5 sm:gap-2 shrink-0"
         >
           <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500" />
           <span>Latest Box Office Report</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('tollywood2ndWeek')}
-          className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all flex items-center gap-1.5 sm:gap-2 shrink-0 cursor-pointer ${
-            activeTab === 'tollywood2ndWeek'
-              ? 'bg-red-600 text-white shadow-md'
-              : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
-          }`}
-        >
-          <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300" />
-          <span>Highest 2nd Week Collections (Tollywood)</span>
-        </button>
+        </div>
       </div>
 
       {activeTab === 'summary' ? (

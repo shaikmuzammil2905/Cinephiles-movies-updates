@@ -67,7 +67,7 @@ export function Footer() {
                 </a>
 
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/telangana_boxoffice?utm_source=qr&igsi=MTR3cjE0azh2NHE5dg=="
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
@@ -77,7 +77,7 @@ export function Footer() {
                 </a>
 
                 <a
-                  href="https://twitter.com"
+                  href="https://x.com/Telangana_BO"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="X / Twitter"

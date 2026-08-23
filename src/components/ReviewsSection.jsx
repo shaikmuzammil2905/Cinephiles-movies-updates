@@ -51,9 +51,18 @@ export function ReviewsSection({ updates = [], onSelectReview }) {
           <div
             key={review.id}
             onClick={() => onSelectReview(review)}
-            className="bg-white p-3 rounded-xl border border-slate-200 hover:border-red-500/50 flex items-center justify-between gap-3 group cursor-pointer transition-all hover:shadow-sm"
+            className="bg-white p-3 rounded-xl border border-slate-200 hover:border-red-500/50 flex items-center justify-between gap-3 group cursor-pointer transition-all hover:shadow-sm relative overflow-hidden"
           >
-            <div className="flex items-center gap-3 min-w-0">
+            {/* Subtle Brand Logo Watermark */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-5 group-hover:opacity-10 transition-opacity z-0 overflow-hidden">
+              <img
+                src="/tbo_logo.png"
+                alt=""
+                className="w-36 max-w-[65%] object-contain filter grayscale transform -rotate-12"
+              />
+            </div>
+
+            <div className="flex items-center gap-3 min-w-0 relative z-10">
               <img
                 src={review.poster}
                 alt={review.title}
@@ -76,7 +85,7 @@ export function ReviewsSection({ updates = [], onSelectReview }) {
             </div>
 
             {/* Red Star Rating Badge */}
-            <div className="bg-[#d90429] text-white font-extrabold text-xs px-2.5 py-1 rounded flex items-center gap-1 shadow-sm shrink-0">
+            <div className="bg-[#d90429] text-white font-extrabold text-xs px-2.5 py-1 rounded flex items-center gap-1 shadow-sm shrink-0 relative z-10">
               <span>{review.rating}</span>
               <Star className="w-3 h-3 fill-white text-white" />
             </div>

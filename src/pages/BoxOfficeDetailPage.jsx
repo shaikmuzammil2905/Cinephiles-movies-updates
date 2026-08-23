@@ -186,11 +186,6 @@ export function BoxOfficeDetailPage({ movieId, updates = [], onBack, onNavigateC
         )}
 
         <div className="space-y-3 text-center md:text-left flex-1 min-w-0">
-          <div className="inline-flex items-center gap-2 bg-red-600 text-white text-[10px] sm:text-xs font-black px-2.5 py-1 rounded uppercase tracking-wider">
-            <TrendingUp className="w-3.5 h-3.5" />
-            BOX OFFICE VERIFIED REPORT
-          </div>
-
           <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight text-white">
             {movieRecord.title}
           </h1>

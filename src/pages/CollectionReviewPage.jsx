@@ -121,15 +121,26 @@ export function CollectionReviewPage({ review, movieTitle, collectionType, onBac
           </div>
 
           {/* Review Content */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 shadow-sm space-y-6">
-            <h2 className="text-base sm:text-lg font-extrabold text-slate-900 uppercase flex items-center gap-2 border-b border-slate-100 pb-3">
-              <span className="w-1.5 h-5 bg-[#d90429] rounded-full" />
-              <BookOpen className="w-4 h-4 text-red-600" />
-              REVIEW CONTENT
-            </h2>
+          <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-8 shadow-sm space-y-6 relative overflow-hidden">
+            {/* Subtle Brand Logo Watermark */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-5 sm:opacity-[0.07] z-0 overflow-hidden">
+              <img
+                src="/tbo_logo.png"
+                alt=""
+                className="w-72 sm:w-96 max-w-[85%] object-contain filter grayscale transform -rotate-12"
+              />
+            </div>
 
-            {/* Review Content */}
-            {renderFormattedContent(review.review_content)}
+            <div className="relative z-10 space-y-6">
+              <h2 className="text-base sm:text-lg font-extrabold text-slate-900 uppercase flex items-center gap-2 border-b border-slate-100 pb-3">
+                <span className="w-1.5 h-5 bg-[#d90429] rounded-full" />
+                <BookOpen className="w-4 h-4 text-red-600" />
+                REVIEW CONTENT
+              </h2>
+
+              {/* Review Content */}
+              {renderFormattedContent(review.review_content)}
+            </div>
           </div>
 
           {/* Review Images Gallery */}

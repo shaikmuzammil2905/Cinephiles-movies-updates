@@ -38,6 +38,7 @@ import { AdminLogin } from './admin/AdminLogin';
 import { AdminLayout } from './admin/AdminLayout';
 import { AdminDashboard } from './admin/AdminDashboard';
 import { UpdatesManager } from './admin/UpdatesManager';
+import { TopStoriesManager } from './admin/TopStoriesManager';
 import { UpdateFormModal } from './admin/UpdateFormModal';
 import { UpdateDetailModal } from './admin/UpdateDetailModal';
 import { DeleteConfirmModal } from './admin/DeleteConfirmModal';
@@ -84,6 +85,7 @@ export default function App() {
   const [deletingCategory, setDeletingCategory] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [seedLoading, setSeedLoading] = useState(false);
+  const [savingTopStories, setSavingTopStories] = useState(false);
 
   // Reviews State
   const [reviews, setReviews] = useState([]);
@@ -498,6 +500,62 @@ export default function App() {
     }
   };
 
+  const handleSaveTopStories = async ({ selectedStories, unselectedIds }) => {
+    setSavingTopStories(true);
+    try {
+      // 1. Update selected stories in Supabase
+      for (const item of selectedStories) {
+        const existing = updates.find((u) => u.id === item.id);
+        const newExtra = {
+          ...(existing?.extra_data || {}),
+          is_top_story: true,
+          top_story_order: item.top_story_order
+        };
+
+        const { error } = await supabase
+          .from('updates')
+          .update({
+            is_top_story: true,
+            top_story_order: item.top_story_order,
+            extra_data: newExtra,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', item.id);
+
+        if (error) throw error;
+      }
+
+      // 2. Clear is_top_story for unselected stories
+      for (const id of unselectedIds) {
+        const existing = updates.find((u) => u.id === id);
+        const newExtra = {
+          ...(existing?.extra_data || {}),
+          is_top_story: false,
+          top_story_order: 9999
+        };
+
+        const { error } = await supabase
+          .from('updates')
+          .update({
+            is_top_story: false,
+            top_story_order: 9999,
+            extra_data: newExtra,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', id);
+
+        if (error) throw error;
+      }
+
+      showToast('Top Stories selection & order saved successfully!');
+      await fetchSupabaseData();
+    } catch (err) {
+      showToast('Error saving Top Stories: ' + err.message, 'error');
+    } finally {
+      setSavingTopStories(false);
+    }
+  };
+
   // RENDER ADMIN PANEL IF ACTIVE TAB IS 'admin'
   if (activeTab === 'admin') {
     if (!session) {
@@ -550,6 +608,14 @@ export default function App() {
             onView={(item) => setViewingUpdate(item)}
             onSeedDatabase={handleSeedDatabase}
             seedLoading={seedLoading}
+          />
+        )}
+
+        {adminTab === 'topstories' && (
+          <TopStoriesManager
+            updates={updates}
+            onSaveTopStories={handleSaveTopStories}
+            saving={savingTopStories}
           />
         )}
 

@@ -52,8 +52,8 @@ export function BreakingTicker({ updates = [], onSelectArticle }) {
           <span className="font-bold text-slate-800">Follow Us:</span>
           <div className="flex items-center gap-2">
             <a href="#" className="p-1 hover:text-blue-600 transition-colors" title="Facebook"><FacebookIcon className="w-3.5 h-3.5" /></a>
-            <a href="#" className="p-1 hover:text-pink-600 transition-colors" title="Instagram"><InstagramIcon className="w-3.5 h-3.5" /></a>
-            <a href="#" className="p-1 hover:text-sky-500 transition-colors" title="X (Twitter)"><TwitterIcon className="w-3.5 h-3.5" /></a>
+            <a href="https://www.instagram.com/telangana_boxoffice?utm_source=qr&igsi=MTR3cjE0azh2NHE5dg==" target="_blank" rel="noopener noreferrer" className="p-1 hover:text-pink-600 transition-colors" title="Instagram"><InstagramIcon className="w-3.5 h-3.5" /></a>
+            <a href="https://x.com/Telangana_BO" target="_blank" rel="noopener noreferrer" className="p-1 hover:text-sky-500 transition-colors" title="X (Twitter)"><TwitterIcon className="w-3.5 h-3.5" /></a>
             <a href="#" className="p-1 hover:text-red-600 transition-colors" title="YouTube"><YoutubeIcon className="w-3.5 h-3.5" /></a>
           </div>
         </div>

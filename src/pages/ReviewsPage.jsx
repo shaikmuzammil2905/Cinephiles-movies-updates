@@ -100,8 +100,18 @@ export function ReviewsPage({ updates = [], onSelectReview }) {
             <div
               key={item.id}
               onClick={() => onSelectReview(item)}
-              className="bg-white rounded-2xl border border-slate-200 hover:border-red-500/50 p-5 shadow-sm hover:shadow-xl transition-all group cursor-pointer flex flex-col sm:flex-row gap-5"
+              className="bg-white rounded-2xl border border-slate-200 hover:border-red-500/50 p-5 shadow-sm hover:shadow-xl transition-all group cursor-pointer flex flex-col sm:flex-row gap-5 relative overflow-hidden"
             >
+              {/* Subtle Brand Logo Watermark */}
+              <div className="absolute inset-0 flex items-center justify-end pointer-events-none select-none opacity-5 group-hover:opacity-10 transition-opacity z-0 overflow-hidden pr-4">
+                <img
+                  src="/tbo_logo.png"
+                  alt=""
+                  className="w-48 sm:w-60 max-w-[70%] object-contain filter grayscale transform -rotate-12"
+                />
+              </div>
+
+              <div className="relative z-10 w-full flex flex-col sm:flex-row gap-5">
               <div className="relative w-full sm:w-40 aspect-[2/3] rounded-xl overflow-hidden bg-slate-900 shrink-0 shadow-md">
                 <img
                   src={item.poster}
@@ -149,6 +159,7 @@ export function ReviewsPage({ updates = [], onSelectReview }) {
                 </div>
               </div>
             </div>
+          </div>
           ))}
         </div>
       )}

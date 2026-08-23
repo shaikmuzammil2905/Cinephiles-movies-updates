@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS public.updates (
     featured_image_public_id TEXT,
     author TEXT DEFAULT 'Admin',
     status TEXT NOT NULL DEFAULT 'published', -- 'published' or 'draft'
+    is_top_story BOOLEAN DEFAULT false,
+    top_story_order INTEGER DEFAULT 0,
     tags TEXT,
     extra_data JSONB DEFAULT '{}'::jsonb, -- Store review rating, director, cast, platform, youtubeId, releaseDate etc.
     published_at TIMESTAMPTZ DEFAULT NOW(),
@@ -40,10 +42,15 @@ CREATE TABLE IF NOT EXISTS public.updates (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Add columns if missing in existing database
+ALTER TABLE public.updates ADD COLUMN IF NOT EXISTS is_top_story BOOLEAN DEFAULT false;
+ALTER TABLE public.updates ADD COLUMN IF NOT EXISTS top_story_order INTEGER DEFAULT 0;
+
 -- 4. Create Performance Indexes
 CREATE INDEX IF NOT EXISTS idx_updates_slug ON public.updates(slug);
 CREATE INDEX IF NOT EXISTS idx_updates_category ON public.updates(category);
 CREATE INDEX IF NOT EXISTS idx_updates_status ON public.updates(status);
+CREATE INDEX IF NOT EXISTS idx_updates_is_top_story ON public.updates(is_top_story);
 CREATE INDEX IF NOT EXISTS idx_updates_published_at ON public.updates(published_at DESC);
 
 -- 5. Enable Row Level Security (RLS)

@@ -121,12 +121,9 @@ export function ArticleModal({ article, onClose }) {
               </a>
 
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/telangana_boxoffice?utm_source=qr&igsi=MTR3cjE0azh2NHE5dg=="
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => {
-                  handleCopyLink();
-                }}
                 className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-600 via-pink-600 to-yellow-500 hover:opacity-90 text-white text-xs font-extrabold rounded-lg transition-transform hover:scale-105 shadow-sm"
               >
                 <InstagramIcon className="w-4 h-4" />

@@ -5,17 +5,24 @@ import { formatDate } from '../lib/dateUtils';
 export function HeroCarousel({ updates = [], onSelectArticle }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Transform published admin updates for Hero Slider (prefer "Top Story", fallback to any published update)
+  // Transform published admin updates for Hero Slider (ONLY manually selected Top Stories in configured order)
   const publishedUpdates = (Array.isArray(updates) ? updates : []).filter(
     (u) => u && typeof u === 'object' && u.status === 'published'
   );
-  const topStoryUpdates = publishedUpdates.filter((u) => u.category === 'Top Story');
-  const pool = topStoryUpdates.length > 0 ? topStoryUpdates : publishedUpdates;
+
+  // Filter ONLY manually selected Top Stories & sort strictly by top_story_order
+  const pool = publishedUpdates
+    .filter((u) => u.is_top_story === true || u.extra_data?.is_top_story === true)
+    .sort((a, b) => {
+      const orderA = typeof a.top_story_order === 'number' ? a.top_story_order : (a.extra_data?.top_story_order ?? 9999);
+      const orderB = typeof b.top_story_order === 'number' ? b.top_story_order : (b.extra_data?.top_story_order ?? 9999);
+      return orderA - orderB;
+    });
 
   const adminHeroArticles = pool.map((item, idx) => ({
     id: item.id || item.slug || `hero-${idx}`,
     slug: item.slug || item.id || `hero-${idx}`,
-    badge: item.extra_data?.badge || item.category || '',
+    badge: item.extra_data?.badge || item.category || 'TOP STORY',
     movieTag: item.extra_data?.movieTag || (item.tags ? item.tags.split(',')[0] : ''),
     actor: item.extra_data?.actor || '',
     title: item.title || '',
